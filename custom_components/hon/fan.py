@@ -10,7 +10,7 @@ from homeassistant.components.fan import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 from homeassistant.util.percentage import (
     percentage_to_ranged_value,
     ranged_value_to_percentage,
@@ -36,7 +36,7 @@ FANS: dict[str, tuple[FanEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
@@ -56,7 +56,7 @@ class HonFanEntity(HonEntity, FanEntity):
 
     def __init__(
         self,
-        hass: HomeAssistantType,
+        hass: HomeAssistant,
         entry: ConfigEntry,
         device: HonAppliance,
         description: FanEntityDescription,

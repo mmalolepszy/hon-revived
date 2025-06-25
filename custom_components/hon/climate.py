@@ -21,7 +21,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 from pyhon.appliance import HonAppliance
 from pyhon.parameter.range import HonParameterRange
 
@@ -104,7 +104,7 @@ CLIMATES: dict[
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
     entity: HonClimateEntity | HonACClimateEntity
@@ -130,7 +130,7 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: HomeAssistantType,
+        hass: HomeAssistant,
         entry: ConfigEntry,
         device: HonAppliance,
         description: HonACClimateEntityDescription,
@@ -299,7 +299,7 @@ class HonClimateEntity(HonEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: HomeAssistantType,
+        hass: HomeAssistant,
         entry: ConfigEntry,
         device: HonAppliance,
         description: HonClimateEntityDescription,

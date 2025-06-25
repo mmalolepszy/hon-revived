@@ -5,7 +5,7 @@ from homeassistant.components.lock import LockEntity, LockEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 from pyhon.parameter.base import HonParameter
 from pyhon.parameter.range import HonParameterRange
 
@@ -26,7 +26,7 @@ LOCKS: dict[str, tuple[LockEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
