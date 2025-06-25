@@ -16,6 +16,7 @@ from homeassistant.const import (
 from homeassistant.const import (
     REVOLUTIONS_PER_MINUTE,
     UnitOfEnergy,
+    UnitOfPower,
     UnitOfVolume,
     UnitOfMass,
     UnitOfTime,
@@ -83,7 +84,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             name="Current Electricity Used",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.POWER,
-            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            native_unit_of_measurement=UnitOfPower.KILO_WATT,
             icon="mdi:lightning-bolt",
             translation_key="energy_current",
         ),
