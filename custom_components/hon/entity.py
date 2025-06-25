@@ -53,4 +53,4 @@ class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()

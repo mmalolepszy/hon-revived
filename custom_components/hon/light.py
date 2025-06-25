@@ -136,7 +136,7 @@ class HonLightEntity(HonEntity, LightEntity):
         self._attr_is_on = self.is_on
         self._attr_brightness = self.brightness
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
     @property
     def available(self) -> bool:

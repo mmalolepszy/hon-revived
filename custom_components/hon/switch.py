@@ -476,7 +476,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         self._attr_is_on = self.is_on
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
 
 class HonControlSwitchEntity(HonEntity, SwitchEntity):
@@ -556,4 +556,4 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         self._attr_is_on = self.is_on
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()

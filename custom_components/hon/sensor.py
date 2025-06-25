@@ -846,7 +846,7 @@ class HonSensorEntity(HonEntity, SensorEntity):
             self._attr_native_value = 0
         self._attr_native_value = value
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
 
 class HonConfigSensorEntity(HonEntity, SensorEntity):
@@ -874,4 +874,4 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
             value = get_readable(self.entity_description, value)
         self._attr_native_value = value
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()

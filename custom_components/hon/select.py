@@ -271,7 +271,7 @@ class HonConfigSelectEntity(HonEntity, SelectEntity):
         self._attr_options = self.options
         self._attr_current_option = self.current_option
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
     @property
     def available(self) -> bool:
@@ -334,4 +334,4 @@ class HonSelectEntity(HonEntity, SelectEntity):
         self._attr_options = self.options
         self._attr_current_option = self.current_option
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()

@@ -83,4 +83,4 @@ class HonLockEntity(HonEntity, LockEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         self._attr_is_locked = self.is_locked
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()

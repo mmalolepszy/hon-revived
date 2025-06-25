@@ -290,7 +290,7 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
 
 class HonClimateEntity(HonEntity, ClimateEntity):
@@ -423,4 +423,4 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
