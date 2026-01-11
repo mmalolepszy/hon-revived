@@ -151,6 +151,9 @@
             "target_temperature": {
                 "name": "Target temperature"
             },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
+            },
             "spin_speed": {
                 "name": "Spin"
             },

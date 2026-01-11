@@ -131,6 +131,14 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             icon="mdi:thermometer-chevron-up",
             translation_key="pre_heat",
         ),
+        HonBinarySensorEntityDescription(
+            key="attributes.parameters.connectionStatusEmployedProbe1",
+            name="Probe 1 Connected",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value=1,
+            icon="mdi:connection",
+            translation_key="probe_1_connected",
+        ),
     ),
     "IH": (
         HonBinarySensorEntityDescription(
@@ -327,7 +335,8 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     ),
 }
 
-BINARY_SENSORS["WD"] = unique_entities(BINARY_SENSORS["WM"], BINARY_SENSORS["TD"])
+BINARY_SENSORS["WD"] = unique_entities(
+    BINARY_SENSORS["WM"], BINARY_SENSORS["TD"])
 
 
 async def async_setup_entry(
@@ -351,7 +360,6 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
         attr = self._device.get(self.entity_description.key, None)
         value = attr.value if hasattr(attr, "value") else attr
         return value == self.entity_description.on_value
-
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:

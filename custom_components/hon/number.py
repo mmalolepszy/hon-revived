@@ -111,6 +111,13 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             native_unit_of_measurement=UnitOfTime.MINUTES,
             translation_key="program_duration",
         ),
+        HonConfigNumberEntityDescription(
+            key="startProgram.tempSelEmployedProbe1",
+            name="Target Temperature Probe 1",
+            icon="mdi:thermometer-probe",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="probe_1_target_temperature",
+        ),
     ),
     "IH": (
         HonConfigNumberEntityDescription(
@@ -218,7 +225,8 @@ async def async_setup_entry(
             if isinstance(description, HonNumberEntityDescription):
                 entity = HonNumberEntity(hass, entry, device, description)
             elif isinstance(description, HonConfigNumberEntityDescription):
-                entity = HonConfigNumberEntity(hass, entry, device, description)
+                entity = HonConfigNumberEntity(
+                    hass, entry, device, description)
             else:
                 continue
             entities.append(entity)
