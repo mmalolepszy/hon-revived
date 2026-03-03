@@ -931,6 +931,15 @@
                     "high": "Alta"
                 },
                 "name": "Nível de humidade"
+                            },
+            "current_electricity_used": {
+                "name": "Current Cycle Electricity"
+            },
+            "current_water_used": {
+                "name": "Current Cycle Water"
+            },
+            "current_cycle_time": {
+                "name": "Cycle Duration"
             }
         },
         "select": {
@@ -2026,6 +2035,15 @@
             },
             "stop_program": {
                 "name": "Programa Parar"
+            },
+            "add_dish": {
+                "name": "Porta aberta"
+            },
+            "last_cycle_saving": {
+                "name": "Poupança Eco Último Ciclo"
+            },
+            "detergent_tab": {
+                "name": "Detergente"
             }
         },
         "number": {

@@ -964,6 +964,15 @@
                     "high": "High"
                 },
                 "name": "Humidity level"
+            },
+            "current_electricity_used": {
+                "name": "Current Cycle Electricity"
+            },
+            "current_water_used": {
+                "name": "Current Cycle Water"
+            },
+            "current_cycle_time": {
+                "name": "Cycle Duration"
             }
         },
         "select": {
@@ -2068,6 +2077,15 @@
             },
             "filter_replacement": {
                 "name": "Filter replacement"
+            },
+            "add_dish": {
+                "name": "Add Dish"
+            },
+            "last_cycle_saving": {
+                "name": "Last Cycle Eco Saving"
+            },
+            "detergent_tab": {
+                "name": "Detergent Tab"
             }
         },
         "button": {

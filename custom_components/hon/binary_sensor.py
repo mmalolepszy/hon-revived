@@ -202,6 +202,24 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             on_value=1,
             translation_key="door_open",
         ),
+        HonBinarySensorEntityDescription(
+            key="addDishStatus",
+            translation_key="add_dish",
+            icon="mdi:silverware-fork-knife",
+            on_value=1,
+        ),
+        HonBinarySensorEntityDescription(
+            key="lastCycleSavingStatus",
+            translation_key="last_cycle_saving",
+            icon="mdi:leaf",
+            on_value=1,
+        ),
+        HonBinarySensorEntityDescription(
+            key="tabStatus",
+            translation_key="detergent_tab",
+            icon="mdi:cube",
+            on_value=1,
+        ),
     ),
     "AC": (
         HonBinarySensorEntityDescription(

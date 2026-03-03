@@ -432,6 +432,30 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             device_class=SensorDeviceClass.ENUM,
             translation_key="programs_dw",
         ),
+        HonSensorEntityDescription(
+            key="currentElectricityUsed",
+            translation_key="current_electricity_used",
+            icon="mdi:lightning-bolt",
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        HonSensorEntityDescription(
+            key="currentWaterUsed",
+            translation_key="current_water_used",
+            icon="mdi:water",
+            native_unit_of_measurement=UnitOfVolume.LITERS,
+            device_class=SensorDeviceClass.VOLUME,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        HonSensorEntityDescription(
+            key="currentCycleTime",
+            translation_key="current_cycle_time",
+            icon="mdi:timer",
+            native_unit_of_measurement=UnitOfTime.MINUTES,
+            device_class=SensorDeviceClass.DURATION,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
     ),
     "AC": (
         HonSensorEntityDescription(
