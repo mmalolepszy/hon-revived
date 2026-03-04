@@ -70,6 +70,15 @@
                 },
                 "name": "Nível de secagem"
             },
+            "remaining_main_wash_time": {
+                "name": "Tempo Restante da Lavagem Principal"
+            },
+            "current_wash_cycle": {
+                "name": "Ciclo de Lavagem Atual"
+            },
+            "detergent_level": {
+                "name": "Nível de Detergente"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "Função de aquecimento de 10 °C",
@@ -2015,6 +2024,12 @@
             },
             "filter_replacement": {
                 "name": "Substituição do filtro"
+            },
+            "energy_saving": {
+                "name": "Modo Poupança de Energia"
+            },
+            "buzzer_disabled": {
+                "name": "Buzzer Desativado"
             }
         },
         "button": {

@@ -78,6 +78,15 @@
                 },
                 "name": "Drying level"
             },
+            "remaining_main_wash_time": {
+                "name": "Remaining Main Wash Time"
+            },
+            "current_wash_cycle": {
+                "name": "Current Wash Cycle"
+            },
+            "detergent_level": {
+                "name": "Detergent Level"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "10°C Heating function",
@@ -2068,6 +2077,12 @@
             },
             "filter_replacement": {
                 "name": "Filter replacement"
+            },
+            "energy_saving": {
+                "name": "Energy Saving Mode"
+            },
+            "buzzer_disabled": {
+                "name": "Buzzer Disabled"
             }
         },
         "button": {
