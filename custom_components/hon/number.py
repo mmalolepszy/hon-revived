@@ -111,6 +111,13 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             native_unit_of_measurement=UnitOfTime.MINUTES,
             translation_key="program_duration",
         ),
+        HonNumberEntityDescription(
+            key="settings.tempSelEmployedProbe1",
+            name="Probe Target Temperature",
+            icon="mdi:thermometer-plus",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="probe_target_temperature",
+        ),
     ),
     "IH": (
         HonConfigNumberEntityDescription(

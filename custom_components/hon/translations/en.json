@@ -964,6 +964,15 @@
                     "high": "High"
                 },
                 "name": "Humidity level"
+            },
+            "probe_temperature": {
+                "name": "Meat Probe Temperature" 
+            },
+            "steam_tank_level": {
+                "name": "Steam Tank Level" 
+            },
+            "descaling_cycle_counter": {
+                "name": "Descaling Cycle Counter"
             }
         },
         "select": {
@@ -2068,6 +2077,18 @@
             },
             "filter_replacement": {
                 "name": "Filter replacement"
+            },
+            "temp_reached": {
+                "name": "Temperature Reached"
+            },
+            "turnspit": {
+                "name": "Turnspit" 
+            },
+            "steam_active": {
+                "name": "Steam Active" 
+            },
+            "descaling_required": {
+                "name": "Descaling Required"
             }
         },
         "button": {
@@ -2129,6 +2150,9 @@
             },
             "my_zone_temp_sel": {
                 "name": "Target temperature My Zone"
+            },
+            "probe_target_temperature": {
+                "name": "Probe Target Temperature"
             }
         },
         "climate": {

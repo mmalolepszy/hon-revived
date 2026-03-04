@@ -318,6 +318,29 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             device_class=SensorDeviceClass.ENUM,
             translation_key="programs_ov",
         ),
+        HonSensorEntityDescription(
+            key="tempEmployedProbe1",
+            name="Meat Probe Temperature",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="probe_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="steamTankLevel",
+            name="Steam Tank Level",
+            icon="mdi:water-percent",
+            state_class=SensorStateClass.MEASUREMENT,
+            translation_key="steam_tank_level",
+        ),
+        HonSensorEntityDescription(
+            key="descalingCycleCounter",
+            name="Descaling Cycle Counter",
+            icon="mdi:counter",
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            translation_key="descaling_cycle_counter",
+        ),
     ),
     "IH": (
         HonSensorEntityDescription(
