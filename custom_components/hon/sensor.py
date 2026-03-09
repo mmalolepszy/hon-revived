@@ -204,6 +204,29 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             translation_key="stain_type",
             option_list=const.STAIN_TYPES,
         ),
+        HonSensorEntityDescription(
+            key="remainingMainWashTime",
+            name="Remaining Main Wash Time",
+            icon="mdi:timer-sand",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTime.MINUTES,
+            translation_key="remaining_main_wash_time",
+        ),
+        HonSensorEntityDescription(
+            key="currentWashCycle",
+            name="Current Wash Cycle",
+            icon="mdi:counter",
+            state_class=SensorStateClass.MEASUREMENT,
+            translation_key="current_wash_cycle",
+        ),
+        HonSensorEntityDescription(
+            key="detergentPercent",
+            name="Detergent Level",
+            icon="mdi:cup-water",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            translation_key="detergent_level",
+        ),
     ),
     "TD": (
         HonSensorEntityDescription(

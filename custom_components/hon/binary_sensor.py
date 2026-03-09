@@ -83,6 +83,28 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             name="Acqua Plus",
             translation_key="acqua_plus",
         ),
+        HonBinarySensorEntityDescription(
+            key="energySavingStatus",
+            name="Energy Saving Mode",
+            on_value=1,
+            icon="mdi:leaf",
+            translation_key="energy_saving",
+        ),
+        HonBinarySensorEntityDescription(
+            key="buzzerDisabled",
+            name="Buzzer Disabled",
+            on_value=1,
+            icon="mdi:volume-off",
+            translation_key="buzzer_disabled",
+        ),
+        HonBinarySensorEntityDescription(
+            key="lockStatus",
+            name="Child Lock",
+            device_class=BinarySensorDeviceClass.LOCK,
+            on_value=0,
+            icon="mdi:lock",
+            translation_key="child_lock",
+        ),
     ),
     "TD": (
         HonBinarySensorEntityDescription(
