@@ -83,6 +83,28 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             name="Acqua Plus",
             translation_key="acqua_plus",
         ),
+        HonBinarySensorEntityDescription(
+            key="energySavingStatus",
+            name="Energy Saving Mode",
+            on_value=1,
+            icon="mdi:leaf",
+            translation_key="energy_saving",
+        ),
+        HonBinarySensorEntityDescription(
+            key="buzzerDisabled",
+            name="Buzzer Disabled",
+            on_value=1,
+            icon="mdi:volume-off",
+            translation_key="buzzer_disabled",
+        ),
+        HonBinarySensorEntityDescription(
+            key="lockStatus",
+            name="Child Lock",
+            device_class=BinarySensorDeviceClass.LOCK,
+            on_value=0,
+            icon="mdi:lock",
+            translation_key="child_lock",
+        ),
     ),
     "TD": (
         HonBinarySensorEntityDescription(
@@ -239,6 +261,24 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             device_class=BinarySensorDeviceClass.DOOR,
             on_value=1,
             translation_key="door_open",
+        ),
+        HonBinarySensorEntityDescription(
+            key="addDishStatus",
+            translation_key="add_dish",
+            icon="mdi:silverware-fork-knife",
+            on_value=1,
+        ),
+        HonBinarySensorEntityDescription(
+            key="lastCycleSavingStatus",
+            translation_key="last_cycle_saving",
+            icon="mdi:leaf",
+            on_value=1,
+        ),
+        HonBinarySensorEntityDescription(
+            key="tabStatus",
+            translation_key="detergent_tab",
+            icon="mdi:cube",
+            on_value=1,
         ),
     ),
     "AC": (

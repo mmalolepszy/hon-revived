@@ -78,6 +78,15 @@
                 },
                 "name": "Drying level"
             },
+            "remaining_main_wash_time": {
+                "name": "Remaining Main Wash Time"
+            },
+            "current_wash_cycle": {
+                "name": "Current Wash Cycle"
+            },
+            "detergent_level": {
+                "name": "Detergent Level"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "10°C Heating function",
@@ -973,6 +982,15 @@
             },
             "descaling_cycle_counter": {
                 "name": "Descaling Cycle Counter"
+            },
+            "current_electricity_used": {
+                "name": "Current Cycle Electricity"
+            },
+            "current_water_used": {
+                "name": "Current Cycle Water"
+            },
+            "current_cycle_time": {
+                "name": "Cycle Duration"
             }
         },
         "select": {
@@ -2089,6 +2107,21 @@
             },
             "descaling_required": {
                 "name": "Descaling Required"
+            },
+            "add_dish": {
+                "name": "Add Dish"
+            },
+            "last_cycle_saving": {
+                "name": "Last Cycle Eco Saving"
+            },
+            "detergent_tab": {
+                "name": "Detergent Tab"
+            },
+            "energy_saving": {
+                "name": "Energy Saving Mode"
+            },
+            "buzzer_disabled": {
+                "name": "Buzzer Disabled"
             }
         },
         "button": {

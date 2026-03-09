@@ -70,6 +70,15 @@
                 },
                 "name": "Nível de secagem"
             },
+            "remaining_main_wash_time": {
+                "name": "Tempo Restante da Lavagem Principal"
+            },
+            "current_wash_cycle": {
+                "name": "Ciclo de Lavagem Atual"
+            },
+            "detergent_level": {
+                "name": "Nível de Detergente"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "Função de aquecimento de 10 °C",
@@ -940,6 +949,15 @@
             },
             "descaling_cycle_counter": {
                 "name": "Contador de Ciclos de Descalcificação"
+            },
+            "current_electricity_used": {
+                "name": "Current Cycle Electricity"
+            },
+            "current_water_used": {
+                "name": "Current Cycle Water"
+            },
+            "current_cycle_time": {
+                "name": "Cycle Duration"
             }
         },
         "select": {
@@ -2036,8 +2054,13 @@
             },
             "descaling_required": {
                 "name": "Descalcificação Necessária"
+            },
+            "energy_saving": {
+                "name": "Modo Poupança de Energia"
+            },
+            "buzzer_disabled": {
+                "name": "Buzzer Desativado"
             }
-
         },
         "button": {
             "induction_hob": {
@@ -2048,6 +2071,15 @@
             },
             "stop_program": {
                 "name": "Programa Parar"
+            },
+            "add_dish": {
+                "name": "Porta aberta"
+            },
+            "last_cycle_saving": {
+                "name": "Poupança Eco Último Ciclo"
+            },
+            "detergent_tab": {
+                "name": "Detergente"
             }
         },
         "number": {
