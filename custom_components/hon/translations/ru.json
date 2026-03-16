@@ -70,6 +70,15 @@
                 },
                 "name": "Уровень сухости"
             },
+            "remaining_main_wash_time": {
+                "name": "Оставшееся время основной стирки"
+            },
+            "current_wash_cycle": {
+                "name": "Текущий цикл стирки"
+            },
+            "detergent_level": {
+                "name": "Уровень моющего средства"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "Функция нагрева до 10°C",
@@ -158,33 +167,33 @@
                     "iot_porcelain": "Фарфор",
                     "iot_power_mix_wash": "Интенсивное мытье смешанной посуды",
                     "iot_power_mix_wash_soil": "Интенсивное мытье смешанной посуды",
-                    "iot_prewash": "предварительная мойка",
+                    "iot_prewash": "Предварительная мойка",
                     "iot_pyrex_and_glassware": "Жаростойкая и стеклянная посуда",
-                    "iot_rapid_29": "быстрая 29'",
-                    "iot_rapid_39": "быстрая 39' 60°C",
+                    "iot_rapid_29": "Быстрая 29'",
+                    "iot_rapid_39": "Быстрая 39' 60°C",
                     "iot_single": "Одинокие",
                     "iot_steam": "пар 75°C",
                     "iot_super_flash": "Super Flash",
                     "iot_super_wash": "Супермойка",
                     "iot_turbopower": "TurboPower",
-                    "iot_universal": "универсальная 60°C",
+                    "iot_universal": "Универсальная 60°C",
                     "iot_voice_automatic": "Automatic",
-                    "iot_voice_delicate": "деликатная 45°C",
-                    "iot_voice_eco": "эко 45°C",
+                    "iot_voice_delicate": "Деликатная 45°C",
+                    "iot_voice_eco": "ЭКО 45°C",
                     "iot_voice_intensive": "Интенсивная 75°C",
-                    "iot_voice_prewash": "предварительная мойка",
+                    "iot_voice_prewash": "Предварительная мойка",
                     "iot_voice_rapid_59": "Быcтрая Мойkа 59'",
-                    "iot_voice_universal": "универсальная 60°C",
+                    "iot_voice_universal": "Универсальная 60°C",
                     "iot_wok_grids_maxi_pans": "Большие сковородки и решетки",
                     "iot_wok_grids_maxi_pans_soil": "Большие сковородки и решетки",
                     "iot_yes_quick_cycle": "Yes Quick",
-                    "night": "ультра тихая 55°с",
-                    "prewash": "предварительная мойка",
+                    "night": "Ультра тихая 55°с",
+                    "prewash": "Предварительная мойка",
                     "rapid_20": "Быcтрая Мойkа 20'",
-                    "rapid_24": "быстрая 24'",
-                    "rapid_29": "быстрая 29' 50°C",
+                    "rapid_24": "Быстрая 24'",
+                    "rapid_29": "Быстрая 29' 50°C",
                     "rapid_35": "Wash&Dry 35'",
-                    "rapid_39": "быстрая 39' 60°C",
+                    "rapid_39": "Быстрая 39' 60°C",
                     "rapid_49": "Быcтрая Мойkа 49'",
                     "rapid_59": "Быcтрая Мойkа 59'",
                     "sanitising": "Гигиеническая стирка",
@@ -474,12 +483,12 @@
                     "care_30": "БЫСТРЫЙ Уход 30'",
                     "care_44": "БЫСТРЫЙ Уход 44'",
                     "checkup": "Проверка",
-                    "colour_59": "цветные 59'",
+                    "colour_59": "Цветные 59'",
                     "colour_59_steam": "Цветные ткани 59' + пар",
                     "cottons": "Хлопок",
-                    "cottons_prewash": "хлопок + предвар.",
+                    "cottons_prewash": "Хлопок + предвар.",
                     "cottons_steam": "Хлопок + Пар",
-                    "cotton_care_59": "хлопок 59 минут",
+                    "cotton_care_59": "Хлопок 59 минут",
                     "cycle_ended": "Окончание цикла",
                     "delicate_59": "Деликатная 59 мин.",
                     "delicate_silk": "Деликатная ткань (шелк) 59'",
@@ -487,13 +496,13 @@
                     "delicati_59": "Деликатная 59 мин.",
                     "delicati_59_steam": "Деликатная 59 мин.",
                     "drain_spin": "Слив + отжим",
-                    "easy_iron": "легкая глажка 39'",
+                    "easy_iron": "Легкая глажка 39'",
                     "eco_40_60_new_energy_label": "Eco 40-60",
                     "extra_care": "ЭКСТРА УХОД",
                     "fitness": "Фитнес",
                     "fitness_care": "Фитнес",
                     "fresh_care": "Свежесть 59'",
-                    "fresh_care_steam": "Свежесть + пар",
+                    "fresh_care_steam": "Свежесть + пар",
                     "handwash_wool": "Ручная стирка и шерсть 48'",
                     "high_dry": "Сушка хлопка",
                     "hqd_20_degrees": "Хлопок 20℃",
@@ -931,6 +940,24 @@
                     "high": "Высок."
                 },
                 "name": "Уровень влажности"
+            },
+            "probe_temperature": {
+                "name": "Температура мяса"
+            },
+            "steam_tank_level": {
+                "name": "Уровень парового бака"
+            },
+            "descaling_cycle_counter": {
+                "name": "Счетчик циклов удаления накипи"
+            },
+            "current_electricity_used": {
+                "name": "Текущий цикл электричество"
+            },
+            "current_water_used": {
+                "name": "Текущий цикл вода"
+            },
+            "current_cycle_time": {
+                "name": "Продолжительность цикла"
             }
         },
         "select": {
@@ -1059,7 +1086,7 @@
                     "iot_porcelain": "Фарфор",
                     "iot_power_mix_wash": "Интенсивное мытье смешанной посуды",
                     "iot_power_mix_wash_soil": "Интенсивное мытье смешанной посуды",
-                    "iot_prewash": "предварительная мойка",
+                    "iot_prewash": "Предварительная мойка",
                     "iot_pyrex_and_glassware": "Жаростойкая и стеклянная посуда",
                     "iot_rapid_29": "быстрая 29'",
                     "iot_rapid_39": "быстрая 39' 60°C",
@@ -1073,14 +1100,14 @@
                     "iot_voice_delicate": "деликатная 45°C",
                     "iot_voice_eco": "эко 45°C",
                     "iot_voice_intensive": "Интенсивная 75°C",
-                    "iot_voice_prewash": "предварительная мойка",
+                    "iot_voice_prewash": "Предварительная мойка",
                     "iot_voice_rapid_59": "Быcтрая Мойkа 59'",
                     "iot_voice_universal": "универсальная 60°C",
                     "iot_wok_grids_maxi_pans": "Большие сковородки и решетки",
                     "iot_wok_grids_maxi_pans_soil": "Большие сковородки и решетки",
                     "iot_yes_quick_cycle": "Yes Quick",
                     "night": "ультра тихая 55°с",
-                    "prewash": "предварительная мойка",
+                    "prewash": "Предварительная мойка",
                     "rapid_20": "Быcтрая Мойkа 20'",
                     "rapid_24": "быстрая 24'",
                     "rapid_29": "быстрая 29' 50°C",
@@ -1375,12 +1402,12 @@
                     "care_30": "БЫСТРЫЙ Уход 30'",
                     "care_44": "БЫСТРЫЙ Уход 44'",
                     "checkup": "Проверка",
-                    "colour_59": "цветные 59'",
+                    "colour_59": "Цветные 59'",
                     "colour_59_steam": "Цветные ткани 59' + пар",
                     "cottons": "Хлопок",
-                    "cottons_prewash": "хлопок + предвар.",
+                    "cottons_prewash": "Хлопок + предвар.",
                     "cottons_steam": "Хлопок + Пар",
-                    "cotton_care_59": "хлопок 59 минут",
+                    "cotton_care_59": "Хлопок 59 минут",
                     "cycle_ended": "Окончание цикла",
                     "delicate_59": "Деликатная 59 мин.",
                     "delicate_silk": "Деликатная ткань (шелк) 59'",
@@ -1388,13 +1415,13 @@
                     "delicati_59": "Деликатная 59 мин.",
                     "delicati_59_steam": "Деликатная 59 мин.",
                     "drain_spin": "Слив + отжим",
-                    "easy_iron": "легкая глажка 39'",
+                    "easy_iron": "Легкая глажка 39'",
                     "eco_40_60_new_energy_label": "Eco 40-60",
                     "extra_care": "ЭКСТРА УХОД",
                     "fitness": "Фитнес",
                     "fitness_care": "Фитнес",
                     "fresh_care": "Свежесть 59'",
-                    "fresh_care_steam": "Свежесть + пар",
+                    "fresh_care_steam": "Свежесть + пар",
                     "handwash_wool": "Ручная стирка и шерсть 48'",
                     "high_dry": "Сушка хлопка",
                     "hqd_20_degrees": "Хлопок 20℃",
@@ -1859,7 +1886,7 @@
                 "name": "Духовой шкаф"
             },
             "prewash": {
-                "name": "предварительная мойка"
+                "name": "Предварительная мойка"
             },
             "pause": {
                 "name": "Пауза"
@@ -1990,7 +2017,7 @@
                 "name": "Вкл."
             },
             "prewash": {
-                "name": "предварительная мойка"
+                "name": "Предварительная мойка"
             },
             "buzzer": {
                 "name": "Звуковой сигнал окончания цикла"
@@ -2015,6 +2042,33 @@
             },
             "filter_replacement": {
                 "name": "Замена фильтра"
+            },
+            "temp_reached": {
+                "name": "Достигнута температура"
+            },
+            "turnspit": {
+                "name": "Вертел"
+            },
+            "steam_active": {
+                "name": "Steam Active"
+            },
+            "descaling_required": {
+                "name": "Требуется удаление накипи"
+            },
+            "add_dish": {
+                "name": "Добавить посуду"
+            },
+            "last_cycle_saving": {
+                "name": "Последний цикл эко-сбережения"
+            },
+            "detergent_tab": {
+                "name": "Таблетки моющего средства"
+            },
+            "energy_saving": {
+                "name": "Режим энергосбережения"
+            },
+            "buzzer_disabled": {
+                "name": "Звуковой сигнал отключен"
             }
         },
         "button": {
@@ -2076,6 +2130,9 @@
             },
             "my_zone_temp_sel": {
                 "name": "Заданная температура My Zone"
+            },
+            "probe_target_temperature": {
+                "name": "Целевая температура зонда"
             }
         },
         "climate": {

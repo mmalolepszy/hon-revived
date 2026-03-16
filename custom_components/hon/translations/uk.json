@@ -96,6 +96,15 @@
                 },
                 "name": "Рівень вологості"
             },
+            "remaining_main_wash_time": {
+                "name": "Залишок часу основного прання"
+            },
+            "current_wash_cycle": {
+                "name": "Поточний цикл прання"
+            },
+            "detergent_level": {
+                "name": "Рівень миючого засобу"
+            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "Функція нагріву при температурі 10°C",
@@ -900,6 +909,24 @@
             },
             "fan_speed": {
                 "name": "Швидкість вентилятора"
+            },
+            "probe_temperature": {
+                "name": "Температура м'яса"
+            },
+            "steam_tank_level": {
+                "name": "Рівень парового бака"
+            },
+            "descaling_cycle_counter": {
+                "name": "Лічильник циклів видалення накипу"
+            },
+            "current_electricity_used": {
+                "name": "Поточний цикл електроенергія"
+            },
+            "current_water_used": {
+                "name": "Поточний цикл вода"
+            },
+            "current_cycle_time": {
+                "name": "Тривалість циклу"
             }
         },
         "select": {
@@ -1802,10 +1829,10 @@
                 "name": "Попереднє миття"
             },
             "pause": {
-                "name": "Pause"
+                "name": "Пауза"
             },
             "keep_fresh": {
-                "name": "Keep Fresh"
+                "name": "Збереження свіжості"
             },
             "delay_time": {
                 "name": "Відкладення запуску"
@@ -1906,7 +1933,7 @@
                 "name": "Сковорода"
             },
             "remote_control": {
-                "name": "Controllo remoto"
+                "name": "Дистанційне керування"
             },
             "rinse_aid": {
                 "name": "Рівень ополіскувача"
@@ -1952,6 +1979,33 @@
             },
             "filter_replacement": {
                 "name": "Заміна фільтра"
+            },
+            "temp_reached": {
+                "name": "Досягнута температура"
+            },
+            "turnspit": {
+                "name": "Вертел"
+            },
+            "steam_active": {
+                "name": "Steam Active"
+            },
+            "descaling_required": {
+                "name": "Потрібне видалення накипу"
+            },
+            "add_dish": {
+                "name": "Додати посуд"
+            },
+            "last_cycle_saving": {
+                "name": "Останній цикл Еко-збереження"
+            },
+            "detergent_tab": {
+                "name": "Таблетки миючого засобу"
+            },
+            "energy_saving": {
+                "name": "Режим енергозбереження"
+            },
+            "buzzer_disabled": {
+                "name": "Звуковий сигнал вимкнено"
             }
         },
         "button": {
@@ -2010,6 +2064,9 @@
             },
             "aroma_time_off": {
                 "name": "Дифузор (OFF)"
+            },
+            "probe_target_temperature": {
+                "name": "Цільова температура зонда"
             }
         },
         "climate": {
