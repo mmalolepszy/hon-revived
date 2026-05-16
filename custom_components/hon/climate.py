@@ -222,12 +222,17 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         self._attr_hvac_mode = hvac_mode
+
+        setting = self._device.settings["settings.machMode"]
+        current_mach = self._device.get("machMode")
+        if current_mach is not None:
+            setting.value = str(int(current_mach))
+
         if hvac_mode == HVACMode.OFF:
-            await self._device.commands["stopProgram"].send()
             self._device.settings["settings.onOffStatus"].value = "0"
+            await self._device.commands["settings"].send()
         else:
             self._device.settings["settings.onOffStatus"].value = "1"
-            setting = self._device.settings["settings.machMode"]
             modes = {HON_HVAC_MODE[int(number)]: number for number in setting.values}
             if hvac_mode in modes:
                 setting.value = modes[hvac_mode]
@@ -235,15 +240,32 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
                 await self.async_set_preset_mode(HON_HVAC_PROGRAM[hvac_mode])
                 return
             await self._device.commands["settings"].send()
+
         self.async_write_ha_state()
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        await self._device.commands["startProgram"].send()
-        self._device.sync_command("startProgram", "settings")
+        """Turn on AC without resetting previous settings."""
+        self._device.settings["settings.onOffStatus"].value = "1"
+
+        if "settings.machMode" in self._device.settings:
+            current_mach = self._device.get("machMode")
+            if current_mach is not None:
+                self._device.settings["settings.machMode"].value = str(int(current_mach))
+
+        await self._device.commands["settings"].send()
+        self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        await self._device.commands["stopProgram"].send()
-        self._device.sync_command("stopProgram", "settings")
+        """Turn off AC without resetting saved state."""
+        self._device.settings["settings.onOffStatus"].value = "0"
+
+        if "settings.machMode" in self._device.settings:
+            current_mach = self._device.get("machMode")
+            if current_mach is not None:
+                self._device.settings["settings.machMode"].value = str(int(current_mach))
+
+        await self._device.commands["settings"].send()
+        self.async_write_ha_state()
 
     @property
     def preset_mode(self) -> str | None:
@@ -325,7 +347,12 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
         if swing_mode in [SWING_OFF, SWING_HORIZONTAL] and vertical.value == "8":
             vertical.value = "5"
         if swing_mode in [SWING_OFF, SWING_VERTICAL] and horizontal.value == "7":
-            horizontal.value = "0"
+            valid_horizontal = [v for v in horizontal.values if v not in ("7", "8", "0")]
+            current_horizontal = str(self._device.get("windDirectionHorizontal", ""))
+            if current_horizontal in valid_horizontal:
+                horizontal.value = current_horizontal
+            elif valid_horizontal:
+                horizontal.value = valid_horizontal[-1]
         self._attr_swing_mode = swing_mode
         await self._device.commands["settings"].send()
         self.async_write_ha_state()
