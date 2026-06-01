@@ -85,7 +85,7 @@ class HonFanEntity(HonEntity, FanEntity):
         mode = math.ceil(percentage_to_ranged_value(self._speed_range, percentage))
         self._device.settings[self.entity_description.key].value = mode
         await self._device.commands[self._command].send()
-        self.async_write_ha_state()
+        self.schedule_update_ha_state()
 
     @property
     def is_on(self) -> bool | None:
@@ -112,7 +112,7 @@ class HonFanEntity(HonEntity, FanEntity):
         """Turn the entity off."""
         self._device.settings[self.entity_description.key].value = 0
         await self._device.commands[self._command].send()
-        self.async_write_ha_state()
+        self.schedule_update_ha_state()
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
