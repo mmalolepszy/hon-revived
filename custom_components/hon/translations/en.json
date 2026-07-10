@@ -924,6 +924,9 @@
             "cycles_total": {
                 "name": "Cycles Total"
             },
+            "program_code": {
+                "name": "Program Code"
+            },
             "energy_total": {
                 "name": "Energy Consumption Total"
             },
