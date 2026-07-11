@@ -925,7 +925,22 @@
                 "name": "Cycles Total"
             },
             "program_code": {
-                "name": "Program Code"
+                "name": "Program Code",
+                "state": {
+                    "keep_fresh": "Keep Fresh",
+                    "mix": "Mix",
+                    "drum_clean": "Drum Clean",
+                    "spin": "Spin",
+                    "cottons": "Cotton",
+                    "smart": "Smart",
+                    "wool": "Wool",
+                    "duvet": "Duvet",
+                    "synthetics": "Synthetics",
+                    "sportswear": "Sportswear",
+                    "baby_care": "Baby Care",
+                    "cottons_20": "Cotton 20°",
+                    "eco_40_60": "Eco 40/60"
+                }
             },
             "energy_total": {
                 "name": "Energy Consumption Total"
