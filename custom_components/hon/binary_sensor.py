@@ -138,7 +138,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -202,7 +202,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -369,10 +369,10 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     ),
     "AP": (
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
-            on_value="1",
+            on_value=1,
             icon="mdi:power-cycle",
             translation_key="on",
         ),
