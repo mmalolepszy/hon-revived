@@ -211,12 +211,13 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
 
         mode = HON_HVAC_MODE[mach]
 
-        if mode == HVACMode.AUTO and getattr(self, "_attr_hvac_mode", None) not in (
-            None,
-            HVACMode.OFF,
-            HVACMode.AUTO,
+        attr_hvac_mode: HVACMode | None = getattr(self, "_attr_hvac_mode", None)
+        if (
+            mode == HVACMode.AUTO
+            and attr_hvac_mode is not None
+            and attr_hvac_mode not in (HVACMode.OFF, HVACMode.AUTO)
         ):
-            return self._attr_hvac_mode
+            return attr_hvac_mode
 
         return mode
 
