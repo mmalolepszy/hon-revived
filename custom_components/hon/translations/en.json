@@ -928,13 +928,13 @@
                 "name": "Energy Consumption Total"
             },
             "water_total": {
-                "name": "Water efficiency Total"
+                "name": "Water Consumption Total"
             },
             "energy_current": {
                 "name": "Energy Consumption Current"
             },
             "water_current": {
-                "name": "Water efficiency Current"
+                "name": "Water Consumption Current"
             },
             "freezer_temp": {
                 "name": "Freezer temperature"
