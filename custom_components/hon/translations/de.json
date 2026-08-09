@@ -1,45 +1,6 @@
 {
     "entity": {
         "sensor": {
-            "outdoor_temperature": {
-                "name": "Außentemperatur"
-            },
-            "dhw_temperature": {
-                "name": "Warmwassertemperatur"
-            },
-            "target_temperature_dhw": {
-                "name": "Warmwasser Zieltemperatur"
-            },
-            "water_temperature_z1": {
-                "name": "Wassertemperatur Zone 1"
-            },
-            "water_temperature_z2": {
-                "name": "Wassertemperatur Zone 2"
-            },
-            "target_temperature_z1": {
-                "name": "Zieltemperatur Zone 1"
-            },
-            "target_temperature_z2": {
-                "name": "Zieltemperatur Zone 2"
-            },
-            "water_temperature_out": {
-                "name": "Vorlauftemperatur"
-            },
-            "water_temperature_in": {
-                "name": "Rücklauftemperatur"
-            },
-            "compressor_frequency": {
-                "name": "Kompressorfrequenz"
-            },
-            "flow_rate": {
-                "name": "Durchflussmenge"
-            },
-            "power_status": {
-                "name": "Betriebsstatus"
-            },
-            "working_mode": {
-                "name": "Arbeitsmodus"
-            },
             "washing_modes": {
                 "state": {
                     "ready": "Bereit",
@@ -875,6 +836,9 @@
             },
             "target_temperature": {
                 "name": "Zieltemperatur"
+            },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
             },
             "spin_speed": {
                 "name": "Schleudern"
@@ -1741,19 +1705,6 @@
                 },
                 "name": "Programm"
             },
-            "programs_aw": {
-                "name": "Modus",
-                "state": {
-                    "auto": "Auto",
-                    "auto_dhw": "Auto + Warmwasser",
-                    "cool": "Kühlen",
-                    "cool_dhw": "Kühlen + Warmwasser",
-                    "dhw": "Nur Warmwasser",
-                    "heat": "Heizen",
-                    "heat_dhw": "Heizen + Warmwasser",
-                    "iot_simple_start": "Smart Start"
-                }
-            },
             "dry_time": {
                 "name": "Trocknungsdauer"
             },
@@ -1871,9 +1822,6 @@
             }
         },
         "switch": {
-            "power_switch": { "name": "Hauptschalter" },
-            "quiet_mode": { "name": "Flüstermodus" },
-            "fast_dhw": { "name": "Schnelles Warmwasser" },
             "anti_crease": {
                 "name": "Knitterschutz"
             },
@@ -1993,9 +1941,6 @@
             }
         },
         "binary_sensor": {
-            "holiday_mode": {
-                "name": "Ferienmodus"
-            },
             "door_lock": {
                 "name": "Türsperre"
             },
@@ -2053,6 +1998,9 @@
             "buzzer": {
                 "name": "Signalton zum Programmende"
             },
+            "holiday_mode": {
+                "name": "Holiday-Modus"
+            },
             "auto_set": {
                 "name": "Auto-Set"
             },
@@ -2070,36 +2018,6 @@
             },
             "filter_replacement": {
                 "name": "Filteraustausch"
-            },
-            "power_status": {
-                "name": "Betriebsstatus"
-            },
-            "heating_mode": {
-                "name": "Heizbetrieb"
-            },
-            "dhw_mode": {
-                "name": "Warmwasserbetrieb"
-            },
-            "quiet_mode": {
-                "name": "Flüstermodus"
-            },
-            "eco_mode": {
-                "name": "Eco-Modus"
-            },
-            "dhw_priority": {
-                "name": "Warmwasser-Priorität"
-            },
-            "boiler_status": {
-                "name": "Hilfskessel Status"
-            },
-            "heater1_status": {
-                "name": "Heizstab 1 Status"
-            },
-            "heater2_status": {
-                "name": "Heizstab 2 Status"
-            },
-            "sterilization": {
-                "name": "Legionellenschutz"
             }
         },
         "button": {
@@ -2161,15 +2079,6 @@
             },
             "my_zone_temp_sel": {
                 "name": "Zieltemperatur My Zone"
-            },
-            "target_temp_dhw": {
-                "name": "Zieltemperatur Warmwasser"
-            },
-            "target_temp_z1": {
-                "name": "Zieltemperatur Zone 1"
-            },
-            "target_temp_z2": {
-                "name": "Zieltemperatur Zone 2"
             }
         },
         "climate": {

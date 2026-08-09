@@ -865,6 +865,21 @@
             "target_temperature": {
                 "name": "Target temperature"
             },
+            "probe_1_temperature": {
+                "name": "Probe 1 Temperature"
+            },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
+            },
+            "probe_1_signal": {
+                "name": "Probe 1 Signal"
+            },
+            "probe_1_battery": {
+                "name": "Probe 1 Battery"
+            },
+            "probe_1_charge": {
+                "name": "Probe 1 Charge"
+            },
             "spin_speed": {
                 "name": "Spin"
             },
@@ -1991,6 +2006,9 @@
             }
         },
         "binary_sensor": {
+            "probe_1_connected": {
+                "name": "Probe 1 Connected"
+            },
             "door_lock": {
                 "name": "Door lock"
             },
