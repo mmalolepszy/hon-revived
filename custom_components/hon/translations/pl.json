@@ -837,6 +837,9 @@
             "target_temperature": {
                 "name": "Temperatura docelowa"
             },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
+            },
             "spin_speed": {
                 "name": "Wirowanie"
             },

@@ -204,29 +204,6 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             translation_key="stain_type",
             option_list=const.STAIN_TYPES,
         ),
-        HonSensorEntityDescription(
-            key="remainingMainWashTime",
-            name="Remaining Main Wash Time",
-            icon="mdi:timer-sand",
-            state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=UnitOfTime.MINUTES,
-            translation_key="remaining_main_wash_time",
-        ),
-        HonSensorEntityDescription(
-            key="currentWashCycle",
-            name="Current Wash Cycle",
-            icon="mdi:counter",
-            state_class=SensorStateClass.MEASUREMENT,
-            translation_key="current_wash_cycle",
-        ),
-        HonSensorEntityDescription(
-            key="detergentPercent",
-            name="Detergent Level",
-            icon="mdi:cup-water",
-            state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=PERCENTAGE,
-            translation_key="detergent_level",
-        ),
     ),
     "TD": (
         HonSensorEntityDescription(
@@ -341,29 +318,6 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             device_class=SensorDeviceClass.ENUM,
             translation_key="programs_ov",
         ),
-        HonSensorEntityDescription(
-            key="tempEmployedProbe1",
-            name="Meat Probe Temperature",
-            icon="mdi:thermometer",
-            state_class=SensorStateClass.MEASUREMENT,
-            device_class=SensorDeviceClass.TEMPERATURE,
-            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-            translation_key="probe_temperature",
-        ),
-        HonSensorEntityDescription(
-            key="steamTankLevel",
-            name="Steam Tank Level",
-            icon="mdi:water-percent",
-            state_class=SensorStateClass.MEASUREMENT,
-            translation_key="steam_tank_level",
-        ),
-        HonSensorEntityDescription(
-            key="descalingCycleCounter",
-            name="Descaling Cycle Counter",
-            icon="mdi:counter",
-            state_class=SensorStateClass.TOTAL_INCREASING,
-            translation_key="descaling_cycle_counter",
-        ),
     ),
     "IH": (
         HonSensorEntityDescription(
@@ -477,30 +431,6 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             icon="mdi:play",
             device_class=SensorDeviceClass.ENUM,
             translation_key="programs_dw",
-        ),
-        HonSensorEntityDescription(
-            key="currentElectricityUsed",
-            translation_key="current_electricity_used",
-            icon="mdi:lightning-bolt",
-            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-            device_class=SensorDeviceClass.ENERGY,
-            state_class=SensorStateClass.MEASUREMENT,
-        ),
-        HonSensorEntityDescription(
-            key="currentWaterUsed",
-            translation_key="current_water_used",
-            icon="mdi:water",
-            native_unit_of_measurement=UnitOfVolume.LITERS,
-            device_class=SensorDeviceClass.VOLUME,
-            state_class=SensorStateClass.MEASUREMENT,
-        ),
-        HonSensorEntityDescription(
-            key="currentCycleTime",
-            translation_key="current_cycle_time",
-            icon="mdi:timer",
-            native_unit_of_measurement=UnitOfTime.MINUTES,
-            device_class=SensorDeviceClass.DURATION,
-            state_class=SensorStateClass.MEASUREMENT,
         ),
     ),
     "AC": (
@@ -882,6 +812,102 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             key="errors", name="Error", icon="mdi:math-log", translation_key="errors"
         ),
     ),
+    # --- HEAT PUMP (AW) SECTION (NEW) ---
+    "AW": (
+        HonSensorEntityDescription(
+            key="tempOutdoor",
+            name="Outdoor Temperature",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="outdoor_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempDhw",
+            name="Domestic Hot Water Temperature",
+            icon="mdi:water-boiler",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="dhw_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempZ1",
+            name="Water Temperature Zone 1",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_z1",
+        ),
+        HonSensorEntityDescription(
+            key="tempZ2",
+            name="Water Temperature Zone 2",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_z2",
+        ),
+        HonSensorEntityDescription(
+            key="tempWaterOut",
+            name="Water Outlet Temperature",
+            icon="mdi:thermometer-plus",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_out",
+        ),
+        HonSensorEntityDescription(
+            key="tempWaterIn",
+            name="Water Inlet Temperature",
+            icon="mdi:thermometer-minus",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_in",
+        ),
+        HonSensorEntityDescription(
+            key="compressorFrequency",
+            name="Compressor Frequency",
+            icon="mdi:sine-wave",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement="Hz",
+            translation_key="compressor_frequency",
+        ),
+        HonSensorEntityDescription(
+            key="currentPower",
+            name="Electrical Power",
+            icon="mdi:lightning-bolt",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.POWER,
+            native_unit_of_measurement=UnitOfPower.WATT,
+            translation_key="energy_current",
+        ),
+        HonSensorEntityDescription(
+            key="totalPower",
+            name="Total Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            translation_key="energy_total",
+        ),
+        HonSensorEntityDescription(
+            key="flowRate",
+            name="Flow Rate",
+            icon="mdi:water-pump",
+            state_class=SensorStateClass.MEASUREMENT,
+            translation_key="flow_rate",
+        ),
+        HonSensorEntityDescription(
+            key="errors", 
+            name="Errors", 
+            icon="mdi:alert-circle", 
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="errors",
+        ),
+    ),
 }
 SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
 
@@ -921,9 +947,26 @@ class HonSensorEntity(HonEntity, SensorEntity):
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))
+        
+        # Float-Fix für Wärmepumpen (und andere Zahlensensoren)
+        if self.entity_description.state_class is not None:
+            try:
+                if value is not None and value != "":
+                    value = float(str(value))
+            except (ValueError, TypeError):
+                # Falls keine Zahl (z.B. "off" oder leer), setzen wir 0 oder behalten den Wert
+                if not value:
+                    value = 0
+                    
         if not value and self.entity_description.state_class is not None:
             self._attr_native_value = 0
-        self._attr_native_value = value
+        else:
+            # -30.0 is often returned by Haier heat pumps for disconnected thermistors (e.g. Zone 2)
+            if self.entity_description.device_class == SensorDeviceClass.TEMPERATURE and value in (-30, -30.0, "-30", "-30.0"):
+                self._attr_native_value = None
+            else:
+                self._attr_native_value = value
+            
         if update:
             self.schedule_update_ha_state()
 
@@ -937,11 +980,14 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
         value: float | str
         if self.entity_description.state_class is not None:
             if sensor and sensor.value:
-                value = (
-                    float(sensor.value)
-                    if "." in str(sensor.value)
-                    else int(sensor.value)
-                )
+                try:
+                    value = (
+                        float(sensor.value)
+                        if "." in str(sensor.value)
+                        else int(sensor.value)
+                    )
+                except (ValueError, TypeError):
+                    value = 0
             else:
                 value = 0
         elif sensor is not None:

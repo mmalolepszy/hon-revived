@@ -8,6 +8,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
 
@@ -20,7 +21,10 @@ _LOGGER = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class HonBinarySensorEntityDescription(BinarySensorEntityDescription):
+    """Description for hOn binary sensors."""
     on_value: str | float = ""
+    # Support multiple 'ON' values for specific mode sensors
+    on_values: tuple[str, ...] = ()
 
 
 BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
@@ -109,10 +113,11 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     "TD": (
         HonBinarySensorEntityDescription(
             key="attributes.lastConnEvent.category",
-            name="Connection",
+            name="Remote Control",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
-            translation_key="connection",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
             key="doorStatus",
@@ -122,138 +127,21 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="door_open",
         ),
         HonBinarySensorEntityDescription(
-            key="anticrease",
-            name="Anti-Crease",
-            icon="mdi:iron",
-            translation_key="anti_crease",
+            key="doorLockStatus",
+            name="Door Lock",
+            device_class=BinarySensorDeviceClass.LOCK,
+            on_value=0,
+            translation_key="door_lock",
         ),
     ),
     "OV": (
         HonBinarySensorEntityDescription(
             key="attributes.lastConnEvent.category",
-            name="Connection",
+            name="Remote Control",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
-            icon="mdi:wifi",
-            translation_key="connection",
-        ),
-        HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
-            name="On",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            icon="mdi:power-cycle",
-            translation_key="on",
-        ),
-        HonBinarySensorEntityDescription(
-            key="attributes.parameters.preheatStatus",
-            name="Pre-Heat",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            icon="mdi:thermometer-chevron-up",
-            translation_key="pre_heat",
-        ),
-        HonBinarySensorEntityDescription(
-            key="tempStatus",
-            name="Temperature Reached",
-            device_class=BinarySensorDeviceClass.HEAT,
-            on_value=1,
-            icon="mdi:thermometer-check",
-            translation_key="temp_reached",
-        ),
-        HonBinarySensorEntityDescription(
-            key="lockStatus",
-            name="Child Lock",
-            device_class=BinarySensorDeviceClass.LOCK,
-            on_value=0,
-            icon="mdi:lock",
-            translation_key="child_lock",
-        ),
-        HonBinarySensorEntityDescription(
-            key="turnspitStatus",
-            name="Turnspit",
-            on_value=1,
-            icon="mdi:rotate-3d-variant",
-            translation_key="turnspit",
-        ),
-        HonBinarySensorEntityDescription(
-            key="steamStatus",
-            name="Steam Active",
-            on_value=1,
-            icon="mdi:weather-fog",
-            translation_key="steam_active",
-        ),
-        HonBinarySensorEntityDescription(
-            key="descalingRequiredStatus",
-            name="Descaling Required",
-            device_class=BinarySensorDeviceClass.PROBLEM,
-            on_value=1,
-            icon="mdi:alert-circle",
-            translation_key="descaling_required",
-        ),
-    ),
-    "IH": (
-        HonBinarySensorEntityDescription(
-            key="attributes.lastConnEvent.category",
-            name="Connection",
-            device_class=BinarySensorDeviceClass.CONNECTIVITY,
-            on_value="CONNECTED",
-            icon="mdi:wifi",
-            translation_key="connection",
-        ),
-        HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
-            name="On",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            icon="mdi:power-cycle",
-            translation_key="on",
-        ),
-        HonBinarySensorEntityDescription(
-            key="hotStatus",
-            name="Hot Status",
-            device_class=BinarySensorDeviceClass.HEAT,
-            on_value=1,
-            translation_key="still_hot",
-        ),
-        HonBinarySensorEntityDescription(
-            key="panStatus",
-            name="Pan Status",
-            on_value=1,
-            icon="mdi:pot-mix",
-            translation_key="pan_status",
-        ),
-        HonBinarySensorEntityDescription(
-            key="hobLockStatus",
-            name="Hob Lock",
-            device_class=BinarySensorDeviceClass.LOCK,
-            on_value=0,
-            translation_key="child_lock",
-        ),
-    ),
-    "DW": (
-        HonBinarySensorEntityDescription(
-            key="saltStatus",
-            name="Salt",
-            device_class=BinarySensorDeviceClass.PROBLEM,
-            on_value=1,
-            icon="mdi:shaker-outline",
-            translation_key="salt_level",
-        ),
-        HonBinarySensorEntityDescription(
-            key="rinseAidStatus",
-            name="Rinse Aid",
-            device_class=BinarySensorDeviceClass.PROBLEM,
-            on_value=1,
-            icon="mdi:spray-bottle",
-            translation_key="rinse_aid",
-        ),
-        HonBinarySensorEntityDescription(
-            key="attributes.lastConnEvent.category",
-            name="Connection",
-            device_class=BinarySensorDeviceClass.CONNECTIVITY,
-            on_value="CONNECTED",
-            translation_key="connection",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
             key="doorStatus",
@@ -263,144 +151,221 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="door_open",
         ),
         HonBinarySensorEntityDescription(
-            key="addDishStatus",
-            translation_key="add_dish",
-            icon="mdi:silverware-fork-knife",
-            on_value=1,
+            key="doorLockStatus",
+            name="Door Lock",
+            device_class=BinarySensorDeviceClass.LOCK,
+            on_value=0,
+            translation_key="door_lock",
         ),
         HonBinarySensorEntityDescription(
-            key="lastCycleSavingStatus",
-            translation_key="last_cycle_saving",
-            icon="mdi:leaf",
+            key="remoteCtrValid",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value=1,
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
-            key="tabStatus",
-            translation_key="detergent_tab",
-            icon="mdi:cube",
+            key="preheatStatus",
+            name="Preheat",
+            icon="mdi:thermometer-chevron-up",
             on_value=1,
+            translation_key="preheat",
+        ),
+    ),
+    "IH": (
+        HonBinarySensorEntityDescription(
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
+        ),
+    ),
+    "DW": (
+        HonBinarySensorEntityDescription(
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
+        ),
+        HonBinarySensorEntityDescription(
+            key="doorStatus",
+            name="Door",
+            device_class=BinarySensorDeviceClass.DOOR,
+            on_value=1,
+            translation_key="door_open",
         ),
     ),
     "AC": (
         HonBinarySensorEntityDescription(
-            key="filterChangeStatusLocal",
-            name="Filter Replacement",
-            device_class=BinarySensorDeviceClass.PROBLEM,
-            on_value=1,
-            translation_key="filter_replacement",
-        ),
-        HonBinarySensorEntityDescription(
-            key="ch2oCleaningStatus",
-            name="Ch2O Cleaning",
-            on_value=1,
-        ),
-        HonBinarySensorEntityDescription(
-            key="defrostStatus",
-            name="Defrost Status",
-            icon="mdi:snowflake-melt",
-            on_value=1,
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
     ),
     "REF": (
         HonBinarySensorEntityDescription(
-            key="quickModeZ1",
-            name="Super Cool",
-            icon="mdi:snowflake",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="super_cool",
-        ),
-        HonBinarySensorEntityDescription(
-            key="quickModeZ2",
-            name="Super Freeze",
-            icon="mdi:snowflake-variant",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="super_freeze",
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
             key="doorStatusZ1",
-            name="Door1 Status Fridge",
-            device_class=BinarySensorDeviceClass.DOOR,
-            icon="mdi:fridge-top",
-            on_value=1,
-            translation_key="fridge_door",
-        ),
-        HonBinarySensorEntityDescription(
-            key="door2StatusZ1",
-            name="Door2 Status Fridge",
-            icon="mdi:fridge-top",
+            name="Door Status Fridge",
+            icon="mdi:fridge",
             device_class=BinarySensorDeviceClass.DOOR,
             on_value=1,
-            translation_key="fridge_door",
+            translation_key="door_open",
         ),
         HonBinarySensorEntityDescription(
             key="doorStatusZ2",
-            name="Door1 Status Freezer",
-            icon="mdi:fridge-bottom",
+            name="Door Status Freezer",
+            icon="mdi:fridge",
             device_class=BinarySensorDeviceClass.DOOR,
             on_value=1,
-            translation_key="freezer_door",
+            translation_key="door_open",
         ),
+    ),
+    "HO": (
         HonBinarySensorEntityDescription(
-            key="door2StatusZ2",
-            name="Door2 Status Freezer",
-            icon="mdi:fridge-bottom",
-            device_class=BinarySensorDeviceClass.DOOR,
-            on_value=1,
-            translation_key="freezer_door",
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
+    ),
+    "WC": (
         HonBinarySensorEntityDescription(
-            key="intelligenceMode",
-            name="Auto-Set Mode",
-            icon="mdi:thermometer-auto",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="auto_set",
-        ),
-        HonBinarySensorEntityDescription(
-            key="holidayMode",
-            name="Holiday Mode",
-            icon="mdi:palm-tree",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="holiday_mode",
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
     ),
     "AP": (
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
-            name="On",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value="1",
-            icon="mdi:power-cycle",
-            translation_key="on",
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
     ),
     "FRE": (
         HonBinarySensorEntityDescription(
-            key="quickModeZ1",
-            name="Super Cool",
-            icon="mdi:snowflake",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="super_cool",
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
-            key="quickModeZ2",
-            name="Super Freeze",
-            icon="mdi:snowflake-variant",
-            device_class=BinarySensorDeviceClass.RUNNING,
-            on_value=1,
-            translation_key="super_freeze",
-        ),
-        HonBinarySensorEntityDescription(
-            key="doorStatusZ2",
+            key="doorStatus",
             name="Door Status",
             icon="mdi:fridge",
             device_class=BinarySensorDeviceClass.DOOR,
             on_value=1,
             translation_key="door_open",
+        ),
+    ),
+    # --- HEAT PUMP (AW) SECTION ---
+    "AW": (
+        HonBinarySensorEntityDescription(
+            key="heatingStatus",
+            name="Heating Mode",
+            icon="mdi:radiator",
+            on_values=("2", "8"),  # machMode 2=Heat, 8=Auto (Heat+DHW)
+            device_class=BinarySensorDeviceClass.RUNNING,
+            translation_key="heating_mode",
+        ),
+        HonBinarySensorEntityDescription(
+            key="dhwStatus",
+            name="DHW Mode",
+            icon="mdi:water-boiler",
+            on_values=("3", "8"),  # machMode 3=DHW, 8=Auto (Heat+DHW)
+            device_class=BinarySensorDeviceClass.RUNNING,
+            translation_key="dhw_mode",
+        ),
+        HonBinarySensorEntityDescription(
+            key="sgReady",
+            name="Smart Grid Ready",
+            icon="mdi:solar-power",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            on_value="1",
+            translation_key="sg_ready",
+        ),
+        HonBinarySensorEntityDescription(
+            key="dhwPriorityStatus",
+            name="DHW Priority",
+            icon="mdi:water-plus",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            on_value="1",
+            translation_key="dhw_priority",
+        ),
+        HonBinarySensorEntityDescription(
+            key="boilerActState",
+            name="Boiler Status",
+            icon="mdi:heating-coil",
+            device_class=BinarySensorDeviceClass.HEAT,
+            on_value="1",
+            translation_key="boiler_status",
+        ),
+        HonBinarySensorEntityDescription(
+            key="iduElectricHeaterActState1",
+            name="Heater 1 Status",
+            icon="mdi:heating-coil",
+            device_class=BinarySensorDeviceClass.HEAT,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            on_value="1",
+            translation_key="heater1_status",
+        ),
+        HonBinarySensorEntityDescription(
+            key="iduElectricHeaterActState2",
+            name="Heater 2 Status",
+            icon="mdi:heating-coil",
+            device_class=BinarySensorDeviceClass.HEAT,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            on_value="1",
+            translation_key="heater2_status",
+        ),
+        HonBinarySensorEntityDescription(
+            key="holidayActState",
+            name="Holiday Mode",
+            icon="mdi:island",
+            on_value="1",
+            translation_key="holiday_mode",
+        ),
+        HonBinarySensorEntityDescription(
+            key="sterilizationModeStatus",
+            name="Sterilization",
+            icon="mdi:shield-check",
+            device_class=BinarySensorDeviceClass.HEAT,
+            on_value="1",
+            translation_key="sterilization",
+        ),
+        HonBinarySensorEntityDescription(
+            key="attributes.lastConnEvent.category",
+            name="Remote Control",
+            device_class=BinarySensorDeviceClass.CONNECTIVITY,
+            on_value="CONNECTED",
+            icon="mdi:remote",
+            translation_key="remote_control",
         ),
     ),
 }
@@ -411,30 +376,72 @@ BINARY_SENSORS["WD"] = unique_entities(BINARY_SENSORS["WM"], BINARY_SENSORS["TD"
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
+    """Set up the hOn binary sensors."""
     entities = []
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in BINARY_SENSORS.get(device.appliance_type, []):
-            if device.get(description.key) is None:
-                continue
-            entity = HonBinarySensorEntity(hass, entry, device, description)
-            entities.append(entity)
+            # Check if key exists or if it is a special mode sensor relying on machMode
+            if (device.get(description.key) is not None) or \
+               (description.key in ["heatingStatus", "dhwStatus"] and device.get("machMode") is not None):
+                
+                if description.key in ["heatingStatus", "dhwStatus"]:
+                    entities.append(HonBinaryModeSensorEntity(hass, entry, device, description))
+                else:
+                    entities.append(HonBinarySensorEntity(hass, entry, device, description))
+                    
     async_add_entities(entities)
 
 
 class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
+    """Representation of a standard hOn binary sensor."""
     entity_description: HonBinarySensorEntityDescription
+
+    def __init__(self, hass, entry, device, description) -> None:
+        super().__init__(hass, entry, device, description)
+        self._attr_unique_id = f"{device.unique_id}_{description.key}"
+        self._attr_name = f"{device.nick_name} {description.name}"
 
     @property
     def is_on(self) -> bool:
+        """Return true if the binary sensor is on."""
         attr = self._device.get(self.entity_description.key, None)
         value = attr.value if hasattr(attr, "value") else attr
-        return value == self.entity_description.on_value
-
+        
+        if value is None:
+            return False
+            
+        str_val = str(value).lower()
+        target_val = str(self.entity_description.on_value).lower()
+        
+        if str_val == target_val:
+            return True
+            
+        if str_val in ["true", "on", "yes", "1"] and target_val in ["1", "true"]:
+            return True
+            
+        return False
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        attr = self._device.get(self.entity_description.key, None)
-        value = attr.value if hasattr(attr, "value") else attr
-        self._attr_native_value = (value == self.entity_description.on_value)
+        """Handle updated data from the coordinator."""
         if update:
             self.schedule_update_ha_state()
+
+
+class HonBinaryModeSensorEntity(HonBinarySensorEntity):
+    """Special binary sensor that reacts to machMode (e.g. for Heating/DHW status)."""
+    
+    @property
+    def is_on(self) -> bool:
+        """Determine state based on machMode and onOffStatus."""
+        # Ensure modes report False if the entire machine is powered off
+        if str(self._device.get("onOffStatus", "1")) == "0":
+            return False
+            
+        mode = self._device.get("machMode")
+        if mode is None:
+            return False
+            
+        str_mode = str(mode)
+        # Check against list of valid 'ON' values (e.g. "2" and "8" for heating)
+        return any(str_mode == str(val) for val in self.entity_description.on_values)

@@ -30,6 +30,24 @@ class HonConfigSelectEntityDescription(SelectEntityDescription):
     option_list: dict[int, str] | None = None
 
 
+@dataclass(frozen=True)
+class HonAWModeSelectEntityDescription(SelectEntityDescription):
+    """Spezielle Beschreibung für den Wärmepumpen-Modus."""
+    entity_category: EntityCategory = EntityCategory.CONFIG
+
+
+# Mapping von machMode (aus API) zu den internen programNamen
+AW_MODE_MAP = {
+    "0": "auto",
+    "1": "cool",
+    "2": "heat",
+    "3": "dhw",
+    "6": "auto_dhw",
+    "7": "cool_dhw",
+    "8": "heat_dhw"
+}
+
+
 SELECTS: dict[str, tuple[SelectEntityDescription, ...]] = {
     "WM": (
         HonConfigSelectEntityDescription(
@@ -205,6 +223,14 @@ SELECTS: dict[str, tuple[SelectEntityDescription, ...]] = {
             translation_key="temperature",
         ),
     ),
+    "AW": (
+        HonAWModeSelectEntityDescription(
+            key="startProgram.program",
+            name="Mode",
+            icon="mdi:state-machine",
+            translation_key="working_mode_select",
+        ),
+    ),
 }
 
 SELECTS["WD"] = unique_entities(SELECTS["WM"], SELECTS["TD"])
@@ -214,12 +240,15 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
-    entity: HonSelectEntity | HonConfigSelectEntity
+    entity: HonSelectEntity | HonConfigSelectEntity | HonAWModeSelectEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SELECTS.get(device.appliance_type, []):
             if description.key not in device.available_settings:
                 continue
-            if isinstance(description, HonSelectEntityDescription):
+            
+            if isinstance(description, HonAWModeSelectEntityDescription):
+                entity = HonAWModeSelectEntity(hass, entry, device, description)
+            elif isinstance(description, HonSelectEntityDescription):
                 entity = HonSelectEntity(hass, entry, device, description)
             elif isinstance(description, HonConfigSelectEntityDescription):
                 entity = HonConfigSelectEntity(hass, entry, device, description)
@@ -335,3 +364,43 @@ class HonSelectEntity(HonEntity, SelectEntity):
         self._attr_current_option = self.current_option
         if update:
             self.schedule_update_ha_state()
+
+
+class HonAWModeSelectEntity(HonEntity, SelectEntity):
+    """Wärmepumpen Modus (Nutzt machMode für Status-Feedback)"""
+    entity_description: HonAWModeSelectEntityDescription
+
+    @property
+    def current_option(self) -> str | None:
+        # Die Wahrheit für die Wärmepumpe liegt im machMode, nicht in startProgram!
+        mach_mode = str(self._device.get("machMode", ""))
+        return AW_MODE_MAP.get(mach_mode, "auto")
+
+    @property
+    def options(self) -> list[str]:
+        setting = self._device.settings.get(self.entity_description.key)
+        if not setting:
+            return []
+        # Erlaubte Optionen basierend auf der AW_MODE_MAP
+        return [opt for opt in setting.values if opt in AW_MODE_MAP.values()]
+
+    async def async_select_option(self, option: str) -> None:
+        setting = self._device.settings.get(self.entity_description.key)
+        if setting:
+            setting.value = option
+            command = self.entity_description.key.split(".")[0]
+            if command in self._device.commands:
+                await self._device.commands[command].send()
+        self.coordinator.async_set_updated_data({})
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        self._attr_available = self.available
+        self._attr_options = self.options
+        self._attr_current_option = self.current_option
+        if update:
+            self.schedule_update_ha_state()
+
+    @property
+    def available(self) -> bool:
+        return self._device.settings.get(self.entity_description.key) is not None

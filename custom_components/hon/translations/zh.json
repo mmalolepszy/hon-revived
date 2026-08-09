@@ -830,6 +830,9 @@
             "target_temperature": {
                 "name": "目标温度"
             },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
+            },
             "spin_speed": {
                 "name": "甩干"
             },

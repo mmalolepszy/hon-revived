@@ -70,15 +70,6 @@
                 },
                 "name": "Nível de secagem"
             },
-            "remaining_main_wash_time": {
-                "name": "Tempo Restante da Lavagem Principal"
-            },
-            "current_wash_cycle": {
-                "name": "Ciclo de Lavagem Atual"
-            },
-            "detergent_level": {
-                "name": "Nível de Detergente"
-            },
             "programs_ac": {
                 "state": {
                     "iot_10_heating": "Função de aquecimento de 10 °C",
@@ -846,6 +837,9 @@
             "target_temperature": {
                 "name": "Temperatura alvo"
             },
+            "probe_1_target_temperature": {
+                "name": "Target Temperature Probe 1"
+            },
             "spin_speed": {
                 "name": "Centrifugar"
             },
@@ -940,24 +934,6 @@
                     "high": "Alta"
                 },
                 "name": "Nível de humidade"
-            },
-            "probe_temperature": {
-                "name": "Temperatura da Sonda"
-            },
-            "steam_tank_level": {
-                "name": "Nível do Reservatório de Vapor"
-            },
-            "descaling_cycle_counter": {
-                "name": "Contador de Ciclos de Descalcificação"
-            },
-            "current_electricity_used": {
-                "name": "Current Cycle Electricity"
-            },
-            "current_water_used": {
-                "name": "Current Cycle Water"
-            },
-            "current_cycle_time": {
-                "name": "Cycle Duration"
             }
         },
         "select": {
@@ -2042,24 +2018,6 @@
             },
             "filter_replacement": {
                 "name": "Substituição do filtro"
-            },
-            "temp_reached": {
-                "name": "Temperatura Atingida"
-            },
-            "turnspit": {
-                "name": "Espeto Rotativo"
-            },
-            "steam_active": {
-                "name": "Vapor Ativo"
-            },
-            "descaling_required": {
-                "name": "Descalcificação Necessária"
-            },
-            "energy_saving": {
-                "name": "Modo Poupança de Energia"
-            },
-            "buzzer_disabled": {
-                "name": "Buzzer Desativado"
             }
         },
         "button": {
@@ -2071,15 +2029,6 @@
             },
             "stop_program": {
                 "name": "Programa Parar"
-            },
-            "add_dish": {
-                "name": "Porta aberta"
-            },
-            "last_cycle_saving": {
-                "name": "Poupança Eco Último Ciclo"
-            },
-            "detergent_tab": {
-                "name": "Detergente"
             }
         },
         "number": {
@@ -2130,9 +2079,6 @@
             },
             "my_zone_temp_sel": {
                 "name": "Temperatura alvo My Zone"
-            },
-            "probe_target_temperature": {
-                "name": "Temperatura Alvo da Sonda"
             }
         },
         "climate": {

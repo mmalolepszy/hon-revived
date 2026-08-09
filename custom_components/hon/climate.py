@@ -219,7 +219,6 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
             return self._attr_hvac_mode
 
         return mode
-
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         self._attr_hvac_mode = hvac_mode
         if hvac_mode == HVACMode.OFF:

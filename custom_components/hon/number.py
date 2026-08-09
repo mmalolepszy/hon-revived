@@ -111,13 +111,6 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             native_unit_of_measurement=UnitOfTime.MINUTES,
             translation_key="program_duration",
         ),
-        HonNumberEntityDescription(
-            key="settings.tempSelEmployedProbe1",
-            name="Probe Target Temperature",
-            icon="mdi:thermometer-plus",
-            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-            translation_key="probe_target_temperature",
-        ),
     ),
     "IH": (
         HonConfigNumberEntityDescription(
@@ -208,6 +201,95 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             translation_key="pollen_level",
         ),
     ),
+    "AW": (
+        HonNumberEntityDescription(
+            key="settings.tempSelDhw",
+            name="Target Temperature DHW",
+            icon="mdi:water-boiler",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="target_temp_dhw",
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelZ1",
+            name="Target Temperature Zone 1",
+            icon="mdi:thermometer",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="target_temp_z1",
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelZ2",
+            name="Target Temperature Zone 2",
+            icon="mdi:thermometer",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="target_temp_z2",
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelHolidayModeZ1",
+            name="Holiday Target Temperature Zone 1",
+            icon="mdi:island",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelHolidayModeZ2",
+            name="Holiday Target Temperature Zone 2",
+            icon="mdi:island",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelEcoMode",
+            name="Eco Mode Target Temperature",
+            icon="mdi:leaf",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelPool",
+            name="Pool Target Temperature",
+            icon="mdi:pool",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonNumberEntityDescription(
+            key="settings.tempSelSterilizationMode",
+            name="Sterilization Target Temperature",
+            icon="mdi:shield-check",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.tempDeltaDhw",
+            name="DHW Delta Temperature",
+            icon="mdi:thermometer-minus",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.turboModeTime",
+            name="Turbo Mode Duration",
+            icon="mdi:timer",
+            native_unit_of_measurement=UnitOfTime.MINUTES,
+        ),
+        *[HonConfigNumberEntityDescription(
+            key=f"settings.highOutdoorTempCurve{i}",
+            name=f"High Outdoor Temp Curve {i}",
+            icon="mdi:chart-bell-curve-cumulative",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ) for i in range(1, 5)],
+        *[HonConfigNumberEntityDescription(
+            key=f"settings.lowOutdoorTempCurve{i}",
+            name=f"Low Outdoor Temp Curve {i}",
+            icon="mdi:chart-bell-curve-cumulative",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ) for i in range(1, 5)],
+        *[HonConfigNumberEntityDescription(
+            key=f"settings.highWaterTempCurve{i}",
+            name=f"High Water Temp Curve {i}",
+            icon="mdi:chart-bell-curve-cumulative",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ) for i in range(1, 5)],
+        *[HonConfigNumberEntityDescription(
+            key=f"settings.lowWaterTempCurve{i}",
+            name=f"Low Water Temp Curve {i}",
+            icon="mdi:chart-bell-curve-cumulative",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        ) for i in range(1, 5)],
+    ),
 }
 
 NUMBERS["WD"] = unique_entities(NUMBERS["WM"], NUMBERS["TD"])
@@ -259,7 +341,10 @@ class HonNumberEntity(HonEntity, NumberEntity):
     async def async_set_native_value(self, value: float) -> None:
         setting = self._device.settings[self.entity_description.key]
         if isinstance(setting, HonParameterRange):
-            setting.value = value
+            # Formatiere den Wert korrekt als Integer oder Float um API-Abstürze zu verhindern
+            step = float(setting.step)
+            setting.value = int(value) if step % 1 == 0 else float(value)
+            
         command = self.entity_description.key.split(".")[0]
         await self._device.commands[command].send()
         if command != "settings":
@@ -314,7 +399,9 @@ class HonConfigNumberEntity(HonEntity, NumberEntity):
     async def async_set_native_value(self, value: float) -> None:
         setting = self._device.settings[self.entity_description.key]
         if isinstance(setting, HonParameterRange):
-            setting.value = value
+            # Formatiere den Wert korrekt als Integer oder Float
+            step = float(setting.step)
+            setting.value = int(value) if step % 1 == 0 else float(value)
         self.coordinator.async_set_updated_data({})
 
     @property
