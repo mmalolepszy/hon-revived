@@ -208,7 +208,14 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             on_value="CONNECTED",
             icon="mdi:remote",
             translation_key="remote_control",
+            HonBinarySensorEntityDescription(
+            key="defrostStatus",
+            name="Defrost Status",
+            icon="mdi:snowflake-melt",
+            on_value=1,
+            translation_key="defrost_status",
         ),
+    ),
     ),
     "REF": (
         HonBinarySensorEntityDescription(
