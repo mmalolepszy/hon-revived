@@ -211,30 +211,49 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
 
         mode = HON_HVAC_MODE[mach]
 
-        if mode == HVACMode.AUTO and getattr(self, "_attr_hvac_mode", None) not in (
-            None,
-            HVACMode.OFF,
-            HVACMode.AUTO,
+        attr_hvac_mode: HVACMode | None = getattr(self, "_attr_hvac_mode", None)
+        if (
+            mode == HVACMode.AUTO
+            and attr_hvac_mode is not None
+            and attr_hvac_mode not in (HVACMode.OFF, HVACMode.AUTO)
         ):
-            return self._attr_hvac_mode
+            return attr_hvac_mode
 
         return mode
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         self._attr_hvac_mode = hvac_mode
+
+        has_onoff = "settings.onOffStatus" in self._device.settings
+
         if hvac_mode == HVACMode.OFF:
             await self._device.commands["stopProgram"].send()
-            self._device.settings["settings.onOffStatus"].value = "0"
+
+            if has_onoff:
+                self._device.settings["settings.onOffStatus"].value = "0"
+
         else:
-            self._device.settings["settings.onOffStatus"].value = "1"
+            if has_onoff:
+                self._device.settings["settings.onOffStatus"].value = "1"
+
             setting = self._device.settings["settings.machMode"]
-            modes = {HON_HVAC_MODE[int(number)]: number for number in setting.values}
+            modes = {
+                HON_HVAC_MODE[int(number)]: number
+                for number in setting.values
+            }
+
             if hvac_mode in modes:
                 setting.value = modes[hvac_mode]
             else:
                 await self.async_set_preset_mode(HON_HVAC_PROGRAM[hvac_mode])
                 return
+
             await self._device.commands["settings"].send()
+
+            if "startProgram" in self._device.commands:
+                self._device.sync_command("startProgram", "settings")
+                await self._device.commands["startProgram"].send()
+
         self.schedule_update_ha_state()
 
     async def async_turn_on(self, **kwargs: Any) -> None:

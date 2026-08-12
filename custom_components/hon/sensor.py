@@ -16,7 +16,6 @@ from homeassistant.const import (
 from homeassistant.const import (
     REVOLUTIONS_PER_MINUTE,
     UnitOfEnergy,
-    UnitOfPower,
     UnitOfVolume,
     UnitOfMass,
     UnitOfTime,
@@ -83,8 +82,8 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             key="currentElectricityUsed",
             name="Current Electricity Used",
             state_class=SensorStateClass.MEASUREMENT,
-            device_class=SensorDeviceClass.POWER,
-            native_unit_of_measurement=UnitOfPower.KILO_WATT,
+            device_class=SensorDeviceClass.ENERGY,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
             icon="mdi:lightning-bolt",
             translation_key="energy_current",
         ),
@@ -92,6 +91,8 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             key="currentWaterUsed",
             name="Current Water Used",
             state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.WATER,
+            native_unit_of_measurement=UnitOfVolume.LITERS,
             icon="mdi:water",
             translation_key="water_current",
         ),
@@ -914,6 +915,17 @@ class HonSensorEntity(HonEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         value = self._device.get(self.entity_description.key, "")
+
+        zone_setpoint_key = {"tempZ1": "tempSelZ1", "tempZ2": "tempSelZ2"}.get(
+            self.entity_description.key
+        )
+        if zone_setpoint_key and str(value) == "-38":
+            # Some REF models report a fixed -38 sentinel instead of a real
+            # zone temperature when the sensor reading isn't available.
+            # Fall back to the configured setpoint as the best available estimate.
+            # See https://github.com/Andre0512/hon/issues/259
+            value = self._device.get(zone_setpoint_key, "")
+
         if self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError

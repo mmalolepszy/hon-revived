@@ -138,7 +138,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -202,7 +202,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -369,10 +369,10 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     ),
     "AP": (
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
-            on_value="1",
+            on_value=1,
             icon="mdi:power-cycle",
             translation_key="on",
         ),
@@ -428,7 +428,7 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
     def is_on(self) -> bool:
         attr = self._device.get(self.entity_description.key, None)
         value = attr.value if hasattr(attr, "value") else attr
-        return value == self.entity_description.on_value
+        return bool(value == self.entity_description.on_value)
 
 
     @callback

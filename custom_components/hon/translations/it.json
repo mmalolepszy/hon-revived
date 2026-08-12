@@ -839,7 +839,7 @@
                 "name": "Durata"
             },
             "target_temperature": {
-                "name": "Temperatura terget"
+                "name": "Temperatura target"
             },
             "spin_speed": {
                 "name": "Centrifuga"
@@ -2058,7 +2058,7 @@
                 "name": "Durata programma"
             },
             "target_temperature": {
-                "name": "Temperatura terget"
+                "name": "Temperatura target"
             },
             "rinse_iterations": {
                 "name": "Numero risciacqui"
