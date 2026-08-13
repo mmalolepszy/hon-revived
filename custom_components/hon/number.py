@@ -244,11 +244,12 @@ class HonNumberEntity(HonEntity, NumberEntity):
     ) -> None:
         super().__init__(hass, entry, device, description)
 
-        self._data = device.settings[description.key]
-        if isinstance(self._data, HonParameterRange):
-            self._attr_native_max_value = self._data.max
-            self._attr_native_min_value = self._data.min
-            self._attr_native_step = self._data.step
+        if (data := device.settings.get(description.key)) is not None and isinstance(
+            data, HonParameterRange
+        ):
+            self._attr_native_max_value = data.max
+            self._attr_native_min_value = data.min
+            self._attr_native_step = data.step
 
     @property
     def native_value(self) -> float | None:
@@ -257,19 +258,21 @@ class HonNumberEntity(HonEntity, NumberEntity):
         return None
 
     async def async_set_native_value(self, value: float) -> None:
-        setting = self._device.settings[self.entity_description.key]
+        if (setting := self._device.settings.get(self.entity_description.key)) is None:
+            return
         if isinstance(setting, HonParameterRange):
             setting.value = value
         command = self.entity_description.key.split(".")[0]
-        await self._device.commands[command].send()
+        await self._async_send_command(command)
         if command != "settings":
             self._device.sync_command(command, "settings")
         self.coordinator.async_set_updated_data({})
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        setting = self._device.settings[self.entity_description.key]
-        if isinstance(setting, HonParameterRange):
+        if (
+            setting := self._device.settings.get(self.entity_description.key)
+        ) is not None and isinstance(setting, HonParameterRange):
             self._attr_native_max_value = setting.max
             self._attr_native_min_value = setting.min
             self._attr_native_step = setting.step
@@ -280,11 +283,7 @@ class HonNumberEntity(HonEntity, NumberEntity):
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return (
-            super().available
-            and int(self._device.get("remoteCtrValid", 1)) == 1
-            and self._device.connection
-        )
+        return super().available and self._device.connection
 
 
 class HonConfigNumberEntity(HonEntity, NumberEntity):
@@ -299,20 +298,24 @@ class HonConfigNumberEntity(HonEntity, NumberEntity):
     ) -> None:
         super().__init__(hass, entry, device, description)
 
-        self._data = device.settings[description.key]
-        if isinstance(self._data, HonParameterRange):
-            self._attr_native_max_value = self._data.max
-            self._attr_native_min_value = self._data.min
-            self._attr_native_step = self._data.step
+        if (data := device.settings.get(description.key)) is not None and isinstance(
+            data, HonParameterRange
+        ):
+            self._attr_native_max_value = data.max
+            self._attr_native_min_value = data.min
+            self._attr_native_step = data.step
 
     @property
     def native_value(self) -> float | None:
-        if (value := self._device.settings[self.entity_description.key].value) != "":
-            return float(value)
+        if (
+            setting := self._device.settings.get(self.entity_description.key)
+        ) is not None and setting.value != "":
+            return float(setting.value)
         return None
 
     async def async_set_native_value(self, value: float) -> None:
-        setting = self._device.settings[self.entity_description.key]
+        if (setting := self._device.settings.get(self.entity_description.key)) is None:
+            return
         if isinstance(setting, HonParameterRange):
             setting.value = value
         self.coordinator.async_set_updated_data({})
@@ -324,8 +327,9 @@ class HonConfigNumberEntity(HonEntity, NumberEntity):
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        setting = self._device.settings[self.entity_description.key]
-        if isinstance(setting, HonParameterRange):
+        if (
+            setting := self._device.settings.get(self.entity_description.key)
+        ) is not None and isinstance(setting, HonParameterRange):
             self._attr_native_max_value = setting.max
             self._attr_native_min_value = setting.min
             self._attr_native_step = setting.step
