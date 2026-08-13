@@ -927,14 +927,14 @@ class HonSensorEntity(HonEntity, SensorEntity):
             value = self._device.get(zone_setpoint_key, "")
 
         if self.entity_description.key == "programName":
-            if not (options := self._device.settings.get("startProgram.program")):
-                raise ValueError
-            self._attr_options = options.values + ["No Program"]
+            options = self._device.settings.get("startProgram.program")
+            if options is not None:
+                self._attr_options = options.values + ["No Program"]
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))
         if not value and self.entity_description.state_class is not None:
-            self._attr_native_value = 0
+            value = 0
         self._attr_native_value = value
         if update:
             self.schedule_update_ha_state()

@@ -425,16 +425,18 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
     entity_description: HonBinarySensorEntityDescription
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None:
         attr = self._device.get(self.entity_description.key, None)
+        if attr is None:
+            return None
         value = attr.value if hasattr(attr, "value") else attr
-        return bool(value == self.entity_description.on_value)
+        if value is None:
+            return None
+        return value == self.entity_description.on_value
 
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        attr = self._device.get(self.entity_description.key, None)
-        value = attr.value if hasattr(attr, "value") else attr
-        self._attr_native_value = (value == self.entity_description.on_value)
+        self._attr_is_on = self.is_on
         if update:
             self.schedule_update_ha_state()
