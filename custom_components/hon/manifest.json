@@ -12,5 +12,5 @@
   "requirements": [
     "pyhon-revived@https://github.com/Odyno/pyhon-revived/archive/refs/tags/0.19.2-o2.tar.gz"
   ],
-  "version": "0.19.2-o1"
+  "version": "0.19.2-o2"
 }
