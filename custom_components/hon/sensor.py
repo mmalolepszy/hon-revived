@@ -21,6 +21,8 @@ from homeassistant.const import (
     UnitOfMass,
     UnitOfTime,
     UnitOfTemperature,
+    UnitOfDensity,
+    UnitOfRatio,
 )
 from homeassistant.core import callback
 from homeassistant.helpers.entity import EntityCategory
@@ -806,28 +808,28 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             name="CO Level",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.CO,
-            native_unit_of_measurement=CONCENTRATION_PARTS_PER_MILLION,
+            native_unit_of_measurement=UnitOfRatio.PARTS_PER_MILLION,
         ),
         HonSensorEntityDescription(
             key="pm10ValueIndoor",
             name="PM 10",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.PM10,
-            native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+            native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         ),
         HonSensorEntityDescription(
             key="pm2p5ValueIndoor",
             name="PM 2.5",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.PM25,
-            native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+            native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         ),
         HonSensorEntityDescription(
             key="vocValueIndoor",
             name="VOC",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS,
-            native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+            native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
             translation_key="voc",
         ),
         HonSensorEntityDescription(
