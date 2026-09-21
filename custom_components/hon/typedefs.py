@@ -30,6 +30,7 @@ if TYPE_CHECKING:
     )
     from .switch import (
         HonControlSwitchEntityDescription,
+        HonControlWhSwitchEntityDescription,
         HonSwitchEntityDescription,
         HonConfigSwitchEntityDescription,
     )
@@ -43,6 +44,7 @@ HonButtonType = Union[
 HonEntityDescription = Union[
     "HonBinarySensorEntityDescription",
     "HonControlSwitchEntityDescription",
+    "HonControlWhSwitchEntityDescription",
     "HonSwitchEntityDescription",
     "HonConfigSwitchEntityDescription",
     "HonSensorEntityDescription",

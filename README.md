@@ -738,6 +738,39 @@ Support has been confirmed for these **44 models**, but many more will work. Ple
 
 </details>
 
+<details>
+<summary>Water Heater</summary>
+
+### Supported Water Heater models
+Support has been confirmed for these **1 models**, but many more will work. Please add already supported devices [with this form to complete the list](https://forms.gle/bTSD8qFotdZFytbf8).
+
+#### Haier
+- ES80V-F7
+
+### Water Heater Entities
+#### Controls
+| Name | Icon | Entity | Key |
+| --- | --- | --- | --- |
+| Mode | `information` | `select` | `settings.machMode` |
+| Power | `power-standby` | `switch` | `startProgram` / `stopProgram` |
+| Target Temperature | `thermometer` | `number` | `settings.tempSel` |
+#### Sensors
+| Name | Icon | Entity | Key |
+| --- | --- | --- | --- |
+| Anode Maintenance Status |  | `sensor` | `anodeMaintenanceStatus` |
+| Heating Status |  | `sensor` | `heatingStatus` |
+| Mode | `information` | `sensor` | `machMode` |
+| Power State | `power-standby` | `binary_sensor` | `onOffStatus` |
+| Smart Test Status |  | `sensor` | `smartTestStatus` |
+| Tank Maintenance Status |  | `sensor` | `tankMaintenanceStatus` |
+| Target Temperature | `thermometer` | `sensor` | `tempSel` |
+| Temp Z1 |  | `sensor` | `tempZ1` |
+| Temp Z2 |  | `sensor` | `tempZ2` |
+| Temperature |  | `sensor` | `temp` |
+
+
+</details>
+
 ## Supported Languages
 Translation of internal names like programs are available for all languages which are official supported by the hOn app:
 * 🇸🇦 Arabic
