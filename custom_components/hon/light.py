@@ -94,13 +94,18 @@ class HonLightEntity(HonEntity, LightEntity):
     @property
     def is_on(self) -> bool:
         """Return true if light is on."""
-        return bool(self._device.get(self.entity_description.key.split(".")[-1]) > 0)
+        return bool((self._device.get(self.entity_description.key.split(".")[-1]) or 0) > 0)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on or control the light."""
         light = self._device.settings.get(self.entity_description.key)
         if not isinstance(light, HonParameterRange):
-            raise ValueError()
+            _LOGGER.warning(
+                "%s: %s is not a range parameter, cannot turn on",
+                self._device.nick_name,
+                self.entity_description.key,
+            )
+            return
         if ColorMode.BRIGHTNESS in self._attr_supported_color_modes:
             percent = int(100 / 255 * kwargs.get(ATTR_BRIGHTNESS, 128))
             light.value = round(light.max / 100 * percent)
@@ -109,16 +114,21 @@ class HonLightEntity(HonEntity, LightEntity):
             self._attr_brightness = self.brightness
         else:
             light.value = light.max
-        await self._device.commands[self._command].send()
+        await self._async_send_command(self._command)
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Instruct the light to turn off."""
         light = self._device.settings.get(self.entity_description.key)
         if not isinstance(light, HonParameterRange):
-            raise ValueError()
+            _LOGGER.warning(
+                "%s: %s is not a range parameter, cannot turn off",
+                self._device.nick_name,
+                self.entity_description.key,
+            )
+            return
         light.value = light.min
-        await self._device.commands[self._command].send()
+        await self._async_send_command(self._command)
         self.schedule_update_ha_state()
 
     @property
@@ -126,7 +136,12 @@ class HonLightEntity(HonEntity, LightEntity):
         """Return the brightness of the light."""
         light = self._device.settings.get(self.entity_description.key)
         if not isinstance(light, HonParameterRange):
-            raise ValueError()
+            _LOGGER.debug(
+                "%s: %s is not a range parameter, brightness unavailable",
+                self._device.nick_name,
+                self.entity_description.key,
+            )
+            return None
         if light.value == light.min:
             return None
         return int(255 / light.max * float(light.value))

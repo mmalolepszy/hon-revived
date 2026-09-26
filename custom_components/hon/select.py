@@ -261,7 +261,8 @@ class HonConfigSelectEntity(HonEntity, SelectEntity):
         return option
 
     async def async_select_option(self, option: str) -> None:
-        setting = self._device.settings[self.entity_description.key]
+        if (setting := self._device.settings.get(self.entity_description.key)) is None:
+            return
         setting.value = self._option_to_number(option, setting.values)
         self.coordinator.async_set_updated_data({})
 
@@ -311,10 +312,11 @@ class HonSelectEntity(HonEntity, SelectEntity):
         return option
 
     async def async_select_option(self, option: str) -> None:
-        setting = self._device.settings[self.entity_description.key]
+        if (setting := self._device.settings.get(self.entity_description.key)) is None:
+            return
         setting.value = self._option_to_number(option, setting.values)
         command = self.entity_description.key.split(".")[0]
-        await self._device.commands[command].send()
+        await self._async_send_command(command)
         if command != "settings":
             self._device.sync_command(command, "settings")
         self.coordinator.async_set_updated_data({})
@@ -322,11 +324,7 @@ class HonSelectEntity(HonEntity, SelectEntity):
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return (
-            super().available
-            and int(self._device.get("remoteCtrValid", 1)) == 1
-            and self._device.connection
-        )
+        return super().available and self._device.connection
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:

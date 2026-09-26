@@ -74,16 +74,12 @@ class HonButtonEntity(HonEntity, ButtonEntity):
     entity_description: ButtonEntityDescription
 
     async def async_press(self) -> None:
-        await self._device.commands[self.entity_description.key].send()
+        await self._async_send_command(self.entity_description.key)
 
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return (
-            super().available
-            and int(self._device.get("remoteCtrValid", "1")) == 1
-            and self._device.connection
-        )
+        return super().available and self._device.connection
 
 
 class HonDeviceInfo(HonEntity, ButtonEntity):
@@ -120,7 +116,8 @@ class HonDataArchive(HonEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         if (config_dir := self._hass.config.config_dir) is None:
-            raise ValueError("Missing Config Dir")
+            _LOGGER.error("Missing config dir, cannot create data archive")
+            return
         path = Path(config_dir) / "www"
         data = await self._device.data_archive(path)
         title = f"{self._device.nick_name} Data Archive"

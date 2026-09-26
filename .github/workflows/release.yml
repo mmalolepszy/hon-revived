@@ -4,22 +4,45 @@ on:
   release:
     types: [published]
 
-jobs:
-  release-zip:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+permissions: {}
 
-      - name: ZIP Component Dir
+jobs:
+  release_zip_file:
+    name: Prepare release asset
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      # Upload the zip as a release asset.
+      contents: write
+      # Sign the provenance statement and record it against the repository.
+      id-token: write
+      attestations: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.13'
+
+      - name: Set manifest version number
         run: |
-          cd ${{ github.workspace }}/custom_components/hon
-          zip -r haier_hon.zip ./
+          python3 "${{ github.workspace }}/.github/scripts/update_hacs_manifest.py" --version "${GITHUB_REF_NAME}"
+
+      - name: Create zip
+        run: |
+          cd custom_components/hon
+          zip haier_hon.zip -r ./
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: ./custom_components/hon/haier_hon.zip
 
       - name: Upload zip to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/custom_components/hon/haier_hon.zip
-          asset_name: haier_hon.zip
-          tag: ${{ github.ref }}
-          overwrite: true
+        run: gh release upload "${GITHUB_REF_NAME}" ./custom_components/hon/haier_hon.zip#haier_hon.zip --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
