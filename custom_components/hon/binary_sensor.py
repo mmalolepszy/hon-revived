@@ -138,7 +138,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -202,7 +202,7 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
             on_value=1,
@@ -369,10 +369,10 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     ),
     "AP": (
         HonBinarySensorEntityDescription(
-            key="attributes.parameters.onOffStatus",
+            key="onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
-            on_value="1",
+            on_value=1,
             icon="mdi:power-cycle",
             translation_key="on",
         ),
@@ -425,16 +425,18 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
     entity_description: HonBinarySensorEntityDescription
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None:
         attr = self._device.get(self.entity_description.key, None)
+        if attr is None:
+            return None
         value = attr.value if hasattr(attr, "value") else attr
+        if value is None:
+            return None
         return value == self.entity_description.on_value
 
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        attr = self._device.get(self.entity_description.key, None)
-        value = attr.value if hasattr(attr, "value") else attr
-        self._attr_native_value = (value == self.entity_description.on_value)
+        self._attr_is_on = self.is_on
         if update:
             self.schedule_update_ha_state()

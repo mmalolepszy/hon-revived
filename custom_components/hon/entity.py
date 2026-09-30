@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Any
 
 from homeassistant.config_entries import ConfigEntry
@@ -13,6 +14,8 @@ from pyhon.appliance import HonAppliance
 from .const import DOMAIN
 from .typedefs import HonEntityDescription
 
+_LOGGER = logging.getLogger(__name__)
+
 
 class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
     _attr_has_entity_name = True
@@ -25,15 +28,14 @@ class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
         device: HonAppliance,
         description: Optional[HonEntityDescription] = None,
     ) -> None:
-        self.coordinator = hass.data[DOMAIN][entry.unique_id]["coordinator"]
-        super().__init__(self.coordinator)
+        super().__init__(hass.data[DOMAIN][entry.unique_id]["coordinator"])
         self._hon = hass.data[DOMAIN][entry.unique_id]["hon"]
         self._hass = hass
         self._device: HonAppliance = device
 
         if description is not None:
             self.entity_description = description
-            self._attr_unique_id = f"{self._device.unique_id}{description.key}"
+            self._attr_unique_id = f"{self._device.unique_id}_{description.key}"
         else:
             self._attr_unique_id = self._device.unique_id
         self._handle_coordinator_update(update=False)
@@ -49,6 +51,28 @@ class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
             hw_version=f"{self._device.appliance_type}{self._device.model_id}",
             serial_number=self._device.get("serialNumber", ""),
         )
+
+    @property
+    def available(self) -> bool:
+        if not super().available:
+            return False
+        if str(self._device.get("remoteCtrValid", "1")) != "1":
+            return False
+        if self._device.get("attributes.lastConnEvent.category") == "DISCONNECTED":
+            return False
+        return True
+
+    async def _async_send_command(self, command: str) -> None:
+        """Send a device command if it exists."""
+        if (cmd := self._device.commands.get(command)) is None:
+            _LOGGER.warning(
+                "%s: command '%s' not available on device %s",
+                self.__class__.__name__,
+                command,
+                self._device.nick_name,
+            )
+            return
+        await cmd.send()
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:

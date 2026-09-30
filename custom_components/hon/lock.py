@@ -53,31 +53,27 @@ class HonLockEntity(HonEntity, LockEntity):
     async def async_lock(self, **kwargs: Any) -> None:
         """Lock method."""
         setting = self._device.settings.get(f"settings.{self.entity_description.key}")
-        if type(setting) == HonParameter or setting is None:
+        if setting is None or type(setting) == HonParameter:
             return
-        setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
+        setting.value = str(setting.max) if isinstance(setting, HonParameterRange) else "1"
         self.schedule_update_ha_state()
-        await self._device.commands["settings"].send()
+        await self._async_send_command("settings")
         self.coordinator.async_set_updated_data({})
 
     async def async_unlock(self, **kwargs: Any) -> None:
         """Unlock method."""
-        setting = self._device.settings[f"settings.{self.entity_description.key}"]
-        if type(setting) == HonParameter:
+        setting = self._device.settings.get(f"settings.{self.entity_description.key}")
+        if setting is None or type(setting) == HonParameter:
             return
-        setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
+        setting.value = str(setting.min) if isinstance(setting, HonParameterRange) else "0"
         self.schedule_update_ha_state()
-        await self._device.commands["settings"].send()
+        await self._async_send_command("settings")
         self.coordinator.async_set_updated_data({})
 
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return (
-            super().available
-            and int(self._device.get("remoteCtrValid", 1)) == 1
-            and self._device.connection
-        )
+        return super().available and self._device.connection
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
