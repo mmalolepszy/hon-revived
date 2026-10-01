@@ -9,6 +9,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
+from pyhon.appliance import HonAppliance
 from pyhon.parameter.base import HonParameter
 from pyhon.parameter.range import HonParameterRange
 
@@ -23,6 +24,13 @@ _LOGGER = logging.getLogger(__name__)
 class HonControlSwitchEntityDescription(SwitchEntityDescription):
     turn_on_key: str = ""
     turn_off_key: str = ""
+    use_only_mandatory_params: bool = False
+    on_value: bool | float = True
+    off_value: bool | float = False
+
+
+class HonControlWhSwitchEntityDescription(HonControlSwitchEntityDescription):
+    pass
 
 
 @dataclass(frozen=True)
@@ -382,6 +390,19 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             translation_key="touch_tone",
         ),
     ),
+    "WH": (
+        HonControlWhSwitchEntityDescription(
+            key="onOffStatus",
+            name="Power",
+            icon="mdi:power-standby",
+            turn_on_key="startProgram",
+            turn_off_key="stopProgram",
+            translation_key="power",
+            use_only_mandatory_params=True,
+            on_value=1,
+            off_value=0,
+        ),
+    ),
     "FRE": (
         HonSwitchEntityDescription(
             key="quickModeZ2",
@@ -407,18 +428,28 @@ async def async_setup_entry(
 ) -> None:
     entities = []
     entity: HonConfigSwitchEntity | HonControlSwitchEntity | HonSwitchEntity
+
+    def is_control_command_valid(
+            device: HonAppliance,
+            description: HonControlSwitchEntityDescription) -> bool:
+        return (
+                device.get(description.key) is not None
+                or description.turn_on_key in list(device.commands)
+                or description.turn_off_key in list(device.commands)
+        )
+
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SWITCHES.get(device.appliance_type, []):
             if isinstance(description, HonConfigSwitchEntityDescription):
                 if description.key not in device.available_settings:
                     continue
                 entity = HonConfigSwitchEntity(hass, entry, device, description)
+            elif isinstance(description, HonControlWhSwitchEntityDescription):
+                if not is_control_command_valid(device, description):
+                    continue
+                entity = HonControlWhSwitchEntity(hass, entry, device, description)
             elif isinstance(description, HonControlSwitchEntityDescription):
-                if not (
-                    device.get(description.key) is not None
-                    or description.turn_on_key in list(device.commands)
-                    or description.turn_off_key in list(device.commands)
-                ):
+                if not is_control_command_valid(device, description):
                     continue
                 entity = HonControlSwitchEntity(hass, entry, device, description)
             elif isinstance(description, HonSwitchEntityDescription):
@@ -485,20 +516,26 @@ class HonControlSwitchEntity(HonEntity, SwitchEntity):
     @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
-        return self._device.get(self.entity_description.key, False)
+        desc = self.entity_description
+        return self._device.get(desc.key, desc.off_value) == desc.on_value
+
+    def do_sync_command(self, cmd_name: str, key: str) -> None:
+        self._device.sync_command(cmd_name, "settings")
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        self._device.sync_command(self.entity_description.turn_on_key, "settings")
+        desc = self.entity_description
+        self.do_sync_command(desc.turn_on_key, desc.key)
         self.coordinator.async_set_updated_data({})
-        await self._device.commands[self.entity_description.turn_on_key].send()
-        self._device.attributes[self.entity_description.key] = True
+        await self._device.commands[desc.turn_on_key].send(desc.use_only_mandatory_params)
+        self._device.attributes[desc.key] = desc.on_value
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        self._device.sync_command(self.entity_description.turn_off_key, "settings")
+        desc = self.entity_description
+        self.do_sync_command(desc.turn_off_key, desc.key)
         self.coordinator.async_set_updated_data({})
-        await self._device.commands[self.entity_description.turn_off_key].send()
-        self._device.attributes[self.entity_description.key] = False
+        await self._device.commands[desc.turn_off_key].send(desc.use_only_mandatory_params)
+        self._device.attributes[desc.key] = desc.off_value
         self.schedule_update_ha_state()
 
     @property
@@ -521,6 +558,26 @@ class HonControlSwitchEntity(HonEntity, SwitchEntity):
                 minutes=delay_time + remaining_time
             )
         return result
+
+
+class HonControlWhSwitchEntity(HonControlSwitchEntity):
+    def do_sync_command(self, cmd_name: str, key: str) -> None:
+        command = self._device.commands[cmd_name]
+        for cmd_key, setting in command.settings.items():
+            if cmd_key == key or setting.group == 'parameter':
+                continue
+
+            if (val := self._device.get(cmd_key, "")) is None or val == "":
+                continue
+
+            try:
+                if not isinstance(setting, HonParameterRange):
+                    command.settings[cmd_key].value = str(val)
+                else:
+                    command.settings[cmd_key].value = float(val)
+            except ValueError as error:
+                _LOGGER.info("Can't set %s - %s", cmd_key, error)
+                continue
 
 
 class HonConfigSwitchEntity(HonEntity, SwitchEntity):

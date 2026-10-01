@@ -974,6 +974,13 @@
                 },
                 "name": "Humidity level"
             },
+            "mach_modes_wh": {
+                "state": {
+                    "eco": "Eco",
+                    "max": "Max",
+                    "bps": "BPS"
+                }
+            },
             "probe_temperature": {
                 "name": "Meat Probe Temperature" 
             },
@@ -2065,6 +2072,9 @@
             },
             "child_lock": {
                 "name": "Child Lock"
+            },
+            "power-state": {
+                "name": "Power State"
             },
             "on": {
                 "name": "On"

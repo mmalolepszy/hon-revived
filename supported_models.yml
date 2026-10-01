@@ -171,3 +171,6 @@ ap:
     - "HHP50CA001"
     - "HHP50CA011"
     - "HHP70CAH011"
+wh:
+  haier:
+    - "ES80V-F7"
