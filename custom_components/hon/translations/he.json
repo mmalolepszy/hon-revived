@@ -87,13 +87,19 @@
                     "iot_yes_quick_cycle": "Yes Quick",
                     "smart_ai": "Smart AI",
                     "smart_ai_soil": "Smart AI",
-                    "zone_wash": "Flex Zone Wash"
+                    "zone_wash": "Flex Zone Wash",
+                    "iot_pet_bowls_toys": "קערות וצעצועים לחיות מחמד"
                 },
                 "name": "Program"
             },
             "programs_ih": {
                 "state": {
-                    "iot_special_grilled_vegetables": "Grilled vegetables"
+                    "iot_special_grilled_vegetables": "Grilled vegetables",
+                    "iot_special_breaded_cheese_mozzarella_sticks": "גבינה בציפוי פריך",
+                    "iot_special_sicilian_arancini": "ארנצ'יני סיציליאניים",
+                    "iot_special_tempura_shrimps": "שרימפס טמפורה",
+                    "iot_standard_boiling_sic": "סליל Sensor לרתיחה",
+                    "iot_standard_melting": "המסה"
                 },
                 "name": "Program"
             },
@@ -119,7 +125,18 @@
                     "hqd_timer": "תוזמן",
                     "hqd_warm_up": "Warm up",
                     "hqd_working_suit": "Working suit",
-                    "iot_dry_synthetic_dry": "סינתטי יבש"
+                    "iot_dry_synthetic_dry": "סינתטי יבש",
+                    "energy_save": "חיסכון באנרגיה",
+                    "hqd_genius": "Genius",
+                    "hqd_save_and_dry": "חיסכון וייבוש",
+                    "hqd_td_bulky": "Bulky",
+                    "hqd_td_checkup": "בְּדִיקָה",
+                    "hqd_td_timer": "תוזמן",
+                    "iot_dry_bulky": "Bulky",
+                    "iot_dry_cold_wind_timing": "Cold wind",
+                    "iot_dry_night_dry": "Night dry",
+                    "night_care_cycle": "Night dry",
+                    "save_and_dry": "חיסכון וייבוש"
                 },
                 "name": "Program"
             },
@@ -305,7 +322,16 @@
                     "tumbling": "נופלים",
                     "ultra_fresh": "Ultra Fresh",
                     "wool_and_delicates_49": "Wool/Delicates 49'",
-                    "wool_dry": "צמר יבש"
+                    "wool_dry": "צמר יבש",
+                    "fresh_vapor_cottons": "אדים טריים",
+                    "hqd_bulky": "Bulky",
+                    "hqd_fast": "מהיר (Mahir)",
+                    "hqd_heavy": "Bulky",
+                    "hqd_night_wash": "Night Wash",
+                    "hqd_ultra_fresh": "Ultra Fresh",
+                    "hqd_wash_denim_jeans": "ג'ינס",
+                    "hqd_wm_bulky": "Bulky",
+                    "hygiene_plus_59_steam": "היגיינה פלוס 59' + קיטור"
                 },
                 "name": "Program"
             },
@@ -323,7 +349,9 @@
                     "soft_frozen": "Soft freezing",
                     "tea": "Cold Drinks",
                     "vegetables": "Vegetable",
-                    "zero_fresh": "0°C Fresh"
+                    "zero_fresh": "0°C Fresh",
+                    "iot_energy_saving": "Energy Saving",
+                    "iot_summer": "Summer"
                 },
                 "name": "Program"
             },
@@ -505,13 +533,19 @@
                     "iot_yes_quick_cycle": "Yes Quick",
                     "smart_ai": "Smart AI",
                     "smart_ai_soil": "Smart AI",
-                    "zone_wash": "Flex Zone Wash"
+                    "zone_wash": "Flex Zone Wash",
+                    "iot_pet_bowls_toys": "קערות וצעצועים לחיות מחמד"
                 },
                 "name": "Program"
             },
             "programs_ih": {
                 "state": {
-                    "iot_special_grilled_vegetables": "Grilled vegetables"
+                    "iot_special_grilled_vegetables": "Grilled vegetables",
+                    "iot_special_breaded_cheese_mozzarella_sticks": "גבינה בציפוי פריך",
+                    "iot_special_sicilian_arancini": "ארנצ'יני סיציליאניים",
+                    "iot_special_tempura_shrimps": "שרימפס טמפורה",
+                    "iot_standard_boiling_sic": "סליל Sensor לרתיחה",
+                    "iot_standard_melting": "המסה"
                 },
                 "name": "Program"
             },
@@ -537,7 +571,18 @@
                     "hqd_timer": "תוזמן",
                     "hqd_warm_up": "Warm up",
                     "hqd_working_suit": "Working suit",
-                    "iot_dry_synthetic_dry": "סינתטי יבש"
+                    "iot_dry_synthetic_dry": "סינתטי יבש",
+                    "energy_save": "חיסכון באנרגיה",
+                    "hqd_genius": "Genius",
+                    "hqd_save_and_dry": "חיסכון וייבוש",
+                    "hqd_td_bulky": "Bulky",
+                    "hqd_td_checkup": "בְּדִיקָה",
+                    "hqd_td_timer": "תוזמן",
+                    "iot_dry_bulky": "Bulky",
+                    "iot_dry_cold_wind_timing": "Cold wind",
+                    "iot_dry_night_dry": "Night dry",
+                    "night_care_cycle": "Night dry",
+                    "save_and_dry": "חיסכון וייבוש"
                 },
                 "name": "Program"
             },
@@ -723,7 +768,16 @@
                     "tumbling": "נופלים",
                     "ultra_fresh": "Ultra Fresh",
                     "wool_and_delicates_49": "Wool/Delicates 49'",
-                    "wool_dry": "צמר יבש"
+                    "wool_dry": "צמר יבש",
+                    "fresh_vapor_cottons": "אדים טריים",
+                    "hqd_bulky": "Bulky",
+                    "hqd_fast": "מהיר (Mahir)",
+                    "hqd_heavy": "Bulky",
+                    "hqd_night_wash": "Night Wash",
+                    "hqd_ultra_fresh": "Ultra Fresh",
+                    "hqd_wash_denim_jeans": "ג'ינס",
+                    "hqd_wm_bulky": "Bulky",
+                    "hygiene_plus_59_steam": "היגיינה פלוס 59' + קיטור"
                 },
                 "name": "Program"
             },
@@ -741,7 +795,9 @@
                     "soft_frozen": "Soft freezing",
                     "tea": "Cold Drinks",
                     "vegetables": "Vegetable",
-                    "zero_fresh": "0°C Fresh"
+                    "zero_fresh": "0°C Fresh",
+                    "iot_energy_saving": "Energy Saving",
+                    "iot_summer": "Summer"
                 },
                 "name": "Program"
             },
