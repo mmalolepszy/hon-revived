@@ -57,10 +57,11 @@ def load_key(full_key, json_data, fallback=None):
         )
     result = json_data.copy()
     for key in full_key.split("."):
-        result = result.get(key, {})
-    if not result and fallback:
-        return load_key(full_key, fallback)
-    return result or full_key
+        result = result.get(key, {}) if isinstance(result, dict) else {}
+    # Only text is a name: some dictionaries map a key to a group of keys
+    if not isinstance(result, str) or not result:
+        return load_key(full_key, fallback) if fallback else full_key
+    return result
 
 
 def load_keys(full_key, json_data):
@@ -68,10 +69,10 @@ def load_keys(full_key, json_data):
     first, last = full_key.split(".")
     data = json_data.get(first, {}).get(last, {})
     return {
-        key.lower(): value
+        key.strip().lower(): value
         for key, value in data.items()
         if not any(b in key.lower() for b in blacklist)
-        and re.findall("^[a-z0-9-_]+$", key.lower())
+        and re.findall("^[a-z0-9-_]+$", key.strip().lower())
     }
 
 
@@ -81,6 +82,26 @@ def add_data(old, original, fallback, data, name, entity="sensor"):
         state = sensor.setdefault(name, {}).setdefault("state", {})
         if key := load_key(phase, original, fallback):
             state[str(number)] = key
+
+
+def strip_keys(data):
+    """Remove whitespace around keys, like the newline in older "LIGHT_FAN\\n"."""
+    if not isinstance(data, dict):
+        return data
+    result = {}
+    for key, value in data.items():
+        result.setdefault(key.strip(), strip_keys(value))
+    return result
+
+
+def add_missing(existing, generated):
+    """Add the generated names missing from existing, keeping the existing ones."""
+    for key, value in generated.items():
+        if key not in existing:
+            existing[key] = value
+        elif isinstance(existing[key], dict) and isinstance(value, dict):
+            add_missing(existing[key], value)
+    return existing
 
 
 def translate_login(old, *args):
@@ -99,21 +120,22 @@ def main():
     fallback = load_json(hon.get("en", ""))
     for language in const.LANGUAGES:
         original = load_json(hon.get(language, ""))
-        old = load_json(hass.get(language, ""))
+        existing = strip_keys(load_json(hass.get(language, "")))
+        generated = {}
         for name, data in SENSOR.items():
-            add_data(old, original, fallback, data, name)
+            add_data(generated, original, fallback, data, name)
         for name, data in SELECT.items():
-            add_data(old, original, fallback, data, name, "select")
+            add_data(generated, original, fallback, data, name, "select")
         for entity, data in PROGRAMS.items():
             for name, program in data.items():
-                select = old.setdefault("entity", {}).setdefault(entity, {})
+                select = generated.setdefault("entity", {}).setdefault(entity, {})
                 select.setdefault(name, {})["state"] = load_keys(program, original)
         for entity, data in NAMES.items():
             for name, key in data.items():
-                select = old.setdefault("entity", {}).setdefault(entity, {})
+                select = generated.setdefault("entity", {}).setdefault(entity, {})
                 select.setdefault(name, {})["name"] = load_key(key, original, fallback)
         for name, modes in CLIMATE.items():
-            climate = old.setdefault("entity", {}).setdefault("climate", {})
+            climate = generated.setdefault("entity", {}).setdefault("climate", {})
             attr = climate.setdefault(name, {}).setdefault("state_attributes", {})
             for mode, data in modes.items():
                 mode_name = load_key(data["name"], original, fallback)
@@ -125,8 +147,10 @@ def main():
                 else:
                     attr[mode]["state"] = load_keys(data["state"], original)
 
-        translate_login(old, original, fallback)
-        save_json(base_path / f"{language}.json", old)
+        translate_login(generated, original, fallback)
+        # Existing names are not reworded: delete an entry to regenerate it
+        translations = add_missing(existing, generated)
+        save_json(base_path / f"{language}.json", translations)
 
 
 if __name__ == "__main__":
