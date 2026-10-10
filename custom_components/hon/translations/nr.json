@@ -116,7 +116,11 @@
             },
             "programs_ih": {
                 "state": {
-                    "iot_special_grilled_vegetables": "Grilled vegetables"
+                    "iot_special_grilled_vegetables": "Grilled vegetables",
+                    "iot_special_breaded_cheese_mozzarella_sticks": "Ucheese oqatywe ngengqimba",
+                    "iot_special_sicilian_arancini": "Ama-arancini aseSicily",
+                    "iot_special_tempura_shrimps": "Ama-tempura shrimp",
+                    "iot_standard_boiling_sic": "Ukubilisa Sensor"
                 },
                 "name": "Program"
             },
@@ -139,7 +143,20 @@
                     "hqd_night_dry": "Night dry",
                     "hqd_refresh": "Refresh",
                     "hqd_warm_up": "Warm up",
-                    "hqd_working_suit": "Working suit"
+                    "hqd_working_suit": "Working suit",
+                    "daily_45_min": "Special 45'",
+                    "daily_perfect_59_min": "Perfekt 59'",
+                    "eco": "Eco",
+                    "energy_save": "Energy save",
+                    "hqd_genius": "Genius",
+                    "hqd_save_and_dry": "Save and Dry",
+                    "hqd_special_45": "Special 45'",
+                    "hqd_td_bulky": "Bulky",
+                    "iot_dry_bulky": "Bulky",
+                    "iot_dry_cold_wind_timing": "Cold wind",
+                    "iot_dry_night_dry": "Night dry",
+                    "night_care_cycle": "Night dry",
+                    "save_and_dry": "Save and Dry"
                 },
                 "name": "Program"
             },
@@ -159,7 +176,15 @@
                     "steam_care_pro_cotton": "Steam Care Pro",
                     "tailored_resistant_cotton": "Tailored Resistant Cotton",
                     "tailored_synthetic_and_coloured": "Tailored Synthetic Colored",
-                    "ultra_fresh": "Ultra Fresh"
+                    "ultra_fresh": "Ultra Fresh",
+                    "fresh_vapor_cottons": "Umgwaqo Omusha",
+                    "hqd_bulky": "Heavy",
+                    "hqd_fast": "Rask",
+                    "hqd_heavy": "Heavy",
+                    "hqd_night_wash": "Night Wash",
+                    "hqd_ultra_fresh": "Ultra Fresh",
+                    "hqd_wm_bulky": "Heavy",
+                    "hygiene_plus_59_steam": "Higiene Plus 59' + Vapor"
                 },
                 "name": "Program"
             },
@@ -177,7 +202,9 @@
                     "soft_frozen": "Soft freezing",
                     "tea": "Cold Drinks",
                     "vegetables": "Vegetable",
-                    "zero_fresh": "0°C Fresh"
+                    "zero_fresh": "0°C Fresh",
+                    "iot_energy_saving": "Energy Saving",
+                    "iot_summer": "Summer"
                 },
                 "name": "Program"
             },
@@ -435,7 +462,11 @@
             },
             "programs_ih": {
                 "state": {
-                    "iot_special_grilled_vegetables": "Grilled vegetables"
+                    "iot_special_grilled_vegetables": "Grilled vegetables",
+                    "iot_special_breaded_cheese_mozzarella_sticks": "Ucheese oqatywe ngengqimba",
+                    "iot_special_sicilian_arancini": "Ama-arancini aseSicily",
+                    "iot_special_tempura_shrimps": "Ama-tempura shrimp",
+                    "iot_standard_boiling_sic": "Ukubilisa Sensor"
                 },
                 "name": "Program"
             },
@@ -458,7 +489,20 @@
                     "hqd_night_dry": "Night dry",
                     "hqd_refresh": "Refresh",
                     "hqd_warm_up": "Warm up",
-                    "hqd_working_suit": "Working suit"
+                    "hqd_working_suit": "Working suit",
+                    "daily_45_min": "Special 45'",
+                    "daily_perfect_59_min": "Perfekt 59'",
+                    "eco": "Eco",
+                    "energy_save": "Energy save",
+                    "hqd_genius": "Genius",
+                    "hqd_save_and_dry": "Save and Dry",
+                    "hqd_special_45": "Special 45'",
+                    "hqd_td_bulky": "Bulky",
+                    "iot_dry_bulky": "Bulky",
+                    "iot_dry_cold_wind_timing": "Cold wind",
+                    "iot_dry_night_dry": "Night dry",
+                    "night_care_cycle": "Night dry",
+                    "save_and_dry": "Save and Dry"
                 },
                 "name": "Program"
             },
@@ -478,7 +522,15 @@
                     "steam_care_pro_cotton": "Steam Care Pro",
                     "tailored_resistant_cotton": "Tailored Resistant Cotton",
                     "tailored_synthetic_and_coloured": "Tailored Synthetic Colored",
-                    "ultra_fresh": "Ultra Fresh"
+                    "ultra_fresh": "Ultra Fresh",
+                    "fresh_vapor_cottons": "Umgwaqo Omusha",
+                    "hqd_bulky": "Heavy",
+                    "hqd_fast": "Rask",
+                    "hqd_heavy": "Heavy",
+                    "hqd_night_wash": "Night Wash",
+                    "hqd_ultra_fresh": "Ultra Fresh",
+                    "hqd_wm_bulky": "Heavy",
+                    "hygiene_plus_59_steam": "Higiene Plus 59' + Vapor"
                 },
                 "name": "Program"
             },
@@ -496,7 +548,9 @@
                     "soft_frozen": "Soft freezing",
                     "tea": "Cold Drinks",
                     "vegetables": "Vegetable",
-                    "zero_fresh": "0°C Fresh"
+                    "zero_fresh": "0°C Fresh",
+                    "iot_energy_saving": "Energy Saving",
+                    "iot_summer": "Summer"
                 },
                 "name": "Program"
             },
