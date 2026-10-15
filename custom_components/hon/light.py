@@ -91,6 +91,14 @@ class HonLightEntity(HonEntity, LightEntity):
         super().__init__(hass, entry, device, description)
         self._handle_coordinator_update(update=False)
 
+    async def _async_send_light_setting(self) -> None:
+        command = self._device.commands[self._command]
+        if self._device.appliance_type != "WC":
+            await command.send()
+            return
+        # A full send would resend both setpoints, truncated to whole degrees.
+        await command.send_specific([self._parameter])
+
     @property
     def is_on(self) -> bool:
         """Return true if light is on."""
@@ -109,7 +117,7 @@ class HonLightEntity(HonEntity, LightEntity):
             self._attr_brightness = self.brightness
         else:
             light.value = light.max
-        await self._device.commands[self._command].send()
+        await self._async_send_light_setting()
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -118,7 +126,7 @@ class HonLightEntity(HonEntity, LightEntity):
         if not isinstance(light, HonParameterRange):
             raise ValueError()
         light.value = light.min
-        await self._device.commands[self._command].send()
+        await self._async_send_light_setting()
         self.schedule_update_ha_state()
 
     @property
@@ -143,3 +151,10 @@ class HonLightEntity(HonEntity, LightEntity):
         if (entity := self._device.settings.get(self.entity_description.key)) is None:
             return False
         return super().available and len(entity.values) > 1
+
+    @property
+    def color_mode(self) -> ColorMode | str | None:
+        """Return the active color mode."""
+        if ColorMode.BRIGHTNESS in self._attr_supported_color_modes:
+            return ColorMode.BRIGHTNESS
+        return ColorMode.ONOFF

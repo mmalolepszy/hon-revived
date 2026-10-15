@@ -25,6 +25,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
+from pyhon.appliance import HonAppliance
 
 from . import const
 from .const import DOMAIN
@@ -912,13 +913,35 @@ async def async_setup_entry(
 class HonSensorEntity(HonEntity, SensorEntity):
     entity_description: HonSensorEntityDescription
 
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        device: HonAppliance,
+        description: HonSensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, device, description)
+        if device.appliance_type == "WC" and device.model_id == 666:
+            zone_entity_names = {
+                "humidityZ1": "Upper Zone Humidity",
+                "humidityZ2": "Lower Zone Humidity",
+                "temp": "Upper Zone Temperature",
+                "tempZ2": "Lower Zone Temperature",
+                "tempSel": "Upper Zone Target Temperature",
+                "tempSelZ2": "Lower Zone Target Temperature",
+            }
+            if name := zone_entity_names.get(description.key):
+                self._attr_name = name
+
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         value = self._device.get(self.entity_description.key, "")
         if self.entity_description.key == "programName":
-            if not (options := self._device.settings.get("startProgram.program")):
-                raise ValueError
-            self._attr_options = options.values + ["No Program"]
+            if options := self._device.settings.get("startProgram.program"):
+                self._attr_options = options.values + ["No Program"]
+            else:
+                self._attr_options = ["No Program"]
+                value = "No Program"
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))

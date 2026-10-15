@@ -14,6 +14,28 @@ from .const import DOMAIN, PLATFORMS, MOBILE_ID, CONF_REFRESH_TOKEN
 
 _LOGGER = logging.getLogger(__name__)
 
+
+def _consolidate_wc_zones(hon: Hon) -> None:
+    """Expose a multi-zone wine cellar as one HA device."""
+    appliances = hon.appliances
+    kept_appliances = [
+        appliance
+        for appliance in appliances
+        if appliance.appliance_type != "WC"
+        or appliance.model_id != 666
+        or appliance.zone == 0
+    ]
+    removed = len(appliances) - len(kept_appliances)
+    if removed:
+        # Mutate the existing list: pyhon's MQTTClient holds this same list.
+        appliances[:] = kept_appliances
+        _LOGGER.debug("Consolidated %s wine-cellar zone clones", removed)
+    for appliance in appliances:
+        if appliance.appliance_type == "WC" and appliance.model_id == 666:
+            # pyhon syncs before attributes load, leaving setpoints at their defaults.
+            appliance.sync_params_to_command("settings")
+
+
 HON_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): cv.string,
@@ -39,6 +61,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         test_data_path=Path(config_dir),
         refresh_token=entry.data.get(CONF_REFRESH_TOKEN, ""),
     ).create()
+    _consolidate_wc_zones(hon)
 
     # Save the new refresh token
     hass.config_entries.async_update_entry(
