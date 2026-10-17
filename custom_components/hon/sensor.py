@@ -919,6 +919,25 @@ class HonSensorEntity(HonEntity, SensorEntity):
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
             self._attr_options = options.values + ["No Program"]
+            if (
+                self.entity_description.translation_key == "programs_wm"
+                and value == "No Program"
+            ):
+                try:
+                    machine_mode = const.MACH_MODE.get(
+                        int(self._device.get("machMode"))
+                    )
+                except (OverflowError, TypeError, ValueError):
+                    machine_mode = None
+                if machine_mode in {"running", "pause"}:
+                    try:
+                        program_code = int(self._device.get("prCode"))
+                    except (OverflowError, TypeError, ValueError):
+                        pass
+                    else:
+                        program = options.ids.get(program_code)
+                        if program in options.values:
+                            value = program
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))
