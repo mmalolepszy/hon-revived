@@ -10,7 +10,7 @@
   "iot_class": "cloud_push",
   "issue_tracker": "https://github.com/mmalolepszy/hon-revived/issues",
   "requirements": [
-    "pyhon-revived==0.19.2"
+    "pyhon-revived @ https://github.com/mmalolepszy/pyhon-revived/archive/4c406608664f61639a8708021e3f7c4ac8895844.zip"
   ],
   "version": "0.19.2"
 }
