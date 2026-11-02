@@ -14,6 +14,7 @@ from homeassistant.core import HomeAssistant
 from pyhon.appliance import HonAppliance
 from pyhon.parameter.range import HonParameterRange
 
+from . import wine_cellar
 from .const import DOMAIN
 from .entity import HonEntity
 
@@ -85,8 +86,10 @@ class HonLightEntity(HonEntity, LightEntity):
         self._attr_supported_color_modes: set[ColorMode] = set()
         if len(light.values) == 2:
             self._attr_supported_color_modes.add(ColorMode.ONOFF)
+            self._attr_color_mode = ColorMode.ONOFF
         else:
             self._attr_supported_color_modes.add(ColorMode.BRIGHTNESS)
+            self._attr_color_mode = ColorMode.BRIGHTNESS
         self._command, self._parameter = description.key.split(".")
         super().__init__(hass, entry, device, description)
         self._handle_coordinator_update(update=False)
@@ -109,7 +112,15 @@ class HonLightEntity(HonEntity, LightEntity):
             self._attr_brightness = self.brightness
         else:
             light.value = light.max
-        await self._device.commands[self._command].send()
+        await self._async_send_light(light.value != light.min)
+
+    async def _async_send_light(self, on: bool) -> None:
+        if wine_cellar.is_wine_cellar(self._device):
+            # Never resend `settings`: its tempSel/tempSelZ2 reset both zones
+            await wine_cellar.async_set_light(self._device, self._parameter, on)
+            wine_cellar.schedule_confirm(self.hass, self.coordinator)
+        else:
+            await self._device.commands[self._command].send()
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -118,8 +129,7 @@ class HonLightEntity(HonEntity, LightEntity):
         if not isinstance(light, HonParameterRange):
             raise ValueError()
         light.value = light.min
-        await self._device.commands[self._command].send()
-        self.schedule_update_ha_state()
+        await self._async_send_light(False)
 
     @property
     def brightness(self) -> int | None:

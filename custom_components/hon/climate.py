@@ -25,6 +25,7 @@ from homeassistant.core import HomeAssistant
 from pyhon.appliance import HonAppliance
 from pyhon.parameter.range import HonParameterRange
 
+from . import wine_cellar
 from .const import HON_HVAC_MODE, HON_FAN, DOMAIN, HON_HVAC_PROGRAM
 from .entity import HonEntity
 
@@ -357,10 +358,15 @@ class HonClimateEntity(HonEntity, ClimateEntity):
         self._set_temperature_bound()
 
         self._attr_hvac_modes = [description.mode]
-        if "stopProgram" in device.commands:
+        self._wine_cellar = wine_cellar.is_wine_cellar(device)
+        modes: list[str] = []
+        if self._wine_cellar:
+            # Zones have no on/off of their own: start/stopProgram would carry
+            # the other zone's (default) target too
+            self._attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
+        elif "stopProgram" in device.commands:
             self._attr_supported_features |= ClimateEntityFeature.TURN_OFF
             self._attr_hvac_modes += [HVACMode.OFF]
-            modes: list[str] = []
         else:
             modes = ["no_mode"]
 
@@ -384,6 +390,11 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     @property
     def target_temperature(self) -> float | None:
         """Return the temperature we try to reach."""
+        if self._wine_cellar:
+            # settings.tempSel* holds the 5 °C default, the reported value is real
+            return wine_cellar.target_temperature(
+                self._device, self.entity_description.key
+            )
         return self._device.get(self.entity_description.key, 0.0)
 
     @property
@@ -395,19 +406,28 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     async def async_set_temperature(self, **kwargs: Any) -> None:
         if (temperature := kwargs.get(ATTR_TEMPERATURE)) is None:
             return
+        if self._wine_cellar:
+            await wine_cellar.async_set_zone(
+                self._device, self.entity_description.key, temperature=temperature
+            )
+            wine_cellar.schedule_confirm(self.hass, self.coordinator)
+            self.schedule_update_ha_state()
+            return
         self._device.settings[self.entity_description.key].value = str(int(temperature))
         await self._device.commands["settings"].send()
         self.schedule_update_ha_state()
 
     @property
     def hvac_mode(self) -> HVACMode:
+        if self._wine_cellar:
+            return self.entity_description.mode
         if self._device.get("onOffStatus") == 0:
             return HVACMode.OFF
         else:
             return self.entity_description.mode
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
-        if len(self.hvac_modes) <= 1:
+        if len(self.hvac_modes) <= 1 or self._wine_cellar:
             return
         if hvac_mode == HVACMode.OFF:
             await self._device.commands["stopProgram"].send()
@@ -418,15 +438,21 @@ class HonClimateEntity(HonEntity, ClimateEntity):
 
     async def async_turn_on(self) -> None:
         """Set the HVAC State to on."""
+        if self._wine_cellar:
+            return
         await self._device.commands["startProgram"].send()
 
     async def async_turn_off(self) -> None:
         """Set the HVAC State to off."""
+        if self._wine_cellar:
+            return
         await self._device.commands["stopProgram"].send()
 
     @property
     def preset_mode(self) -> str | None:
         """Return the current Preset for this channel."""
+        if self._wine_cellar:
+            return wine_cellar.zone_program(self._device, self.entity_description.key)
         if self._device.get("onOffStatus") is not None:
             return self._device.get("programName", "")
         else:
@@ -436,6 +462,13 @@ class HonClimateEntity(HonEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
         """Set the new preset mode."""
+        if self._wine_cellar:
+            await wine_cellar.async_set_zone(
+                self._device, self.entity_description.key, program=preset_mode
+            )
+            wine_cellar.schedule_confirm(self.hass, self.coordinator)
+            self.schedule_update_ha_state()
+            return
         if preset_mode == "no_mode" and HVACMode.OFF in self.hvac_modes:
             command = "stopProgram"
         elif preset_mode == "no_mode":
