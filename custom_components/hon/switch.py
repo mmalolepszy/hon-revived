@@ -35,7 +35,109 @@ class HonConfigSwitchEntityDescription(SwitchEntityDescription):
     entity_category: EntityCategory = EntityCategory.CONFIG
 
 
+@dataclass(frozen=True, kw_only=True)
+class HonDeviceAttributeSwitchEntityDescription(SwitchEntityDescription):
+    """Description for attribute-based hOn switches (e.g. for heat pumps)."""
+    turn_on_value: str | int = "1"
+    turn_off_value: str | int = "0"
+    use_start_stop: bool = False
+    read_key: str | None = None  # Key aus dem gelesen wird (z.B. quietModeStatus)
+
+
 SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
+    "AW": (
+        HonDeviceAttributeSwitchEntityDescription(
+            key="onOffStatus",
+            read_key="onOffStatus",
+            name="Power",
+            icon="mdi:power",
+            turn_on_value="1",
+            turn_off_value="0",
+            use_start_stop=True,
+            translation_key="power_switch",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="quietMode1",
+            read_key="quietModeStatus",
+            name="Quiet Mode",
+            icon="mdi:volume-mute",
+            turn_on_value="1",
+            turn_off_value="0",
+            translation_key="quiet_mode",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="ecoMode",
+            read_key="ecoModeStatus",
+            name="Eco Mode",
+            icon="mdi:leaf",
+            turn_on_value="1",
+            turn_off_value="0",
+            translation_key="eco_mode",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="fastDhw",
+            read_key="fastDhwStatus",
+            name="Fast DHW",
+            icon="mdi:water-boost",
+            turn_on_value="1",
+            turn_off_value="0",
+            translation_key="fast_dhw",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="holidayMode",
+            read_key="holidayActState",
+            name="Holiday Mode",
+            icon="mdi:island",
+            turn_on_value="1",
+            turn_off_value="0",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="turboMode",
+            read_key="turboModeStatus",
+            name="Turbo Mode",
+            icon="mdi:run-fast",
+            turn_on_value="1",
+            turn_off_value="0",
+        ),
+        HonDeviceAttributeSwitchEntityDescription(
+            key="sterilizationMode",
+            read_key="sterilizationModeStatus",
+            name="Sterilization Mode",
+            icon="mdi:shield-check",
+            turn_on_value="1",
+            turn_off_value="0",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.allowCoolStatus",
+            name="Allow Cooling",
+            icon="mdi:snowflake",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.allowCoolStatusZ2",
+            name="Allow Cooling Zone 2",
+            icon="mdi:snowflake",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.bufferTankStatus",
+            name="Buffer Tank Active",
+            icon="mdi:water-boiler",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.dhwTankHeaterStatus",
+            name="DHW Tank Heater Active",
+            icon="mdi:heating-coil",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.auxiliaryHeatSource",
+            name="Auxiliary Heat Source Active",
+            icon="mdi:heating-coil",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="settings.dhwPriorityStatus",
+            name="DHW Priority",
+            icon="mdi:water-plus",
+        ),
+    ),
     "WM": (
         HonControlSwitchEntityDescription(
             key="active",
@@ -406,7 +508,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
-    entity: HonConfigSwitchEntity | HonControlSwitchEntity | HonSwitchEntity
+    entity: HonConfigSwitchEntity | HonControlSwitchEntity | HonSwitchEntity | HonDeviceAttributeSwitchEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SWITCHES.get(device.appliance_type, []):
             if isinstance(description, HonConfigSwitchEntityDescription):
@@ -421,6 +523,13 @@ async def async_setup_entry(
                 ):
                     continue
                 entity = HonControlSwitchEntity(hass, entry, device, description)
+            elif isinstance(description, HonDeviceAttributeSwitchEntityDescription):
+                read_key = description.read_key or description.key
+                # Prüfen, ob Schreibe-Key in Settings oder Lese-Key in Attributes verfügbar ist
+                if f"settings.{description.key}" in device.available_settings or device.get(read_key) is not None:
+                    entity = HonDeviceAttributeSwitchEntity(hass, entry, device, description)
+                else:
+                    continue
             elif isinstance(description, HonSwitchEntityDescription):
                 if f"settings.{description.key}" not in device.available_settings:
                     continue
@@ -441,7 +550,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
         return self._device.get(self.entity_description.key, 0) == 1
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        setting = self._device.settings[f"settings.{self.entity_description.key}"]
+        setting = self._device.settings.get(f"settings.{self.entity_description.key}")
         if type(setting) == HonParameter:
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
@@ -450,7 +559,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
         self.coordinator.async_set_updated_data({})
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        setting = self._device.settings[f"settings.{self.entity_description.key}"]
+        setting = self._device.settings.get(f"settings.{self.entity_description.key}")
         if type(setting) == HonParameter:
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
@@ -467,7 +576,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
             return False
         if self._device.get("attributes.lastConnEvent.category") == "DISCONNECTED":
             return False
-        setting = self._device.settings[f"settings.{self.entity_description.key}"]
+        setting = self._device.settings.get(f"settings.{self.entity_description.key}")
         if isinstance(setting, HonParameterRange) and len(setting.values) < 2:
             return False
         return True
@@ -551,6 +660,68 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
         setting.value = setting.min if isinstance(setting, HonParameterRange) else "0"
         self.coordinator.async_set_updated_data({})
         self.schedule_update_ha_state()
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        self._attr_is_on = self.is_on
+        if update:
+            self.schedule_update_ha_state()
+
+
+class HonDeviceAttributeSwitchEntity(HonEntity, SwitchEntity):
+    """Attribute-based hOn switch entity for changing device settings directly."""
+
+    entity_description: HonDeviceAttributeSwitchEntityDescription
+
+    @property
+    def is_on(self) -> bool | None:
+        # Den dedizierten Lese-Key abfragen, da Lesen (Status) und Schreiben unterschiedliche Keys haben können
+        read_key = self.entity_description.read_key or self.entity_description.key
+        val = self._device.get(read_key)
+        
+        if val is None:
+            return False
+        return str(val).lower() == str(self.entity_description.turn_on_value).lower()
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        if self.entity_description.use_start_stop:
+            if "startProgram" in self._device.commands:
+                program = self._device.settings.get("startProgram.program")
+                
+                # Zwingend den "iot_simple_start" Befehl verwenden (genau wie in der App) 
+                # Das löst das Problem, dass sich die Anlage nicht mehr einschalten ließ.
+                if program and "iot_simple_start" in program.values:
+                    program.value = "iot_simple_start"
+                
+                # Optimistically update internal state
+                setting_key = f"settings.{self.entity_description.key}"
+                if setting_key in self._device.settings:
+                    self._device.settings[setting_key].value = self.entity_description.turn_on_value
+                    
+                await self._device.commands["startProgram"].send()
+        else:
+            setting_key = f"settings.{self.entity_description.key}"
+            if setting_key in self._device.settings:
+                self._device.settings[setting_key].value = self.entity_description.turn_on_value
+                if "settings" in self._device.commands:
+                    await self._device.commands["settings"].send()
+                    
+        self.coordinator.async_set_updated_data({})
+        self.async_write_ha_state()
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        if self.entity_description.use_start_stop:
+            if "stopProgram" in self._device.commands:
+                await self._device.commands["stopProgram"].send()
+        else:
+            setting_key = f"settings.{self.entity_description.key}"
+            if setting_key in self._device.settings:
+                self._device.settings[setting_key].value = self.entity_description.turn_off_value
+                if "settings" in self._device.commands:
+                    await self._device.commands["settings"].send()
+                    
+        self.coordinator.async_set_updated_data({})
+        self.async_write_ha_state()
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
