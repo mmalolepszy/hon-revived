@@ -1,0 +1,355 @@
+{
+    "resultCode": "0",
+    "shadow": {
+        "parameters": {
+            "transMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "debugEnabled": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highTransRate": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "statusSyncRate": {
+                "parNewVal": "1440",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "stdTransRate": {
+                "parNewVal": "3600",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "errors": {
+                "parNewVal": "00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "workingMode": {
+                "parNewVal": "2",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "onOffStatus": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "machMode": {
+                "parNewVal": "8",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "holidayActState": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "endTimeEcoMode": {
+                "parNewVal": "07:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelEcoMode": {
+                "parNewVal": "-6.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highOutdoorTempCurve3": {
+                "parNewVal": "20",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "turboModeStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "startTimeHolidayMode": {
+                "parNewVal": "2026-10-12",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "endTimeQuietMode2": {
+                "parNewVal": "07:30",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowOutdoorTempCurve3": {
+                "parNewVal": "-15",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "endTimeQuietMode1": {
+                "parNewVal": "23:34",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highOutdoorTempCurve1": {
+                "parNewVal": "30",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "startTimeQuietMode2": {
+                "parNewVal": "05:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "ecoMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "startTimeQuietMode1": {
+                "parNewVal": "18:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "turboModeTime": {
+                "parNewVal": "30",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "holidayMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelZ1": {
+                "parNewVal": "39.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "quietModeStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sgType": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowWaterTempCurve1": {
+                "parNewVal": "18",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "endTimeHolidayMode": {
+                "parNewVal": "2026-10-12",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "iduElectricHeaterActState1": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowWaterTempCurve3": {
+                "parNewVal": "50",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "allowCoolStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempOutdoor": {
+                "parNewVal": "8.9",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelHolidayModeZ1": {
+                "parNewVal": "15.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "iduElectricHeaterActState2": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "startTimeEcoMode": {
+                "parNewVal": "22:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "ecoModeStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "curveType": {
+                "parNewVal": "2",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowOutdoorTempCurve1": {
+                "parNewVal": "20",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "quietMode1": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highWaterTempCurve3": {
+                "parNewVal": "34",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highWaterTempCurve1": {
+                "parNewVal": "5",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "turboModeTimeType": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "quietMode2": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempZ1": {
+                "parNewVal": "-30.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "turboMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "boilerActState": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationModeStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "weekRepSterilizationMode": {
+                "parNewVal": "2",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "dhwPriorityStatus": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelDhw": {
+                "parNewVal": "63.5",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "startTimeSterilizationMode": {
+                "parNewVal": "23:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "fastDhw": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelSterilizationMode": {
+                "parNewVal": "75.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "fastDhwStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempDhw": {
+                "parNewVal": "83.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowOutdoorTempCurve2": {
+                "parNewVal": "20",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highWaterTempCurve4": {
+                "parNewVal": "25",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowOutdoorTempCurve4": {
+                "parNewVal": "-5",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelHolidayModeZ2": {
+                "parNewVal": "15.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highWaterTempCurve2": {
+                "parNewVal": "8",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelZ2": {
+                "parNewVal": "30.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "allowCoolStatusZ2": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempZ2": {
+                "parNewVal": "-30.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowWaterTempCurve2": {
+                "parNewVal": "20",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highOutdoorTempCurve2": {
+                "parNewVal": "30",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lowWaterTempCurve4": {
+                "parNewVal": "45",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highOutdoorTempCurve4": {
+                "parNewVal": "15",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempDeltaDhw": {
+                "parNewVal": "-3.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "bufferTankStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "dhwTankHeaterStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "auxiliaryHeatSource": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "enableMaintanceParameters": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            }
+        }
+    },
+    "activity": {},
+    "commandHistory": {
+        "command": {
+            "macAddress": "xx-xx-xx-xx-xx-xx",
+            "commandName": "startProgram",
+            "applianceOptions": {},
+            "programName": "PROGRAMS.AW.IOT_SIMPLE_START",
+            "ancillaryParameters": {},
+            "applianceType": "AW",
+            "attributes": {
+                "channel": "mobileApp",
+                "origin": "standardProgram",
+                "energyLabel": "0"
+            },
+            "device": {
+                "appVersion": "2.6.5",
+                "deviceModel": "pyhOn",
+                "osVersion": 999,
+                "mobileId": "xxxxxxxxxxxx",
+                "mobileOs": "android"
+            },
+            "parameters": {
+                "onOffStatusTempCon16": "1",
+                "onOffStatusTempCon9": "1",
+                "onOffStatusTempCon15": "1",
+                "onOffStatusTempCon8": "1",
+                "onOffStatusTempCon7": "1",
+                "onOffStatusTempCon6": "1",
+                "onOffStatusTempCon5": "1",
+                "onOffStatusTempCon4": "1",
+                "onOffStatusTempCon3": "1",
+                "onOffStatusTempCon2": "1",
+                "onOffStatusTempCon1": "1",
+                "onOffStatusTempCon10": "1",
+                "onOffStatusTempCon14": "1",
+                "onOffStatusTempCon13": "1",
+                "onOffStatus": "1",
+                "onOffStatusTempCon12": "1",
+                "onOffStatusTempCon11": "1"
+            },
+            "transactionId": "xx-xx-xx-xx-xx-xx_1970-01-01T00:00:00.0Z",
+            "timestamp": "1970-01-01T00:00:00.0Z"
+        },
+        "timestampAccepted": "1970-01-01T00:00:00.0Z",
+        "timestampExecuted": "1970-01-01T00:00:00.0Z"
+    },
+    "lastConnEvent": {
+        "macAddress": "xx-xx-xx-xx-xx-xx",
+        "category": "CONNECTED",
+        "instantTime": "1970-01-01T00:00:00.0Z",
+        "timestampEvent": 1793399498025
+    }
+}
