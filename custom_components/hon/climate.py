@@ -348,6 +348,8 @@ class HonClimateEntity(HonEntity, ClimateEntity):
         description: HonClimateEntityDescription,
     ) -> None:
         super().__init__(hass, entry, device, description)
+        if device.appliance_type == "WC" and device.model_id == 666:
+            self._attr_name = "Upper Zone" if description.key == "settings.tempSel" else "Lower Zone"
 
         self._attr_supported_features = (
             ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TARGET_TEMPERATURE
@@ -384,7 +386,20 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     @property
     def target_temperature(self) -> float | None:
         """Return the temperature we try to reach."""
-        return self._device.get(self.entity_description.key, 0.0)
+        temperature_key = self.entity_description.key.split(".")[-1]
+        temperature = self._device.get(temperature_key, 0.0)
+        if (
+            self._device.appliance_type == "WC"
+            and self._device.model_id == 666
+            and temperature is not None
+        ):
+            # Reported values can be fractional, while the setting advertises
+            # a coarser step. Normalize to the nearest supported setting.
+            setting = self._device.settings.get(self.entity_description.key)
+            if isinstance(setting, HonParameterRange) and setting.step > 0:
+                steps = (float(temperature) - setting.min) / setting.step
+                return setting.min + round(steps) * setting.step
+        return temperature
 
     @property
     def current_temperature(self) -> float | None:
