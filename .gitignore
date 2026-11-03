@@ -2,3 +2,7 @@ __pycache__/
 .idea/
 scripts/translations/
 scripts/test*
+.DS_Store
+APK/
+logs/
+scripts/htk_helper.py

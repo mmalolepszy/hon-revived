@@ -970,6 +970,36 @@
             },
             "working_mode": {
                 "name": "Arbeitsmodus"
+            },
+            "heating_energy_consumption": {
+                "name": "Energieverbrauch Heizen"
+            },
+            "dhw_energy_consumption": {
+                "name": "Energieverbrauch Warmwasser"
+            },
+            "cooling_energy_consumption": {
+                "name": "Energieverbrauch Kühlen"
+            },
+            "heating_electric_heater_energy": {
+                "name": "Energieverbrauch Zusatzheizung (Heizen)"
+            },
+            "dhw_electric_heater_energy": {
+                "name": "Energieverbrauch Zusatzheizung (Warmwasser)"
+            },
+            "total_energy_consumption": {
+                "name": "Gesamtenergieverbrauch Wärmepumpe"
+            },
+            "heating_heat_production": {
+                "name": "Wärmeproduktion Heizen"
+            },
+            "dhw_heat_production": {
+                "name": "Wärmeproduktion Warmwasser"
+            },
+            "total_heat_production": {
+                "name": "Gesamtwärmeproduktion"
+            },
+            "cop": {
+                "name": "Arbeitszahl (COP)"
             }
         },
         "select": {

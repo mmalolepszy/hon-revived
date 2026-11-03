@@ -29,6 +29,7 @@ for mod_name in [
     "homeassistant.helpers.entity",
     "homeassistant.helpers.entity_platform",
     "homeassistant.helpers.update_coordinator",
+    "homeassistant.helpers.event",
     "homeassistant.components",
     "homeassistant.components.persistent_notification",
     "homeassistant.components.binary_sensor",
@@ -49,6 +50,8 @@ for mod_name in [
     "pyhon.parameter.base",
     "pyhon.parameter.range",
     "pyhon.appliance",
+    "pyhon.connection",
+    "pyhon.connection.api",
 ]:
     ensure_module(mod_name)
 
@@ -76,6 +79,13 @@ sys.modules["homeassistant.helpers"].aiohttp_client = sys.modules["homeassistant
 sys.modules["homeassistant.helpers.config_validation"].string = str
 sys.modules["homeassistant.helpers.config_validation"].boolean = bool
 sys.modules["homeassistant.helpers.config_validation"].ensure_list = list
+sys.modules["homeassistant.helpers.event"].async_track_time_interval = MagicMock(return_value=MagicMock())
+
+class HonAPI:
+    @staticmethod
+    async def load_statistics(*args, **kwargs):
+        return {}
+sys.modules["pyhon.connection.api"].HonAPI = HonAPI
 
 class AddEntitiesCallback:
     pass
@@ -130,7 +140,17 @@ class _BaseEntityDescription:
 # Components
 ha_sensor = sys.modules["homeassistant.components.sensor"]
 class SensorEntity(Entity):
-    pass
+    @property
+    def native_value(self):
+        return getattr(self, "_attr_native_value", None)
+
+    @property
+    def native_unit_of_measurement(self):
+        if hasattr(self, "_attr_native_unit_of_measurement"):
+            return self._attr_native_unit_of_measurement
+        if hasattr(self, "entity_description") and self.entity_description:
+            return getattr(self.entity_description, "native_unit_of_measurement", None)
+        return None
 class SensorDeviceClass:
     TEMPERATURE = "temperature"
     POWER = "power"

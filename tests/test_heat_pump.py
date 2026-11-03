@@ -90,6 +90,17 @@ class TestHeatPumpEntities(unittest.TestCase):
             "totalPower",
             "flowRate",
             "errors",
+            # Energy & Production statistics
+            "stats.heatHeatPumpEnergyConsumption",
+            "stats.dhwHeatPumpEnergyConsumption",
+            "stats.coolEnergyConsumption",
+            "stats.heatElectricHeaterEnergyConsumption",
+            "stats.dhwElectricHeaterEnergyConsumption",
+            "stats.totalEnergyConsumption",
+            "stats.heatHeatPumpHeatProduction",
+            "stats.dhwHeatPumpHeatProduction",
+            "stats.totalHeatProduction",
+            "stats.cop",
         ]
         for exp in expected:
             self.assertIn(exp, keys)
@@ -213,6 +224,20 @@ class TestHeatPumpEntities(unittest.TestCase):
         # Sensor
         self.assertIn("outdoor_temperature", entities.get("sensor", {}))
         self.assertEqual(entities["sensor"]["outdoor_temperature"]["name"], "Außentemperatur")
+        self.assertIn("heating_energy_consumption", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["heating_energy_consumption"]["name"], "Energieverbrauch Heizen")
+        self.assertIn("dhw_energy_consumption", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["dhw_energy_consumption"]["name"], "Energieverbrauch Warmwasser")
+        self.assertIn("total_energy_consumption", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["total_energy_consumption"]["name"], "Gesamtenergieverbrauch Wärmepumpe")
+        self.assertIn("heating_heat_production", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["heating_heat_production"]["name"], "Wärmeproduktion Heizen")
+        self.assertIn("dhw_heat_production", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["dhw_heat_production"]["name"], "Wärmeproduktion Warmwasser")
+        self.assertIn("total_heat_production", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["total_heat_production"]["name"], "Gesamtwärmeproduktion")
+        self.assertIn("cop", entities.get("sensor", {}))
+        self.assertEqual(entities["sensor"]["cop"]["name"], "Arbeitszahl (COP)")
 
         # Select
         self.assertIn("programs_aw", entities.get("select", {}))

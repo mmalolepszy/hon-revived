@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import tests.conftest_mock  # noqa: F401
 
 from custom_components.hon.const import DOMAIN
-from custom_components.hon.sensor import SENSORS, HonSensorEntity
+from custom_components.hon.sensor import SENSORS, HonSensorEntity, HonAWEnergySensorEntity
 from custom_components.hon.binary_sensor import BINARY_SENSORS, HonBinarySensorEntity, HonBinaryModeSensorEntity
 from custom_components.hon.select import SELECTS, HonAWModeSelectEntity
 from custom_components.hon.switch import SWITCHES, HonDeviceAttributeSwitchEntity, HonConfigSwitchEntity
@@ -29,6 +29,13 @@ class RealApplianceMock:
         self.settings = {}
         self.commands = {}
         self.attributes = {}
+
+        if (fixture_dir / "statistics.json").exists():
+            with open(fixture_dir / "statistics.json", "r", encoding="utf-8") as f:
+                stats_raw = json.load(f)
+                self.statistics = stats_raw.get("payload", stats_raw)
+        else:
+            self.statistics = {}
 
         # 1. Flatten shadow parameters into attributes dictionary
         shadow_params = self._raw_attrs.get("shadow", {}).get("parameters", {})
@@ -179,6 +186,66 @@ class TestRealApplianceFixture(unittest.TestCase):
         quiet_desc = next(s for s in SWITCHES["AW"] if s.key == "quietMode1")
         quiet_switch = HonDeviceAttributeSwitchEntity(self.hass, self.entry, self.device, quiet_desc)
         self.assertFalse(quiet_switch.is_on)
+
+    def test_energy_statistics_and_cop(self):
+        """Verify energy consumption, thermal heat production, and COP sensors from real statistics."""
+        energy_sensors = {
+            s.key: s for s in SENSORS["AW"] if s.key.startswith("stats.")
+        }
+        self.assertEqual(len(energy_sensors), 10)
+
+        # 1. Heating energy consumption (3438 kWh)
+        s_desc = energy_sensors["stats.heatHeatPumpEnergyConsumption"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 3438)
+        self.assertEqual(entity.native_unit_of_measurement, "kWh")
+        self.assertEqual(entity.extra_state_attributes.get("current_year"), 3270)
+        self.assertEqual(entity.extra_state_attributes.get("today"), 18)
+        self.assertEqual(entity.extra_state_attributes.get("storage_date"), "2026-11-03 14:00")
+
+        # 2. DHW energy consumption (1279 kWh)
+        s_desc = energy_sensors["stats.dhwHeatPumpEnergyConsumption"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 1279)
+        self.assertEqual(entity.extra_state_attributes.get("today"), 4)
+
+        # 3. Cooling energy consumption (0 kWh)
+        s_desc = energy_sensors["stats.coolEnergyConsumption"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 0)
+
+        # 4. Total energy consumption (4717 kWh)
+        s_desc = energy_sensors["stats.totalEnergyConsumption"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 4717)
+        self.assertEqual(entity.extra_state_attributes.get("heating_kwh"), 3438)
+        self.assertEqual(entity.extra_state_attributes.get("dhw_kwh"), 1279)
+
+        # 5. Heating heat production (16133 kWh)
+        s_desc = energy_sensors["stats.heatHeatPumpHeatProduction"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 16133)
+        self.assertEqual(entity.extra_state_attributes.get("current_year"), 15493)
+        self.assertEqual(entity.extra_state_attributes.get("today"), 113)
+
+        # 6. DHW heat production (5716 kWh)
+        s_desc = energy_sensors["stats.dhwHeatPumpHeatProduction"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 5716)
+        self.assertEqual(entity.extra_state_attributes.get("today"), 21)
+
+        # 7. Total heat production (21849 kWh)
+        s_desc = energy_sensors["stats.totalHeatProduction"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 21849)
+
+        # 8. COP (4.63)
+        s_desc = energy_sensors["stats.cop"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 4.63)
+        self.assertEqual(entity.extra_state_attributes.get("cop_heating"), 4.69)
+        self.assertEqual(entity.extra_state_attributes.get("cop_dhw"), 4.47)
+        self.assertEqual(entity.extra_state_attributes.get("cop_today"), 6.09)
 
 
 if __name__ == "__main__":

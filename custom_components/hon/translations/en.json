@@ -991,6 +991,36 @@
             },
             "current_cycle_time": {
                 "name": "Cycle Duration"
+            },
+            "heating_energy_consumption": {
+                "name": "Heating Energy Consumption"
+            },
+            "dhw_energy_consumption": {
+                "name": "Domestic Hot Water Energy Consumption"
+            },
+            "cooling_energy_consumption": {
+                "name": "Cooling Energy Consumption"
+            },
+            "heating_electric_heater_energy": {
+                "name": "Heating Electric Heater Energy"
+            },
+            "dhw_electric_heater_energy": {
+                "name": "DHW Electric Heater Energy"
+            },
+            "total_energy_consumption": {
+                "name": "Total Heat Pump Energy Consumption"
+            },
+            "heating_heat_production": {
+                "name": "Heating Heat Production"
+            },
+            "dhw_heat_production": {
+                "name": "Domestic Hot Water Heat Production"
+            },
+            "total_heat_production": {
+                "name": "Total Thermal Heat Production"
+            },
+            "cop": {
+                "name": "Coefficient of Performance (COP)"
             }
         },
         "select": {

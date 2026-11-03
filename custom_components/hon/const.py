@@ -322,5 +322,15 @@ SENSOR_ATTRIBUTES: list[str] = [
     "holidayActState",
     "sterilizationModeStatus",
     "flowRate",
+    "stats.heatHeatPumpEnergyConsumption",
+    "stats.dhwHeatPumpEnergyConsumption",
+    "stats.coolEnergyConsumption",
+    "stats.heatElectricHeaterEnergyConsumption",
+    "stats.dhwElectricHeaterEnergyConsumption",
+    "stats.totalEnergyConsumption",
+    "stats.heatHeatPumpHeatProduction",
+    "stats.dhwHeatPumpHeatProduction",
+    "stats.totalHeatProduction",
+    "stats.cop",
 ]
 
