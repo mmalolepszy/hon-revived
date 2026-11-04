@@ -2,3 +2,4 @@ __pycache__/
 .idea/
 scripts/translations/
 scripts/test*
+.pytest_cache/

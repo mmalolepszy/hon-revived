@@ -28,6 +28,7 @@ class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
         self.coordinator = hass.data[DOMAIN][entry.unique_id]["coordinator"]
         super().__init__(self.coordinator)
         self._hon = hass.data[DOMAIN][entry.unique_id]["hon"]
+        self._recovery = hass.data[DOMAIN][entry.unique_id]["recovery"]
         self._hass = hass
         self._device: HonAppliance = device
 
@@ -37,6 +38,12 @@ class HonEntity(CoordinatorEntity[DataUpdateCoordinator[dict[str, Any]]]):
         else:
             self._attr_unique_id = self._device.unique_id
         self._handle_coordinator_update(update=False)
+
+    @property
+    def available(self) -> bool:
+        return super().available and self._recovery.available.get(
+            self._device.unique_id, True
+        )
 
     @property
     def device_info(self) -> DeviceInfo:
