@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from typing import Any
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -14,6 +15,7 @@ from homeassistant.const import (
 from homeassistant.const import (
     REVOLUTIONS_PER_MINUTE,
     UnitOfEnergy,
+    UnitOfPower,
     UnitOfVolume,
     UnitOfMass,
     UnitOfTime,
@@ -883,6 +885,261 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             key="errors", name="Error", icon="mdi:math-log", translation_key="errors"
         ),
     ),
+    # --- HEAT PUMP (AW) SECTION (NEW) ---
+    "AW": (
+        HonSensorEntityDescription(
+            key="tempOutdoor",
+            name="Outdoor Temperature",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="outdoor_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempDhw",
+            name="Domestic Hot Water Temperature",
+            icon="mdi:water-boiler",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="dhw_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempZ1",
+            name="Water Temperature Zone 1",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_z1",
+        ),
+        HonSensorEntityDescription(
+            key="tempZ2",
+            name="Water Temperature Zone 2",
+            icon="mdi:thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_z2",
+        ),
+        HonSensorEntityDescription(
+            key="tempWaterOut",
+            name="Water Outlet Temperature",
+            icon="mdi:thermometer-plus",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_out",
+        ),
+        HonSensorEntityDescription(
+            key="tempWaterIn",
+            name="Water Inlet Temperature",
+            icon="mdi:thermometer-minus",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="water_temperature_in",
+        ),
+        HonSensorEntityDescription(
+            key="compressorFrequency",
+            name="Compressor Frequency",
+            icon="mdi:sine-wave",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement="Hz",
+            translation_key="compressor_frequency",
+        ),
+        HonSensorEntityDescription(
+            key="currentPower",
+            name="Electrical Power",
+            icon="mdi:lightning-bolt",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.POWER,
+            native_unit_of_measurement=UnitOfPower.WATT,
+            translation_key="energy_current",
+        ),
+        HonSensorEntityDescription(
+            key="totalPower",
+            name="Total Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            translation_key="energy_total",
+        ),
+        HonSensorEntityDescription(
+            key="flowRate",
+            name="Flow Rate",
+            icon="mdi:water-pump",
+            state_class=SensorStateClass.MEASUREMENT,
+            translation_key="flow_rate",
+        ),
+        HonSensorEntityDescription(
+            key="errors", 
+            name="Errors", 
+            icon="mdi:alert-circle", 
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="errors",
+        ),
+        # --- Energy Consumption & Heat Production Statistics ---
+        HonSensorEntityDescription(
+            key="stats.heatHeatPumpEnergyConsumption",
+            name="Heating Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:radiator",
+            translation_key="heating_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="stats.dhwHeatPumpEnergyConsumption",
+            name="Domestic Hot Water Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:water-boiler",
+            translation_key="dhw_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="stats.coolEnergyConsumption",
+            name="Cooling Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:snowflake",
+            translation_key="cooling_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="stats.heatElectricHeaterEnergyConsumption",
+            name="Heating Electric Heater Energy",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:heating-coil",
+            translation_key="heating_electric_heater_energy",
+        ),
+        HonSensorEntityDescription(
+            key="stats.dhwElectricHeaterEnergyConsumption",
+            name="DHW Electric Heater Energy",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:heating-coil",
+            translation_key="dhw_electric_heater_energy",
+        ),
+        HonSensorEntityDescription(
+            key="stats.totalEnergyConsumption",
+            name="Total Heat Pump Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:lightning-bolt",
+            translation_key="total_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="stats.heatHeatPumpHeatProduction",
+            name="Heating Heat Production",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:fire",
+            translation_key="heating_heat_production",
+        ),
+        HonSensorEntityDescription(
+            key="stats.dhwHeatPumpHeatProduction",
+            name="Domestic Hot Water Heat Production",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:water-boiler",
+            translation_key="dhw_heat_production",
+        ),
+        HonSensorEntityDescription(
+            key="stats.totalHeatProduction",
+            name="Total Thermal Heat Production",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:fire-circle",
+            translation_key="total_heat_production",
+        ),
+        HonSensorEntityDescription(
+            key="stats.cop",
+            name="Coefficient of Performance",
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:chart-line",
+            translation_key="cop",
+        ),
+    ),
+    "HW": (
+        HonSensorEntityDescription(
+            key="temp",
+            name="Water Temperature",
+            device_class=SensorDeviceClass.TEMPERATURE,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-water",
+            translation_key="water_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempSel",
+            name="Target Water Temperature",
+            device_class=SensorDeviceClass.TEMPERATURE,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-water",
+            translation_key="target_water_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="remainingWaterLevel",
+            name="Remaining Water Level",
+            native_unit_of_measurement=PERCENTAGE,
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:water-percent",
+            translation_key="remaining_water_level",
+        ),
+        HonSensorEntityDescription(
+            key="productVolume",
+            name="Product Volume",
+            native_unit_of_measurement=UnitOfVolume.LITERS,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            icon="mdi:water-boiler",
+            translation_key="product_volume",
+        ),
+        HonSensorEntityDescription(
+            key="errors",
+            name="Errors",
+            icon="mdi:alert-circle",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="errors",
+        ),
+        HonSensorEntityDescription(
+            key="energyConsumptionYearCp",
+            name="Compressor Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:lightning-bolt",
+            translation_key="compressor_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="energyConsumptionYearEc",
+            name="Electric Heater Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:lightning-bolt",
+            translation_key="electric_heater_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="accumulatedHeatYear",
+            name="Total Heat Production",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:radiator",
+            translation_key="total_heat_production",
+        ),
+    ),
 }
 SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
 
@@ -891,10 +1148,14 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
-    entity: HonSensorEntity | HonConfigSensorEntity
+    entity: HonSensorEntity | HonConfigSensorEntity | HonAWEnergySensorEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SENSORS.get(device.appliance_type, []):
             if isinstance(description, HonSensorEntityDescription):
+                if description.key.startswith("stats."):
+                    entity = HonAWEnergySensorEntity(hass, entry, device, description)
+                    entities.append(entity)
+                    continue
                 if device.get(description.key) is None:
                     continue
                 entity = HonSensorEntity(hass, entry, device, description)
@@ -922,9 +1183,33 @@ class HonSensorEntity(HonEntity, SensorEntity):
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))
+        
+        # Float-Fix für Wärmepumpen (und andere Zahlensensoren)
+        if self.entity_description.state_class is not None:
+            if isinstance(value, str) and ";" in value:
+                parts = [p.strip() for p in value.split(";") if p.strip()]
+                if parts:
+                    try:
+                        value = float(parts[-1])
+                    except (ValueError, TypeError):
+                        pass
+            try:
+                if value is not None and value != "":
+                    value = float(str(value))
+            except (ValueError, TypeError):
+                # Falls keine Zahl (z.B. "off" oder leer), setzen wir 0 oder behalten den Wert
+                if not value:
+                    value = 0
+                    
         if not value and self.entity_description.state_class is not None:
             self._attr_native_value = 0
-        self._attr_native_value = value
+        else:
+            # -30.0 is often returned by Haier heat pumps for disconnected thermistors (e.g. Zone 2)
+            if self.entity_description.device_class == SensorDeviceClass.TEMPERATURE and value in (-30, -30.0, "-30", "-30.0"):
+                self._attr_native_value = None
+            else:
+                self._attr_native_value = value
+            
         if update:
             self.schedule_update_ha_state()
 
@@ -938,11 +1223,14 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
         value: float | str
         if self.entity_description.state_class is not None:
             if sensor and sensor.value:
-                value = (
-                    float(sensor.value)
-                    if "." in str(sensor.value)
-                    else int(sensor.value)
-                )
+                try:
+                    value = (
+                        float(sensor.value)
+                        if "." in str(sensor.value)
+                        else int(sensor.value)
+                    )
+                except (ValueError, TypeError):
+                    value = 0
             else:
                 value = 0
         elif sensor is not None:
@@ -955,3 +1243,149 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
         self._attr_native_value = value
         if update:
             self.schedule_update_ha_state()
+
+
+class HonAWEnergySensorEntity(HonEntity, SensorEntity):
+    entity_description: HonSensorEntityDescription
+
+    def _get_stats(self) -> dict[str, Any]:
+        """Extract the stats dictionary from appliance statistics."""
+        stats: dict[str, Any] = {}
+        if hasattr(self._device, "statistics"):
+            raw_stats = (
+                self._device.statistics()
+                if callable(self._device.statistics)
+                else self._device.statistics
+            )
+            if isinstance(raw_stats, dict):
+                stats = raw_stats.get("stats", {})
+        if not stats and hasattr(self._device, "attributes"):
+            raw_attrs = self._device.attributes
+            if isinstance(raw_attrs, dict):
+                stats = raw_attrs.get("stats", {})
+        return stats
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return detailed breakdown attributes (hourly, daily, monthly, yearly, today, current_year)."""
+        stats = self._get_stats()
+        key = self.entity_description.key
+        metric_name = key.replace("stats.", "")
+        attrs: dict[str, Any] = {}
+
+        raw_stats: dict[str, Any] = {}
+        if hasattr(self._device, "statistics"):
+            res = (
+                self._device.statistics()
+                if callable(self._device.statistics)
+                else self._device.statistics
+            )
+            if isinstance(res, dict):
+                raw_stats = res
+        if storage_date := raw_stats.get("storageDate"):
+            attrs["storage_date"] = storage_date
+        if package_id := raw_stats.get("packageId"):
+            attrs["package_id"] = package_id
+
+        if metric_name in stats:
+            metric = stats[metric_name]
+            y_vals = metric.get("Y", [])
+            m_vals = metric.get("M", [])
+            d_vals = metric.get("D", [])
+            h_vals = metric.get("H", [])
+            attrs["yearly"] = y_vals
+            attrs["monthly"] = m_vals
+            attrs["daily"] = d_vals
+            attrs["hourly"] = h_vals
+            if y_vals:
+                attrs["current_year"] = y_vals[-1]
+            if h_vals:
+                attrs["today"] = sum(h_vals)
+        elif key == "stats.totalEnergyConsumption":
+            attrs["heating_kwh"] = sum(stats.get("heatHeatPumpEnergyConsumption", {}).get("Y", []))
+            attrs["dhw_kwh"] = sum(stats.get("dhwHeatPumpEnergyConsumption", {}).get("Y", []))
+            attrs["cooling_kwh"] = sum(stats.get("coolEnergyConsumption", {}).get("Y", []))
+            attrs["electric_heater_kwh"] = (
+                sum(stats.get("heatElectricHeaterEnergyConsumption", {}).get("Y", []))
+                + sum(stats.get("dhwElectricHeaterEnergyConsumption", {}).get("Y", []))
+            )
+            today_energy = (
+                sum(stats.get("heatHeatPumpEnergyConsumption", {}).get("H", []))
+                + sum(stats.get("dhwHeatPumpEnergyConsumption", {}).get("H", []))
+                + sum(stats.get("coolEnergyConsumption", {}).get("H", []))
+                + sum(stats.get("heatElectricHeaterEnergyConsumption", {}).get("H", []))
+                + sum(stats.get("dhwElectricHeaterEnergyConsumption", {}).get("H", []))
+            )
+            attrs["today"] = today_energy
+        elif key == "stats.totalHeatProduction":
+            attrs["heating_production_kwh"] = sum(stats.get("heatHeatPumpHeatProduction", {}).get("Y", []))
+            attrs["dhw_production_kwh"] = sum(stats.get("dhwHeatPumpHeatProduction", {}).get("Y", []))
+            attrs["today"] = (
+                sum(stats.get("heatHeatPumpHeatProduction", {}).get("H", []))
+                + sum(stats.get("dhwHeatPumpHeatProduction", {}).get("H", []))
+            )
+        elif key == "stats.cop":
+            heat_energy = sum(stats.get("heatHeatPumpEnergyConsumption", {}).get("Y", []))
+            dhw_energy = sum(stats.get("dhwHeatPumpEnergyConsumption", {}).get("Y", []))
+            heat_prod = sum(stats.get("heatHeatPumpHeatProduction", {}).get("Y", []))
+            dhw_prod = sum(stats.get("dhwHeatPumpHeatProduction", {}).get("Y", []))
+            if heat_energy > 0:
+                attrs["cop_heating"] = round(heat_prod / heat_energy, 2)
+            if dhw_energy > 0:
+                attrs["cop_dhw"] = round(dhw_prod / dhw_energy, 2)
+            today_energy = (
+                sum(stats.get("heatHeatPumpEnergyConsumption", {}).get("H", []))
+                + sum(stats.get("dhwHeatPumpEnergyConsumption", {}).get("H", []))
+            )
+            today_prod = (
+                sum(stats.get("heatHeatPumpHeatProduction", {}).get("H", []))
+                + sum(stats.get("dhwHeatPumpHeatProduction", {}).get("H", []))
+            )
+            if today_energy > 0:
+                attrs["cop_today"] = round(today_prod / today_energy, 2)
+        return attrs
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        stats = self._get_stats()
+        key = self.entity_description.key
+        metric_name = key.replace("stats.", "")
+
+        if metric_name in stats:
+            self._attr_native_value = sum(stats[metric_name].get("Y", []))
+        elif key == "stats.totalEnergyConsumption":
+            total_e = 0
+            for k in (
+                "heatHeatPumpEnergyConsumption",
+                "dhwHeatPumpEnergyConsumption",
+                "coolEnergyConsumption",
+                "heatElectricHeaterEnergyConsumption",
+                "dhwElectricHeaterEnergyConsumption",
+            ):
+                total_e += sum(stats.get(k, {}).get("Y", []))
+            self._attr_native_value = total_e
+        elif key == "stats.totalHeatProduction":
+            total_p = 0
+            for k in ("heatHeatPumpHeatProduction", "dhwHeatPumpHeatProduction"):
+                total_p += sum(stats.get(k, {}).get("Y", []))
+            self._attr_native_value = total_p
+        elif key == "stats.cop":
+            total_e = (
+                sum(stats.get("heatHeatPumpEnergyConsumption", {}).get("Y", []))
+                + sum(stats.get("dhwHeatPumpEnergyConsumption", {}).get("Y", []))
+            )
+            total_p = (
+                sum(stats.get("heatHeatPumpHeatProduction", {}).get("Y", []))
+                + sum(stats.get("dhwHeatPumpHeatProduction", {}).get("Y", []))
+            )
+            if total_e > 0:
+                self._attr_native_value = round(total_p / total_e, 2)
+            else:
+                self._attr_native_value = None
+        else:
+            self._attr_native_value = None
+
+        if update:
+            self.schedule_update_ha_state()
+
+

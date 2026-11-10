@@ -1,0 +1,50 @@
+{
+    "PK": "user#eu-west-1:xxxx xxxx xx x xxx",
+    "SK": "app#xx-xx-xx-xx-xx-xx",
+    "applianceId": "xx-xx-xx-xx-xx-xx#1970-01-01T00:00:00.0Z",
+    "applianceModelId": 13664,
+    "applianceStatus": 1,
+    "applianceTypeId": 26,
+    "applianceTypeName": "HW",
+    "attributes": {
+        "acuVersion": "0.0.0",
+        "chipset": 1,
+        "dictionaryId": 491,
+        "eppParserSet": 1,
+        "fwLabel": "iotfw_epp_ulg",
+        "idfVersion": "4.4.5",
+        "kernelVersion": "10.4.3",
+        "lang": "it-IT",
+        "uiVersion": "01.00.00"
+    },
+    "brand": "haier",
+    "code": "GK0HA2E0000",
+    "connectivity": "wifi|ble",
+    "defaultWarrantyYears": 2,
+    "eepromId": 41,
+    "eepromName": "no_eeprom",
+    "enrollmentDate": "1970-01-01 00:00:00+00:00",
+    "firstEnrollment": false,
+    "firstEnrollmentTBC": false,
+    "fwVersion": "6.14.0",
+    "id": 13664,
+    "lastUpdate": "1970-01-01 00:00:00+00:00",
+    "macAddress": "xx-xx-xx-xx-xx-xx",
+    "modelName": "HP250M7-F9",
+    "purchaseDate": "1970-01-01 00:00:00+00:00",
+    "sections": {
+        "chatbot": true,
+        "enable_remote_monitoring": true
+    },
+    "series": "m7",
+    "sfPersonAccountId": "xxxxxx",
+    "topics": {
+        "publish": null,
+        "subscribe": [
+            "$aws/events/presence/disconnected/xx-xx-xx-xx-xx-xx",
+            "$aws/events/presence/connected/xx-xx-xx-xx-xx-xx",
+            "haier/things/xx-xx-xx-xx-xx-xx/event/appliancestatus/update",
+            "haier/things/xx-xx-xx-xx-xx-xx/event/discovery/update"
+        ]
+    }
+}
