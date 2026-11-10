@@ -297,6 +297,43 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         ) for i in range(1, 5)],
     ),
+    "HW": (
+        HonNumberEntityDescription(
+            key="settings.tempSel",
+            name="Target Water Temperature",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-water",
+            translation_key="target_water_temperature",
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.sterilizationTempSel",
+            name="Disinfection Target Temperature",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-alert",
+            translation_key="disinfection_target_temperature",
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.hcTempSel",
+            name="High Cost Target Temperature",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-chevron-up",
+            translation_key="hc_target_temperature",
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.pvTempSel",
+            name="PV Target Temperature",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:solar-power",
+            translation_key="pv_target_temperature",
+        ),
+        HonConfigNumberEntityDescription(
+            key="settings.sgTempSel",
+            name="Smart Grid Target Temperature",
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:transmission-tower",
+            translation_key="sg_target_temperature",
+        ),
+    ),
 }
 
 NUMBERS["WD"] = unique_entities(NUMBERS["WM"], NUMBERS["TD"])

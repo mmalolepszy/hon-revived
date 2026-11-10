@@ -1070,6 +1070,76 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             translation_key="cop",
         ),
     ),
+    "HW": (
+        HonSensorEntityDescription(
+            key="temp",
+            name="Water Temperature",
+            device_class=SensorDeviceClass.TEMPERATURE,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-water",
+            translation_key="water_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempSel",
+            name="Target Water Temperature",
+            device_class=SensorDeviceClass.TEMPERATURE,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            icon="mdi:thermometer-water",
+            translation_key="target_water_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="remainingWaterLevel",
+            name="Remaining Water Level",
+            native_unit_of_measurement=PERCENTAGE,
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:water-percent",
+            translation_key="remaining_water_level",
+        ),
+        HonSensorEntityDescription(
+            key="productVolume",
+            name="Product Volume",
+            native_unit_of_measurement=UnitOfVolume.LITERS,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            icon="mdi:water-boiler",
+            translation_key="product_volume",
+        ),
+        HonSensorEntityDescription(
+            key="errors",
+            name="Errors",
+            icon="mdi:alert-circle",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="errors",
+        ),
+        HonSensorEntityDescription(
+            key="energyConsumptionYearCp",
+            name="Compressor Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:lightning-bolt",
+            translation_key="compressor_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="energyConsumptionYearEc",
+            name="Electric Heater Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:lightning-bolt",
+            translation_key="electric_heater_energy_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="accumulatedHeatYear",
+            name="Total Heat Production",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:radiator",
+            translation_key="total_heat_production",
+        ),
+    ),
 }
 SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
 
@@ -1116,6 +1186,13 @@ class HonSensorEntity(HonEntity, SensorEntity):
         
         # Float-Fix für Wärmepumpen (und andere Zahlensensoren)
         if self.entity_description.state_class is not None:
+            if isinstance(value, str) and ";" in value:
+                parts = [p.strip() for p in value.split(";") if p.strip()]
+                if parts:
+                    try:
+                        value = float(parts[-1])
+                    except (ValueError, TypeError):
+                        pass
             try:
                 if value is not None and value != "":
                     value = float(str(value))

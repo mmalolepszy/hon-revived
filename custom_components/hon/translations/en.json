@@ -1021,6 +1021,24 @@
             },
             "cop": {
                 "name": "Coefficient of Performance (COP)"
+            },
+            "water_temperature": {
+                "name": "Water Temperature"
+            },
+            "target_water_temperature": {
+                "name": "Target Water Temperature"
+            },
+            "remaining_water_level": {
+                "name": "Remaining Hot Water Level"
+            },
+            "product_volume": {
+                "name": "Tank Volume"
+            },
+            "compressor_energy_consumption": {
+                "name": "Compressor Energy Consumption"
+            },
+            "electric_heater_energy_consumption": {
+                "name": "Electric Heater Energy Consumption"
             }
         },
         "select": {
@@ -1926,6 +1944,28 @@
                     "position_5": "Fixed - Position 5",
                     "swing": "Swing"
                 }
+            },
+            "programs_aw": {
+                "name": "Mode",
+                "state": {
+                    "auto": "Auto",
+                    "auto_dhw": "Auto + Domestic Hot Water",
+                    "cool": "Cool",
+                    "cool_dhw": "Cool + Domestic Hot Water",
+                    "dhw": "Domestic Hot Water Only",
+                    "heat": "Heat",
+                    "heat_dhw": "Heat + Domestic Hot Water",
+                    "iot_simple_start": "Smart Start"
+                }
+            },
+            "programs_hw": {
+                "name": "Operating Mode",
+                "state": {
+                    "auto": "Auto",
+                    "eco": "Eco (Heat Pump)",
+                    "elec": "Electric Heater",
+                    "vac": "Vacation"
+                }
             }
         },
         "switch": {
@@ -2045,6 +2085,24 @@
             },
             "hood": {
                 "name": "Hood"
+            },
+            "power_switch": {
+                "name": "Power Switch"
+            },
+            "quiet_mode": {
+                "name": "Quiet Mode"
+            },
+            "eco_mode": {
+                "name": "Eco Mode"
+            },
+            "fast_dhw": {
+                "name": "Fast Domestic Hot Water"
+            },
+            "boost_mode": {
+                "name": "Boost Mode"
+            },
+            "disinfection_mode": {
+                "name": "Disinfection Mode"
             }
         },
         "binary_sensor": {
@@ -2152,6 +2210,36 @@
             },
             "buzzer_disabled": {
                 "name": "Buzzer Disabled"
+            },
+            "power_status": {
+                "name": "Operating Status"
+            },
+            "compressor_heating": {
+                "name": "Compressor Heating"
+            },
+            "electric_heating": {
+                "name": "Electric Heating Element"
+            },
+            "aux_electric_heating": {
+                "name": "Auxiliary Electric Heating"
+            },
+            "boiler_heating": {
+                "name": "Boiler Heating"
+            },
+            "solar_heating": {
+                "name": "Solar Heating"
+            },
+            "antifreeze_protection": {
+                "name": "Antifreeze Protection"
+            },
+            "defrosting": {
+                "name": "Defrosting"
+            },
+            "silent_status": {
+                "name": "Silent Mode Status"
+            },
+            "disinfection_status": {
+                "name": "Disinfection Status"
             }
         },
         "button": {
@@ -2216,6 +2304,21 @@
             },
             "probe_target_temperature": {
                 "name": "Probe Target Temperature"
+            },
+            "target_water_temperature": {
+                "name": "Target Water Temperature"
+            },
+            "disinfection_target_temperature": {
+                "name": "Disinfection Target Temperature"
+            },
+            "hc_target_temperature": {
+                "name": "High Cost Target Temperature"
+            },
+            "pv_target_temperature": {
+                "name": "PV Target Temperature"
+            },
+            "sg_target_temperature": {
+                "name": "Smart Grid Target Temperature"
             }
         },
         "climate": {

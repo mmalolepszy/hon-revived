@@ -1000,6 +1000,24 @@
             },
             "cop": {
                 "name": "Arbeitszahl (COP)"
+            },
+            "water_temperature": {
+                "name": "Wassertemperatur"
+            },
+            "target_water_temperature": {
+                "name": "Ziel-Wassertemperatur"
+            },
+            "remaining_water_level": {
+                "name": "Verfügbare Warmwassermenge"
+            },
+            "product_volume": {
+                "name": "Speichervolumen"
+            },
+            "compressor_energy_consumption": {
+                "name": "Energieverbrauch Kompressor"
+            },
+            "electric_heater_energy_consumption": {
+                "name": "Energieverbrauch Zusatzheizung"
             }
         },
         "select": {
@@ -1898,6 +1916,15 @@
                     "heat_dhw": "Heizen + Warmwasser",
                     "iot_simple_start": "Smart Start"
                 }
+            },
+            "programs_hw": {
+                "name": "Betriebsmodus",
+                "state": {
+                    "auto": "Auto",
+                    "eco": "Eco (Wärmepumpe)",
+                    "elec": "Heizstab (Elektrisch)",
+                    "vac": "Urlaub"
+                }
             }
         },
         "switch": {
@@ -2026,6 +2053,12 @@
             },
             "fast_dhw": {
                 "name": "Schnelles Warmwasser"
+            },
+            "boost_mode": {
+                "name": "Boost-Modus"
+            },
+            "disinfection_mode": {
+                "name": "Legionellenschutz-Modus"
             }
         },
         "binary_sensor": {
@@ -2136,6 +2169,33 @@
             },
             "sterilization": {
                 "name": "Legionellenschutz"
+            },
+            "compressor_heating": {
+                "name": "Kompressor-Heizung"
+            },
+            "electric_heating": {
+                "name": "Elektrischer Heizstab"
+            },
+            "aux_electric_heating": {
+                "name": "Zusatzheizung"
+            },
+            "boiler_heating": {
+                "name": "Kesselheizung"
+            },
+            "solar_heating": {
+                "name": "Solarthermie-Heizung"
+            },
+            "antifreeze_protection": {
+                "name": "Frostschutz"
+            },
+            "defrosting": {
+                "name": "Abtauung"
+            },
+            "silent_status": {
+                "name": "Flüsterbetrieb"
+            },
+            "disinfection_status": {
+                "name": "Legionellenschutz"
             }
         },
         "button": {
@@ -2206,6 +2266,21 @@
             },
             "target_temp_z2": {
                 "name": "Zieltemperatur Zone 2"
+            },
+            "target_water_temperature": {
+                "name": "Ziel-Wassertemperatur"
+            },
+            "disinfection_target_temperature": {
+                "name": "Zieltemperatur Legionellenschutz"
+            },
+            "hc_target_temperature": {
+                "name": "Zieltemperatur Hochtarif"
+            },
+            "pv_target_temperature": {
+                "name": "Zieltemperatur Photovoltaik"
+            },
+            "sg_target_temperature": {
+                "name": "Zieltemperatur Smart Grid"
             }
         },
         "climate": {

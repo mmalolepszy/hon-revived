@@ -67,15 +67,20 @@ class TestHeatPumpEntities(unittest.TestCase):
         self.hass, self.entry = create_mock_hass_and_entry()
 
     def test_const_aw(self):
-        """Verify AW appliance and sensor attributes are declared."""
+        """Verify AW and HW appliance and sensor attributes are declared."""
         self.assertIn("AW", APPLIANCES)
         self.assertEqual(APPLIANCES["AW"], "Heat Pump")
+        self.assertIn("HW", APPLIANCES)
+        self.assertEqual(APPLIANCES["HW"], "Heat Pump Water Heater")
         self.assertIn("machMode", SENSOR_ATTRIBUTES)
         self.assertIn("tempOutdoor", SENSOR_ATTRIBUTES)
         self.assertIn("flowRate", SENSOR_ATTRIBUTES)
+        self.assertIn("temp", SENSOR_ATTRIBUTES)
+        self.assertIn("remainingWaterLevel", SENSOR_ATTRIBUTES)
+        self.assertIn("compressorHeatingCurrentStatus", SENSOR_ATTRIBUTES)
 
     def test_sensors_aw_definitions(self):
-        """Verify AW sensors definitions exist."""
+        """Verify AW and HW sensors definitions exist."""
         self.assertIn("AW", SENSORS)
         keys = [s.key for s in SENSORS["AW"]]
         expected = [
@@ -105,6 +110,12 @@ class TestHeatPumpEntities(unittest.TestCase):
         for exp in expected:
             self.assertIn(exp, keys)
 
+        # Check HW sensors
+        self.assertIn("HW", SENSORS)
+        hw_keys = [s.key for s in SENSORS["HW"]]
+        for exp in ("temp", "tempSel", "remainingWaterLevel", "productVolume", "energyConsumptionYearCp", "accumulatedHeatYear"):
+            self.assertIn(exp, hw_keys)
+
     def test_sensor_invalid_temperature_handling(self):
         """Test -30°C disconnected sensor filtering in HonSensorEntity."""
         from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
@@ -129,12 +140,18 @@ class TestHeatPumpEntities(unittest.TestCase):
         self.assertIsNone(sensor._attr_native_value)
 
     def test_binary_sensors_aw_definitions(self):
-        """Verify AW binary sensors definitions exist."""
+        """Verify AW and HW binary sensors definitions exist."""
         self.assertIn("AW", BINARY_SENSORS)
         keys = [s.key for s in BINARY_SENSORS["AW"]]
         self.assertIn("heatingStatus", keys)
         self.assertIn("dhwStatus", keys)
         self.assertIn("boilerActState", keys)
+
+        self.assertIn("HW", BINARY_SENSORS)
+        hw_keys = [s.key for s in BINARY_SENSORS["HW"]]
+        self.assertIn("compressorHeatingCurrentStatus", hw_keys)
+        self.assertIn("electricHeatingCurrentStatus", hw_keys)
+        self.assertIn("auxElecHeatingStatus", hw_keys)
 
     def test_binary_mode_sensor_entity(self):
         """Test HonBinaryModeSensorEntity logic based on machMode and onOffStatus."""
@@ -241,6 +258,7 @@ class TestHeatPumpEntities(unittest.TestCase):
 
         # Select
         self.assertIn("programs_aw", entities.get("select", {}))
+        self.assertIn("programs_hw", entities.get("select", {}))
 
         # Switch
         self.assertIn("power_switch", entities.get("switch", {}))
@@ -249,6 +267,7 @@ class TestHeatPumpEntities(unittest.TestCase):
         # Binary sensor
         self.assertIn("heating_mode", entities.get("binary_sensor", {}))
         self.assertEqual(entities["binary_sensor"]["heating_mode"]["name"], "Heizbetrieb")
+        self.assertIn("compressor_heating", entities.get("binary_sensor", {}))
 
 
 if __name__ == "__main__":

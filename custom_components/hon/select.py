@@ -41,6 +41,20 @@ AW_MODE_MAP = {
     "8": "heat_dhw",
 }
 
+HW_MODE_MAP = {
+    "1": "eco",
+    "2": "auto",
+    "3": "elec",
+    "4": "elec",
+    "5": "vac",
+}
+
+
+@dataclass(frozen=True)
+class HonHWModeSelectEntityDescription(SelectEntityDescription):
+    """Spezielle Beschreibung für den HW Wärmepumpen-Warmwasser-Modus."""
+    entity_category: EntityCategory = EntityCategory.CONFIG
+
 @dataclass(frozen=True)
 class HonConfigSelectEntityDescription(SelectEntityDescription):
     entity_category: EntityCategory = EntityCategory.CONFIG
@@ -230,6 +244,14 @@ SELECTS: dict[str, tuple[SelectEntityDescription, ...]] = {
             translation_key="working_mode_select",
         ),
     ),
+    "HW": (
+        HonHWModeSelectEntityDescription(
+            key="startProgram.program",
+            name="Operating Mode",
+            icon="mdi:heat-pump",
+            translation_key="programs_hw",
+        ),
+    ),
 }
 
 SELECTS["WD"] = unique_entities(SELECTS["WM"], SELECTS["TD"])
@@ -239,7 +261,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
-    entity: HonSelectEntity | HonConfigSelectEntity | HonAWModeSelectEntity
+    entity: HonSelectEntity | HonConfigSelectEntity | HonAWModeSelectEntity | HonHWModeSelectEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SELECTS.get(device.appliance_type, []):
             if description.key not in device.available_settings:
@@ -247,6 +269,8 @@ async def async_setup_entry(
             
             if isinstance(description, HonAWModeSelectEntityDescription):
                 entity = HonAWModeSelectEntity(hass, entry, device, description)
+            elif isinstance(description, HonHWModeSelectEntityDescription):
+                entity = HonHWModeSelectEntity(hass, entry, device, description)
             elif isinstance(description, HonSelectEntityDescription):
                 entity = HonSelectEntity(hass, entry, device, description)
             elif isinstance(description, HonConfigSelectEntityDescription):
@@ -382,6 +406,47 @@ class HonAWModeSelectEntity(HonEntity, SelectEntity):
             return []
         # Erlaubte Optionen basierend auf der AW_MODE_MAP
         return [opt for opt in setting.values if opt in AW_MODE_MAP.values()]
+
+    async def async_select_option(self, option: str) -> None:
+        setting = self._device.settings.get(self.entity_description.key)
+        if setting:
+            setting.value = option
+            command = self.entity_description.key.split(".")[0]
+            if command in self._device.commands:
+                await self._device.commands[command].send()
+        self.coordinator.async_set_updated_data({})
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        self._attr_available = self.available
+        self._attr_options = self.options
+        self._attr_current_option = self.current_option
+        if update:
+            self.schedule_update_ha_state()
+
+    @property
+    def available(self) -> bool:
+        return self._device.settings.get(self.entity_description.key) is not None
+
+
+class HonHWModeSelectEntity(HonEntity, SelectEntity):
+    """HW Heat pump water heater operating mode."""
+    entity_description: HonHWModeSelectEntityDescription
+
+    @property
+    def current_option(self) -> str | None:
+        mach_mode = str(self._device.get("machMode", ""))
+        if mapped := HW_MODE_MAP.get(mach_mode):
+            return mapped
+        setting = self._device.settings.get(self.entity_description.key)
+        return getattr(setting, "value", None)
+
+    @property
+    def options(self) -> list[str]:
+        setting = self._device.settings.get(self.entity_description.key)
+        if not setting:
+            return []
+        return list(setting.values)
 
     async def async_select_option(self, option: str) -> None:
         setting = self._device.settings.get(self.entity_description.key)
