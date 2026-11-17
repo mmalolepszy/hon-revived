@@ -1,0 +1,2 @@
+pytest-homeassistant-custom-component
+pyhon-revived==0.19.2

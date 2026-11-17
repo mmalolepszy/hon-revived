@@ -11,6 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from pyhon import Hon
 
 from .const import DOMAIN, PLATFORMS, MOBILE_ID, CONF_REFRESH_TOKEN
+from . import wine_cellar
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -45,8 +46,24 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         entry, data={**entry.data, CONF_REFRESH_TOKEN: hon.api.auth.refresh_token}
     )
 
+    wine_cellar.prefer_base_appliances(hon.appliances)
+    has_wine_cellar = False
+    for appliance in hon.appliances:
+        if wine_cellar.is_wine_cellar(appliance):
+            has_wine_cellar = True
+            # pyhon syncs settings before attributes load: targets stay 5 °C
+            wine_cellar.seed_settings(appliance)
+
+    async def _async_refresh() -> dict[str, Any]:
+        return await wine_cellar.async_refresh(hon.appliances)
+
+    # Push only by default; wine cellars additionally poll as a fallback
     coordinator: DataUpdateCoordinator[dict[str, Any]] = DataUpdateCoordinator(
-        hass, _LOGGER, name=DOMAIN
+        hass,
+        _LOGGER,
+        name=DOMAIN,
+        update_method=_async_refresh if has_wine_cellar else None,
+        update_interval=wine_cellar.REFRESH_INTERVAL if has_wine_cellar else None,
     )
     hon.subscribe_updates(coordinator.async_set_updated_data)
 
@@ -60,6 +77,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     refresh_token = hass.data[DOMAIN][entry.unique_id]["hon"].api.auth.refresh_token
+    wine_cellar.cancel_confirm(hass.data[DOMAIN][entry.unique_id]["coordinator"])
 
     hass.config_entries.async_update_entry(
         entry, data={**entry.data, CONF_REFRESH_TOKEN: refresh_token}
