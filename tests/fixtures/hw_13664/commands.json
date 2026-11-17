@@ -1,0 +1,257 @@
+{
+    "settings": {
+        "setParameters": {
+            "parameters": {
+                "boostStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "category": {
+                    "category": "setParameters",
+                    "typology": "enum",
+                    "mandatory": 0,
+                    "enumValues": [
+                        "setConfig",
+                        "setParameters"
+                    ],
+                    "defaultValue": "setConfig"
+                },
+                "externalHeatSource": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "2",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "hcTempSel": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "55",
+                    "maximumValue": "75",
+                    "incrementValue": "1",
+                    "defaultValue": "55"
+                },
+                "lockStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "offPeakPeriodScheme": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "offpeakSignalHeatMode": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1",
+                    "defaultValue": "1"
+                },
+                "offpeakSignalHeatStrategy": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1",
+                    "defaultValue": "1"
+                },
+                "offpeakSignalNcNo": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "onOffStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "opp1EcoDays": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "40",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "powerSupplySource": {
+                    "category": "setParameters",
+                    "typology": "enum",
+                    "mandatory": 0,
+                    "enumValues": [
+                        "0",
+                        "2",
+                        "3",
+                        "4"
+                    ],
+                    "defaultValue": "0"
+                },
+                "pvTempSel": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "55",
+                    "maximumValue": "75",
+                    "incrementValue": "1",
+                    "defaultValue": "55"
+                },
+                "sgTempSel": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "55",
+                    "maximumValue": "75",
+                    "incrementValue": "1",
+                    "defaultValue": "55"
+                },
+                "silentStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "sterilizationInterval": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1",
+                    "defaultValue": "1"
+                },
+                "sterilizationStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "sterilizationTempSel": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "55",
+                    "maximumValue": "75",
+                    "incrementValue": "1",
+                    "defaultValue": "55"
+                },
+                "tempSel": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "35",
+                    "maximumValue": "75",
+                    "incrementValue": "1",
+                    "defaultValue": "35"
+                },
+                "tempUnit": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "timingOnOffStatus": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "timingPowerOff": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                },
+                "timingPowerOn": {
+                    "category": "setParameters",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1",
+                    "defaultValue": "0"
+                }
+            }
+        }
+    },
+    "startProgram": {
+        "PROGRAMS.HW.AUTO": {
+            "parameters": {
+                "program": {
+                    "category": "startProgram",
+                    "typology": "fixed",
+                    "defaultValue": "auto"
+                }
+            }
+        },
+        "PROGRAMS.HW.ECO": {
+            "parameters": {
+                "program": {
+                    "category": "startProgram",
+                    "typology": "fixed",
+                    "defaultValue": "eco"
+                }
+            }
+        },
+        "PROGRAMS.HW.ELEC": {
+            "parameters": {
+                "program": {
+                    "category": "startProgram",
+                    "typology": "fixed",
+                    "defaultValue": "elec"
+                }
+            }
+        },
+        "PROGRAMS.HW.VAC": {
+            "parameters": {
+                "program": {
+                    "category": "startProgram",
+                    "typology": "fixed",
+                    "defaultValue": "vac"
+                }
+            }
+        }
+    }
+}

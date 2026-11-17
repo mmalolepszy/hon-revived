@@ -1,0 +1,29 @@
+[
+    {
+        "command": {
+            "ancillaryParameters": null,
+            "applianceOptions": null,
+            "applianceType": "HW",
+            "attributes": {
+                "channel": "mobileApp",
+                "origin": "standardProgram"
+            },
+            "commandName": "startProgram",
+            "device": {
+                "appVersion": "2.30.7",
+                "deviceModel": "s5e9965",
+                "mobileId": "xxxxxxxx",
+                "mobileOs": "android",
+                "osVersion": 36
+            },
+            "macAddress": "xx-xx-xx-xx-xx-xx",
+            "parameters": {
+                "machMode": 2
+            },
+            "timestamp": "1970-01-01 00:00:00+00:00",
+            "transactionId": "xx-xx-xx-xx-xx-xx_1970-01-01T00:00:00.0Z"
+        },
+        "timestampAccepted": "1970-01-01 00:00:00+00:00",
+        "timestampExecuted": "1970-01-01 00:00:00+00:00"
+    }
+]
