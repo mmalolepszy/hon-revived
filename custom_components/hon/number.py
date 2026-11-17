@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from homeassistant.components.number import (
     NumberEntity,
     NumberEntityDescription,
+    NumberDeviceClass,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfTime, UnitOfTemperature
@@ -27,7 +28,7 @@ class HonConfigNumberEntityDescription(NumberEntityDescription):
 
 @dataclass(frozen=True)
 class HonNumberEntityDescription(NumberEntityDescription):
-    pass
+    send_key_only: bool = False
 
 
 NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
@@ -206,6 +207,17 @@ NUMBERS: dict[str, tuple[NumberEntityDescription, ...]] = {
             name="Pollen Level",
             icon="mdi:flower-pollen",
             translation_key="pollen_level",
+        ),
+    ),
+    "WH": (
+        HonNumberEntityDescription(
+            key="settings.tempSel",
+            name="Target Temperature",
+            icon="mdi:thermometer",
+            device_class=NumberDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="target_temperature",
+            send_key_only=True,
         ),
     ),
 }

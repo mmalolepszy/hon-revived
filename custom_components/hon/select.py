@@ -22,6 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class HonSelectEntityDescription(SelectEntityDescription):
     option_list: dict[int, str] | None = None
+    send_key_only: bool = False
 
 
 @dataclass(frozen=True)
@@ -183,6 +184,16 @@ SELECTS: dict[str, tuple[SelectEntityDescription, ...]] = {
             icon="mdi:play",
             option_list=const.AP_MACH_MODE,
             translation_key="mode",
+        ),
+    ),
+    "WH": (
+        HonSelectEntityDescription(
+            key="settings.machMode",
+            name="Mode",
+            send_key_only=True,
+            icon="mdi:information",
+            option_list=const.WH_MACH_MODE,
+            translation_key="mach_modes_wh",
         ),
     ),
     "FRE": (
