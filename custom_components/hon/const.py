@@ -189,6 +189,7 @@ TUMBLE_DRYER_DRY_LEVEL: dict[int, str] = {
     2: "no_dry_iron",
     3: "cupboard_dry",
     4: "extra_dry",
+    6: "no_dry",
     11: "no_dry",
     12: "iron_dry",
     13: "cupboard_dry",
