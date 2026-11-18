@@ -128,6 +128,25 @@ WASHING_PR_PHASE: dict[int, str] = {
     27: "washing",
 }
 
+# Numeric program code (prCode) -> slug, resolved to a name via the
+# "program_code" translation. Community-curated; unmapped codes fall back
+# to the raw numeric code (see get_readable()).
+WASHING_PROGRAM_CODES: dict[int, str] = {
+    38: "keep_fresh",
+    70: "mix",
+    71: "drum_clean",
+    74: "spin",
+    115: "cottons",
+    124: "smart",
+    128: "wool",
+    129: "duvet",
+    130: "synthetics",
+    131: "sportswear",
+    132: "baby_care",
+    135: "cottons_20",
+    136: "eco_40_60",
+}
+
 MACH_MODE: dict[int, str] = {
     0: "ready",  # NO_STATE
     1: "ready",  # SELECTION_MODE
