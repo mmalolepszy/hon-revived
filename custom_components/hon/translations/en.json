@@ -2051,6 +2051,9 @@
             "remote_control": {
                 "name": "Remote control"
             },
+            "remote_control_enabled": {
+                "name": "Remote control enabled"
+            },
             "rinse_aid": {
                 "name": "Rinse Aid level"
             },
