@@ -1971,6 +1971,9 @@
             "remote_control": {
                 "name": "Fernsteuerung"
             },
+            "remote_control_enabled": {
+                "name": "Fernsteuerung aktiviert"
+            },
             "rinse_aid": {
                 "name": "Klarspülerstand"
             },
