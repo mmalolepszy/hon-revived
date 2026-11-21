@@ -90,7 +90,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         HonSensorEntityDescription(
             key="currentElectricityUsed",
             name="Current Electricity Used",
-            state_class=SensorStateClass.MEASUREMENT,
+            state_class=SensorStateClass.TOTAL_INCREASING,
             device_class=SensorDeviceClass.ENERGY,
             native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
             icon="mdi:lightning-bolt",
@@ -99,7 +99,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         HonSensorEntityDescription(
             key="currentWaterUsed",
             name="Current Water Used",
-            state_class=SensorStateClass.MEASUREMENT,
+            state_class=SensorStateClass.TOTAL_INCREASING,
             device_class=SensorDeviceClass.WATER,
             native_unit_of_measurement=UnitOfVolume.LITERS,
             icon="mdi:water",
@@ -494,7 +494,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             icon="mdi:lightning-bolt",
             native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
             device_class=SensorDeviceClass.ENERGY,
-            state_class=SensorStateClass.MEASUREMENT,
+            state_class=SensorStateClass.TOTAL_INCREASING,
         ),
         HonSensorEntityDescription(
             key="currentWaterUsed",
@@ -502,7 +502,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             icon="mdi:water",
             native_unit_of_measurement=UnitOfVolume.LITERS,
             device_class=SensorDeviceClass.VOLUME,
-            state_class=SensorStateClass.MEASUREMENT,
+            state_class=SensorStateClass.TOTAL_INCREASING,
         ),
         HonSensorEntityDescription(
             key="currentCycleTime",
