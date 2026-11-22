@@ -23,6 +23,9 @@ _LOGGER = logging.getLogger(__name__)
 class HonControlSwitchEntityDescription(SwitchEntityDescription):
     turn_on_key: str = ""
     turn_off_key: str = ""
+    # machMode values for which the switch is on. When set, the switch follows
+    # the appliance's reported mode instead of hOn's sticky "activity" flag.
+    on_mach_modes: tuple[int, ...] | None = None
 
 
 @dataclass(frozen=True)
@@ -44,6 +47,8 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             turn_on_key="startProgram",
             turn_off_key="stopProgram",
             translation_key="washing_machine",
+            # running, paused, delayed start (selected / counting down), stopping
+            on_mach_modes=(2, 3, 4, 5, 9),
         ),
         HonControlSwitchEntityDescription(
             key="pause",
@@ -482,23 +487,38 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
 class HonControlSwitchEntity(HonEntity, SwitchEntity):
     entity_description: HonControlSwitchEntityDescription
 
+    def _mach_mode(self) -> int | None:
+        """Return the appliance's machMode when this switch follows it."""
+        if self.entity_description.on_mach_modes is None:
+            return None
+        try:
+            return int(self._device.get("machMode"))
+        except (TypeError, ValueError):
+            return None
+
     @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
+        if (mach_mode := self._mach_mode()) is not None:
+            # hOn's "activity" flag stays set after a cycle ends while the
+            # machine is still on, so use the mode the appliance reports.
+            return mach_mode in (self.entity_description.on_mach_modes or ())
         return self._device.get(self.entity_description.key, False)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         self._device.sync_command(self.entity_description.turn_on_key, "settings")
         self.coordinator.async_set_updated_data({})
         await self._device.commands[self.entity_description.turn_on_key].send()
-        self._device.attributes[self.entity_description.key] = True
+        if self._mach_mode() is None:
+            self._device.attributes[self.entity_description.key] = True
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         self._device.sync_command(self.entity_description.turn_off_key, "settings")
         self.coordinator.async_set_updated_data({})
         await self._device.commands[self.entity_description.turn_off_key].send()
-        self._device.attributes[self.entity_description.key] = False
+        if self._mach_mode() is None:
+            self._device.attributes[self.entity_description.key] = False
         self.schedule_update_ha_state()
 
     @property
