@@ -122,6 +122,13 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
+            key="remoteCtrValid",
+            name="Remote Control Enabled",
+            on_value=1,
+            icon="mdi:remote-tv",
+            translation_key="remote_control_enabled",
+        ),
+        HonBinarySensorEntityDescription(
             key="doorStatus",
             name="Door",
             device_class=BinarySensorDeviceClass.DOOR,
@@ -143,6 +150,13 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             on_value="CONNECTED",
             icon="mdi:wifi",
             translation_key="connection",
+        ),
+        HonBinarySensorEntityDescription(
+            key="remoteCtrValid",
+            name="Remote Control Enabled",
+            on_value=1,
+            icon="mdi:remote-tv",
+            translation_key="remote_control_enabled",
         ),
         HonBinarySensorEntityDescription(
             key="attributes.parameters.onOffStatus",
@@ -209,6 +223,13 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
+            key="remoteCtrValid",
+            name="Remote Control Enabled",
+            on_value=1,
+            icon="mdi:remote-tv",
+            translation_key="remote_control_enabled",
+        ),
+        HonBinarySensorEntityDescription(
             key="attributes.parameters.onOffStatus",
             name="On",
             device_class=BinarySensorDeviceClass.RUNNING,
@@ -261,6 +282,13 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
             translation_key="connection",
+        ),
+        HonBinarySensorEntityDescription(
+            key="remoteCtrValid",
+            name="Remote Control Enabled",
+            on_value=1,
+            icon="mdi:remote-tv",
+            translation_key="remote_control_enabled",
         ),
         HonBinarySensorEntityDescription(
             key="doorStatus",
