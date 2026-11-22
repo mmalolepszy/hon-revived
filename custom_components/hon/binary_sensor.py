@@ -34,6 +34,13 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             translation_key="remote_control",
         ),
         HonBinarySensorEntityDescription(
+            key="remoteCtrValid",
+            name="Remote Control Enabled",
+            on_value=1,
+            icon="mdi:remote-tv",
+            translation_key="remote_control_enabled",
+        ),
+        HonBinarySensorEntityDescription(
             key="doorLockStatus",
             name="Door Lock",
             device_class=BinarySensorDeviceClass.LOCK,
