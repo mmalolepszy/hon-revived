@@ -157,6 +157,8 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             turn_on_key="startProgram",
             turn_off_key="stopProgram",
             translation_key="tumble_dryer",
+            # running, paused, delayed start (selected / counting down), stopping
+            on_mach_modes=(2, 3, 4, 5, 9),
         ),
         HonControlSwitchEntityDescription(
             key="pause",
@@ -214,6 +216,8 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             turn_on_key="startProgram",
             turn_off_key="stopProgram",
             translation_key="washer_dryer",
+            # running, paused, delayed start (selected / counting down), stopping
+            on_mach_modes=(2, 3, 4, 5, 9),
         ),
         HonControlSwitchEntityDescription(
             key="pause",
