@@ -114,6 +114,15 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             translation_key="suggested_load",
         ),
         HonSensorEntityDescription(
+            key="actualWeight",
+            name="Actual weight",
+            device_class=SensorDeviceClass.WEIGHT,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+            icon="mdi:weight-kilogram",
+            translation_key="actual_weight",
+        ),
+        HonSensorEntityDescription(
             key="machMode",
             name="Machine Status",
             icon="mdi:information",
