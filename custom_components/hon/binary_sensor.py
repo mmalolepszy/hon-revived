@@ -27,11 +27,10 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     "WM": (
         HonBinarySensorEntityDescription(
             key="attributes.lastConnEvent.category",
-            name="Remote Control",
+            name="Connection",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
-            icon="mdi:remote",
-            translation_key="remote_control",
+            translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
             key="remoteCtrValid",
@@ -148,7 +147,6 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             name="Connection",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
-            icon="mdi:wifi",
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
@@ -219,7 +217,6 @@ BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
             name="Connection",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
             on_value="CONNECTED",
-            icon="mdi:wifi",
             translation_key="connection",
         ),
         HonBinarySensorEntityDescription(
