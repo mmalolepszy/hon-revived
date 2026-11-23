@@ -1001,6 +1001,42 @@
             "cop": {
                 "name": "Arbeitszahl (COP)"
             },
+            "smartgrid_consumption": {
+                "name": "Smart-Grid Energieverbrauch"
+            },
+            "sg_type": {
+                "name": "Smart-Grid Modus"
+            },
+            "curve_type": {
+                "name": "Heizkurventyp"
+            },
+            "quiet_mode_start_time": {
+                "name": "Flüstermodus Startzeit"
+            },
+            "quiet_mode_end_time": {
+                "name": "Flüstermodus Endzeit"
+            },
+            "quiet_mode_2_start_time": {
+                "name": "Flüstermodus 2 Startzeit"
+            },
+            "quiet_mode_2_end_time": {
+                "name": "Flüstermodus 2 Endzeit"
+            },
+            "eco_mode_start_time": {
+                "name": "Eco-Modus Startzeit"
+            },
+            "eco_mode_end_time": {
+                "name": "Eco-Modus Endzeit"
+            },
+            "sterilization_start_time": {
+                "name": "Desinfektion Startzeit"
+            },
+            "holiday_start_date": {
+                "name": "Urlaubsmodus Startdatum"
+            },
+            "holiday_end_date": {
+                "name": "Urlaubsmodus Enddatum"
+            },
             "water_temperature": {
                 "name": "Wassertemperatur"
             },

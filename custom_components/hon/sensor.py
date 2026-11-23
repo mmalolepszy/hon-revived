@@ -1069,6 +1069,92 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             icon="mdi:chart-line",
             translation_key="cop",
         ),
+        HonSensorEntityDescription(
+            key="stats.smartgridConsumption",
+            name="Smart Grid Energy Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+            icon="mdi:solar-power",
+            translation_key="smartgrid_consumption",
+        ),
+        HonSensorEntityDescription(
+            key="sgType",
+            name="Smart Grid Mode",
+            icon="mdi:transmission-tower",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="sg_type",
+        ),
+        HonSensorEntityDescription(
+            key="curveType",
+            name="Heating Curve Type",
+            icon="mdi:chart-bell-curve",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="curve_type",
+        ),
+        HonSensorEntityDescription(
+            key="startTimeQuietMode1",
+            name="Quiet Mode Start Time",
+            icon="mdi:clock-start",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="quiet_mode_start_time",
+        ),
+        HonSensorEntityDescription(
+            key="endTimeQuietMode1",
+            name="Quiet Mode End Time",
+            icon="mdi:clock-end",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="quiet_mode_end_time",
+        ),
+        HonSensorEntityDescription(
+            key="startTimeQuietMode2",
+            name="Quiet Mode 2 Start Time",
+            icon="mdi:clock-start",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="quiet_mode_2_start_time",
+        ),
+        HonSensorEntityDescription(
+            key="endTimeQuietMode2",
+            name="Quiet Mode 2 End Time",
+            icon="mdi:clock-end",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="quiet_mode_2_end_time",
+        ),
+        HonSensorEntityDescription(
+            key="startTimeEcoMode",
+            name="Eco Mode Start Time",
+            icon="mdi:clock-start",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="eco_mode_start_time",
+        ),
+        HonSensorEntityDescription(
+            key="endTimeEcoMode",
+            name="Eco Mode End Time",
+            icon="mdi:clock-end",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="eco_mode_end_time",
+        ),
+        HonSensorEntityDescription(
+            key="startTimeSterilizationMode",
+            name="Sterilization Start Time",
+            icon="mdi:clock-start",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="sterilization_start_time",
+        ),
+        HonSensorEntityDescription(
+            key="startTimeHolidayMode",
+            name="Holiday Start Date",
+            icon="mdi:calendar-start",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="holiday_start_date",
+        ),
+        HonSensorEntityDescription(
+            key="endTimeHolidayMode",
+            name="Holiday End Date",
+            icon="mdi:calendar-end",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="holiday_end_date",
+        ),
     ),
     "HW": (
         HonSensorEntityDescription(
@@ -1343,6 +1429,20 @@ class HonAWEnergySensorEntity(HonEntity, SensorEntity):
             )
             if today_energy > 0:
                 attrs["cop_today"] = round(today_prod / today_energy, 2)
+        elif key == "stats.smartgridConsumption":
+            sg_data = raw_stats.get("smartgrid", {})
+            sg_month_data = raw_stats.get("smartgrid_month", {})
+            daily_records = sg_data.get("data", [])
+            monthly_records = sg_month_data.get("data", [])
+            attrs["daily"] = daily_records
+            attrs["monthly"] = monthly_records
+            if daily_records:
+                attrs["today"] = daily_records[-1].get("consumption", 0)
+            total_c = sg_month_data.get("totalConsumption")
+            if total_c is not None:
+                attrs["total_consumption"] = total_c
+            elif daily_records:
+                attrs["total_consumption"] = sum(r.get("consumption", 0) for r in daily_records)
         return attrs
 
     @callback
@@ -1382,6 +1482,24 @@ class HonAWEnergySensorEntity(HonEntity, SensorEntity):
                 self._attr_native_value = round(total_p / total_e, 2)
             else:
                 self._attr_native_value = None
+        elif key == "stats.smartgridConsumption":
+            raw_stats: dict[str, Any] = {}
+            if hasattr(self._device, "statistics"):
+                res = (
+                    self._device.statistics()
+                    if callable(self._device.statistics)
+                    else self._device.statistics
+                )
+                if isinstance(res, dict):
+                    raw_stats = res
+            sg_month_data = raw_stats.get("smartgrid_month", {})
+            total_c = sg_month_data.get("totalConsumption")
+            if total_c is not None:
+                self._attr_native_value = total_c
+            else:
+                sg_data = raw_stats.get("smartgrid", {})
+                daily_records = sg_data.get("data", [])
+                self._attr_native_value = sum(r.get("consumption", 0) for r in daily_records) if daily_records else 0
         else:
             self._attr_native_value = None
 

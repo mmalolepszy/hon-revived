@@ -33,14 +33,51 @@ def _patch_pyhon_statistics() -> None:
                     "macAddress": appliance.mac_address,
                     "applianceType": appliance.appliance_type,
                 }
+                payload: dict[str, Any] = {}
                 try:
                     if hasattr(self, "_hon") and self._hon:
                         async with self._hon.get(url, params=params) as response:
                             if response.status == 200:
                                 payload = (await response.json()).get("payload", {})
-                                return payload
                 except Exception as exc:
                     _LOGGER.warning("Failed to retrieve AW statistics: %s", exc)
+
+                # Fetch Smart Grid statistics
+                try:
+                    if hasattr(self, "_hon") and self._hon and payload:
+                        from datetime import datetime, timedelta
+
+                        now = datetime.now()
+                        start_30d = (now - timedelta(days=30)).strftime("%Y-%m-%d")
+                        today_str = now.strftime("%Y-%m-%d")
+                        sg_url = f"{pyhon_const.API_URL}/statistics/v1/smartgrid"
+
+                        # 1. Daily Smart Grid data (last 30 days)
+                        sg_day_params = {
+                            "macAddress": appliance.mac_address,
+                            "from": start_30d,
+                            "to": today_str,
+                            "aggregation": "day",
+                        }
+                        async with self._hon.get(sg_url, params=sg_day_params) as sg_resp:
+                            if sg_resp.status == 200:
+                                payload["smartgrid"] = (await sg_resp.json()).get("payload", {})
+
+                        # 2. Monthly Smart Grid data (current year)
+                        sg_month_params = {
+                            "macAddress": appliance.mac_address,
+                            "from": f"{now.year}-01-01",
+                            "to": today_str,
+                            "aggregation": "month",
+                        }
+                        async with self._hon.get(sg_url, params=sg_month_params) as sg_m_resp:
+                            if sg_m_resp.status == 200:
+                                payload["smartgrid_month"] = (await sg_m_resp.json()).get("payload", {})
+                except Exception as exc:
+                    _LOGGER.debug("Failed to retrieve AW Smart Grid statistics: %s", exc)
+
+                if payload:
+                    return payload
             return await original_load_statistics(self, appliance)
 
         HonAPI.load_statistics = patched_load_statistics

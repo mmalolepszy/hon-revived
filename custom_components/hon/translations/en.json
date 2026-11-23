@@ -1022,6 +1022,42 @@
             "cop": {
                 "name": "Coefficient of Performance (COP)"
             },
+            "smartgrid_consumption": {
+                "name": "Smart Grid Energy Consumption"
+            },
+            "sg_type": {
+                "name": "Smart Grid Mode"
+            },
+            "curve_type": {
+                "name": "Heating Curve Type"
+            },
+            "quiet_mode_start_time": {
+                "name": "Quiet Mode Start Time"
+            },
+            "quiet_mode_end_time": {
+                "name": "Quiet Mode End Time"
+            },
+            "quiet_mode_2_start_time": {
+                "name": "Quiet Mode 2 Start Time"
+            },
+            "quiet_mode_2_end_time": {
+                "name": "Quiet Mode 2 End Time"
+            },
+            "eco_mode_start_time": {
+                "name": "Eco Mode Start Time"
+            },
+            "eco_mode_end_time": {
+                "name": "Eco Mode End Time"
+            },
+            "sterilization_start_time": {
+                "name": "Sterilization Start Time"
+            },
+            "holiday_start_date": {
+                "name": "Holiday Start Date"
+            },
+            "holiday_end_date": {
+                "name": "Holiday End Date"
+            },
             "water_temperature": {
                 "name": "Water Temperature"
             },

@@ -192,7 +192,7 @@ class TestRealApplianceFixture(unittest.TestCase):
         energy_sensors = {
             s.key: s for s in SENSORS["AW"] if s.key.startswith("stats.")
         }
-        self.assertEqual(len(energy_sensors), 10)
+        self.assertEqual(len(energy_sensors), 11)
 
         # 1. Heating energy consumption (3438 kWh)
         s_desc = energy_sensors["stats.heatHeatPumpEnergyConsumption"]
@@ -246,6 +246,43 @@ class TestRealApplianceFixture(unittest.TestCase):
         self.assertEqual(entity.extra_state_attributes.get("cop_heating"), 4.69)
         self.assertEqual(entity.extra_state_attributes.get("cop_dhw"), 4.47)
         self.assertEqual(entity.extra_state_attributes.get("cop_today"), 6.09)
+
+        # 9. Smart Grid energy consumption (65 kWh)
+        s_desc = energy_sensors["stats.smartgridConsumption"]
+        entity = HonAWEnergySensorEntity(self.hass, self.entry, self.device, s_desc)
+        self.assertEqual(entity.native_value, 65)
+        self.assertEqual(entity.native_unit_of_measurement, "kWh")
+        self.assertEqual(entity.extra_state_attributes.get("today"), 20)
+        self.assertEqual(entity.extra_state_attributes.get("total_consumption"), 65)
+        self.assertEqual(len(entity.extra_state_attributes.get("daily")), 4)
+
+    def test_smartgrid_and_diagnostic_sensors(self):
+        """Verify sgType, curveType, and time window diagnostic sensors."""
+        aw_sensors = {s.key: s for s in SENSORS["AW"] if not s.key.startswith("stats.")}
+
+        # sgType (1)
+        s_desc = aw_sensors["sgType"]
+        entity = HonSensorEntity(self.hass, self.entry, self.device, s_desc)
+        entity._handle_coordinator_update(update=False)
+        self.assertEqual(entity.native_value, "1")
+
+        # curveType (2)
+        s_desc = aw_sensors["curveType"]
+        entity = HonSensorEntity(self.hass, self.entry, self.device, s_desc)
+        entity._handle_coordinator_update(update=False)
+        self.assertEqual(entity.native_value, "2")
+
+        # startTimeQuietMode1 ("18:00")
+        s_desc = aw_sensors["startTimeQuietMode1"]
+        entity = HonSensorEntity(self.hass, self.entry, self.device, s_desc)
+        entity._handle_coordinator_update(update=False)
+        self.assertEqual(entity.native_value, "18:00")
+
+        # endTimeQuietMode1 ("23:34")
+        s_desc = aw_sensors["endTimeQuietMode1"]
+        entity = HonSensorEntity(self.hass, self.entry, self.device, s_desc)
+        entity._handle_coordinator_update(update=False)
+        self.assertEqual(entity.native_value, "23:34")
 
 
 if __name__ == "__main__":

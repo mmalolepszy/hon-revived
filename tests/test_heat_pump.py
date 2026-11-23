@@ -106,6 +106,16 @@ class TestHeatPumpEntities(unittest.TestCase):
             "stats.dhwHeatPumpHeatProduction",
             "stats.totalHeatProduction",
             "stats.cop",
+            "stats.smartgridConsumption",
+            "sgType",
+            "curveType",
+            "startTimeQuietMode1",
+            "endTimeQuietMode1",
+            "startTimeEcoMode",
+            "endTimeEcoMode",
+            "startTimeSterilizationMode",
+            "startTimeHolidayMode",
+            "endTimeHolidayMode",
         ]
         for exp in expected:
             self.assertIn(exp, keys)

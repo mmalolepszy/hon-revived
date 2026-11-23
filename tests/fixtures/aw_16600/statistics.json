@@ -580,6 +580,35 @@
           5716
         ]
       }
+    },
+    "smartgrid": {
+      "data": [
+        {
+          "date": "2026-11-20",
+          "consumption": 12
+        },
+        {
+          "date": "2026-11-21",
+          "consumption": 15
+        },
+        {
+          "date": "2026-11-22",
+          "consumption": 18
+        },
+        {
+          "date": "2026-11-23",
+          "consumption": 20
+        }
+      ]
+    },
+    "smartgrid_month": {
+      "data": [
+        {
+          "date": "2026-11",
+          "consumption": 65
+        }
+      ],
+      "totalConsumption": 65
     }
   }
 }
