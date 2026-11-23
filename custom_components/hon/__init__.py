@@ -14,6 +14,78 @@ from .const import DOMAIN, PLATFORMS, MOBILE_ID, CONF_REFRESH_TOKEN
 
 _LOGGER = logging.getLogger(__name__)
 
+
+def _patch_pyhon_statistics() -> None:
+    """Patch pyhon HonAPI.load_statistics to use the official statistics retrieve endpoint for heat pumps (AW)."""
+    try:
+        from pyhon.connection.api import HonAPI
+        from pyhon import const as pyhon_const
+
+        if getattr(HonAPI, "_aw_stats_patched", False):
+            return
+
+        original_load_statistics = HonAPI.load_statistics
+
+        async def patched_load_statistics(self: Any, appliance: Any) -> dict[str, Any]:
+            if getattr(appliance, "appliance_type", "") == "AW":
+                url = f"{pyhon_const.API_URL}/statistics/v1/retrieve"
+                params = {
+                    "macAddress": appliance.mac_address,
+                    "applianceType": appliance.appliance_type,
+                }
+                payload: dict[str, Any] = {}
+                try:
+                    if hasattr(self, "_hon") and self._hon:
+                        async with self._hon.get(url, params=params) as response:
+                            if response.status == 200:
+                                payload = (await response.json()).get("payload", {})
+                except Exception as exc:
+                    _LOGGER.warning("Failed to retrieve AW statistics: %s", exc)
+
+                # Fetch Smart Grid statistics
+                try:
+                    if hasattr(self, "_hon") and self._hon and payload:
+                        from datetime import datetime, timedelta
+
+                        now = datetime.now()
+                        start_30d = (now - timedelta(days=30)).strftime("%Y-%m-%d")
+                        today_str = now.strftime("%Y-%m-%d")
+                        sg_url = f"{pyhon_const.API_URL}/statistics/v1/smartgrid"
+
+                        # 1. Daily Smart Grid data (last 30 days)
+                        sg_day_params = {
+                            "macAddress": appliance.mac_address,
+                            "from": start_30d,
+                            "to": today_str,
+                            "aggregation": "day",
+                        }
+                        async with self._hon.get(sg_url, params=sg_day_params) as sg_resp:
+                            if sg_resp.status == 200:
+                                payload["smartgrid"] = (await sg_resp.json()).get("payload", {})
+
+                        # 2. Monthly Smart Grid data (current year)
+                        sg_month_params = {
+                            "macAddress": appliance.mac_address,
+                            "from": f"{now.year}-01-01",
+                            "to": today_str,
+                            "aggregation": "month",
+                        }
+                        async with self._hon.get(sg_url, params=sg_month_params) as sg_m_resp:
+                            if sg_m_resp.status == 200:
+                                payload["smartgrid_month"] = (await sg_m_resp.json()).get("payload", {})
+                except Exception as exc:
+                    _LOGGER.debug("Failed to retrieve AW Smart Grid statistics: %s", exc)
+
+                if payload:
+                    return payload
+            return await original_load_statistics(self, appliance)
+
+        HonAPI.load_statistics = patched_load_statistics
+        HonAPI._aw_stats_patched = True
+    except Exception as exc:
+        _LOGGER.debug("Could not patch pyhon HonAPI: %s", exc)
+
+
 HON_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): cv.string,
@@ -28,6 +100,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    _patch_pyhon_statistics()
     session = aiohttp_client.async_get_clientsession(hass)
     if (config_dir := hass.config.config_dir) is None:
         raise ValueError("Missing Config Dir")
@@ -52,6 +125,27 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.unique_id] = {"hon": hon, "coordinator": coordinator}
+
+    # Periodic update for heat pump energy statistics (every 30 minutes)
+    async def async_refresh_heatpump_statistics(*_: Any) -> None:
+        for appliance in hon.appliances:
+            if getattr(appliance, "appliance_type", "") == "AW":
+                try:
+                    await appliance.load_statistics()
+                except Exception as exc:
+                    _LOGGER.warning("Periodic AW statistics refresh failed: %s", exc)
+        coordinator.async_set_updated_data({})
+
+    try:
+        from homeassistant.helpers.event import async_track_time_interval
+        from datetime import timedelta
+        entry.async_on_unload(
+            async_track_time_interval(
+                hass, async_refresh_heatpump_statistics, timedelta(minutes=30)
+            )
+        )
+    except Exception as exc:
+        _LOGGER.debug("Could not schedule periodic statistics refresh: %s", exc)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 

@@ -1,0 +1,301 @@
+{
+    "resultCode": "0",
+    "shadow": {
+        "parameters": {
+            "accumulatedHeatDay": {
+                "parNewVal": "6;10;5;10;7;0;6",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "accumulatedHeatMonth": {
+                "parNewVal": "0;0;0;0;22;238;190;189;195;115;0;0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "accumulatedHeatYear": {
+                "parNewVal": "0;0;0;0;949",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "antifreezingStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "autoDefrostStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "auxElecHeatingStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "boilerHeatingCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "boostStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "compressorHeatingCurrentStatus": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "date": {
+                "parNewVal": "2026-10-17",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "debugEnabled": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "electricHeatingCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionDayCp": {
+                "parNewVal": "1;2;1;2;1;0;1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionDayEc": {
+                "parNewVal": "0;0;0;0;0;0;0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionMonthCp": {
+                "parNewVal": "0;0;0;0;2;41;31;31;32;21;0;0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionMonthEc": {
+                "parNewVal": "0;0;0;0;15;0;0;0;0;4;0;0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionYearCp": {
+                "parNewVal": "0;0;0;0;158",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "energyConsumptionYearEc": {
+                "parNewVal": "0;0;0;0;19",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "errors": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "externalHeatSource": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "highTransRate": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "lockStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "machMode": {
+                "parNewVal": "2",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "offPeakPeriodScheme": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "offpeakSignalCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "offpeakSignalHeatMode": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "offpeakSignalNcNo": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "offpeakSignalSwitch": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "onOffStatus": {
+                "parNewVal": "1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoDays": {
+                "parNewVal": "7F",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoEndTime1": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoEndTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoEndTime3": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoStartTime1": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoStartTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp1EcoStartTime3": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoEndTime1": {
+                "parNewVal": "1200",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoEndTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoEndTime3": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoStartTime1": {
+                "parNewVal": "780",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoStartTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "opp2EcoStartTime3": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "powerSupplySource": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "productVolume": {
+                "parNewVal": "250",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "remainingWaterLevel": {
+                "parNewVal": "11",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentEndTime1": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentEndTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentStartTime1": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentStartTime2": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "silentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "solarHeatingCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "statusSyncRate": {
+                "parNewVal": "1440",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "stdTransRate": {
+                "parNewVal": "3600",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationCurrentStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationTempSel": {
+                "parNewVal": "66.1",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "sterilizationTime": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "temp": {
+                "parNewVal": "47",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSel": {
+                "parNewVal": "55.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelHc": {
+                "parNewVal": "65.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelPv": {
+                "parNewVal": "75.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempSelSg": {
+                "parNewVal": "65.0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "tempUnit": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "time": {
+                "parNewVal": "47340",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "timingOnOffStatus": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "timingPowerOff": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "timingPowerOn": {
+                "parNewVal": "00:00",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "transMode": {
+                "parNewVal": "0",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "vacEndDate": {
+                "parNewVal": "2000-01-01",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "vacStartDate": {
+                "parNewVal": "2000-01-01",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            "weekDay": {
+                "parNewVal": "6",
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            }
+        }
+    },
+    "lastConnEvent": {
+        "category": "CONNECTED",
+        "instantTime": "1970-01-01 00:00:00+00:00",
+        "macAddress": "xx-xx-xx-xx-xx-xx",
+        "timestampEvent": 1792232568406
+    }
+}

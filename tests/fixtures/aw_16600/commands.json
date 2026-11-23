@@ -1,0 +1,1852 @@
+{
+    "applianceModel": {
+        "id": 16600,
+        "name": "ATW-A03N",
+        "code": "XXXXX1X1111",
+        "applianceTypeId": 27,
+        "applianceTypeName": "AW",
+        "brand": "haier",
+        "connectivity": "wifi|ble",
+        "attributes": [
+            {
+                "id": 147251,
+                "parName": "enrollmentType",
+                "parValue": "3.1",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147252,
+                "parName": "fwLabel",
+                "parValue": "iotfw_epp",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147253,
+                "parName": "interfaceType",
+                "parValue": "type|series",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147254,
+                "parName": "lowerBarrierDate",
+                "parValue": "2442",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147255,
+                "parName": "series",
+                "parValue": "r290",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147256,
+                "parName": "serviceability",
+                "parValue": "none",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 147257,
+                "parName": "type",
+                "parValue": "monobloc",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            },
+            {
+                "id": 170872,
+                "parName": "iot",
+                "parValue": "hOn",
+                "status": 1,
+                "lastUpdate": "1970-01-01T00:00:00.0Z"
+            }
+        ],
+        "options": {}
+    },
+    "settings": {
+        "setParameters": {
+            "description": "The message allows to change parameters values to enable/disable specific features ",
+            "protocolType": "MQTT",
+            "parameters": {
+                "allowCoolStatus": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "allowCoolStatusZ2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "auxiliaryHeatSource": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "2",
+                    "incrementValue": "1"
+                },
+                "bufferTankStatus": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "curveType": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "2",
+                    "incrementValue": "1"
+                },
+                "dhwPriorityStatus": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "dhwTankHeaterStatus": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "ecoMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "endTimeEcoMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "endTimeHolidayMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "endTimeQuietMode1": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "endTimeQuietMode2": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "fanSpeedTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fanSpeedTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "2",
+                    "minimumValue": "1",
+                    "maximumValue": "3",
+                    "incrementValue": "1"
+                },
+                "fastDhw": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "highOutdoorTempCurve1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "30",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "highOutdoorTempCurve2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "30",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "highOutdoorTempCurve3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "15",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "highOutdoorTempCurve4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "15",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "highWaterTempCurve1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "18",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "highWaterTempCurve2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "20",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "highWaterTempCurve3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "55",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "highWaterTempCurve4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "45",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "holidayMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "idTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "idTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "16",
+                    "incrementValue": "1"
+                },
+                "lowOutdoorTempCurve1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "20",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "lowOutdoorTempCurve2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "20",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "lowOutdoorTempCurve3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "-5",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "lowOutdoorTempCurve4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "-5",
+                    "minimumValue": "-30",
+                    "maximumValue": "50",
+                    "incrementValue": "1"
+                },
+                "lowWaterTempCurve1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "5",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "lowWaterTempCurve2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "8",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "lowWaterTempCurve3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "35",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "lowWaterTempCurve4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "25",
+                    "minimumValue": "0",
+                    "maximumValue": "80",
+                    "incrementValue": "1"
+                },
+                "machMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "8",
+                    "incrementValue": "1"
+                },
+                "modeTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "modeTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "3",
+                    "minimumValue": "1",
+                    "maximumValue": "4",
+                    "incrementValue": "1"
+                },
+                "onOffStatus": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "onOffStatusTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "quietMode1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "quietMode2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "startTimeEcoMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "startTimeHolidayMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "startTimeQuietMode1": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "startTimeQuietMode2": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "startTimeSterilizationMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "sterilizationMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "tempDeltaDhw": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "-10",
+                    "minimumValue": "-20",
+                    "maximumValue": "0",
+                    "incrementValue": "0.5"
+                },
+                "tempSelDhw": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "45",
+                    "minimumValue": "25",
+                    "maximumValue": "75",
+                    "incrementValue": "0.5"
+                },
+                "tempSelEcoMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "-5",
+                    "minimumValue": "-10",
+                    "maximumValue": "0",
+                    "incrementValue": "0.5"
+                },
+                "tempSelHolidayModeZ1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "24",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelHolidayModeZ2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "24",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelPool": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "24",
+                    "minimumValue": "20",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelSterilizationMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "75",
+                    "minimumValue": "50",
+                    "maximumValue": "75",
+                    "incrementValue": "1"
+                },
+                "tempSelTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "22",
+                    "minimumValue": "10",
+                    "maximumValue": "30",
+                    "incrementValue": "0.5"
+                },
+                "tempSelZ1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "24",
+                    "minimumValue": "5",
+                    "maximumValue": "80",
+                    "incrementValue": "0.5"
+                },
+                "tempSelZ2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "24",
+                    "minimumValue": "5",
+                    "maximumValue": "80",
+                    "incrementValue": "0.5"
+                },
+                "turboMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "0",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                },
+                "turboModeTime": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "30",
+                    "minimumValue": "30",
+                    "maximumValue": "90",
+                    "incrementValue": "30"
+                },
+                "turboModeTimeType": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "weekRepSterilizationMode": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "7",
+                    "incrementValue": "1"
+                },
+                "zoneTempCon1": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon10": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon11": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon12": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon13": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon14": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon15": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon16": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon2": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon3": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon4": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon5": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon6": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon7": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon8": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                },
+                "zoneTempCon9": {
+                    "category": "command",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "1",
+                    "maximumValue": "2",
+                    "incrementValue": "2"
+                }
+            }
+        },
+        "setConfig": {
+            "description": "The message allows to set platform parameters",
+            "protocolType": "MQTT",
+            "parameters": {
+                "httpEndpoint": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                },
+                "mqttEndpoint": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0
+                }
+            }
+        }
+    },
+    "stopProgram": {
+        "description": "The message allows to stop the program",
+        "protocolType": "MQTT",
+        "parameters": {
+            "onOffStatus": {
+                "category": "command",
+                "typology": "fixed",
+                "mandatory": 0,
+                "fixedValue": "0"
+            }
+        }
+    },
+    "startProgram": {
+        "PROGRAMS.AW.AUTO": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "0"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|04|08|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            },
+                            "@allowCoolStatus": {
+                                "0": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.COOL": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|04|08|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            },
+                            "@allowCoolStatus": {
+                                "0": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.HEAT": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "2"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|04|08|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.DHW": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "3"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|01|02|03|08|09|0A|0B": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.AUTO_DHW": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "6"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|01|02|03|04|08|09|0A|0B|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            },
+                            "@allowCoolStatus": {
+                                "0": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.COOL_DHW": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "7"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|01|02|03|04|08|09|0A|0B|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            },
+                            "@allowCoolStatus": {
+                                "0": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.HEAT_DHW": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "machMode": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "8"
+                }
+            },
+            "ancillaryParameters": {
+                "programRules": {
+                    "category": "rule",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": {
+                        "remoteVisible": {
+                            "\u00a7configSetup": {
+                                "00|01|02|03|04|08|09|0A|0B|0C": {
+                                    "typology": "fixed",
+                                    "fixedValue": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "remoteActionable": {
+                    "category": "general",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "remoteVisible": {
+                    "category": "general",
+                    "typology": "range",
+                    "mandatory": 0,
+                    "defaultValue": "1",
+                    "minimumValue": "0",
+                    "maximumValue": "1",
+                    "incrementValue": "1"
+                }
+            }
+        },
+        "PROGRAMS.AW.IOT_SIMPLE_START": {
+            "description": "The command allows to start a program",
+            "protocolType": "MQTT",
+            "parameters": {
+                "onOffStatus": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon1": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon10": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon11": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon12": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon13": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon14": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon15": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon16": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon2": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon3": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon4": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon5": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon6": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon7": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon8": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                },
+                "onOffStatusTempCon9": {
+                    "category": "command",
+                    "typology": "fixed",
+                    "mandatory": 0,
+                    "fixedValue": "1"
+                }
+            }
+        }
+    },
+    "options": {},
+    "dictionaryId": 645
+}
