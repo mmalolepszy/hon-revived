@@ -82,11 +82,11 @@ class HonLightEntity(HonEntity, LightEntity):
         if not isinstance(light, HonParameterRange):
             raise ValueError()
         self._light_range = (light.min, light.max)
-        self._attr_supported_color_modes: set[ColorMode] = set()
         if len(light.values) == 2:
-            self._attr_supported_color_modes.add(ColorMode.ONOFF)
+            self._attr_color_mode = ColorMode.ONOFF
         else:
-            self._attr_supported_color_modes.add(ColorMode.BRIGHTNESS)
+            self._attr_color_mode = ColorMode.BRIGHTNESS
+        self._attr_supported_color_modes: set[ColorMode] = {self._attr_color_mode}
         self._command, self._parameter = description.key.split(".")
         super().__init__(hass, entry, device, description)
         self._handle_coordinator_update(update=False)
