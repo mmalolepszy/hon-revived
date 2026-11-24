@@ -28,3 +28,6 @@ jobs:
     - name: Lint with ruff
       run: |
         ruff check
+    - name: Type check with mypy
+      run: |
+        mypy -p custom_components.hon

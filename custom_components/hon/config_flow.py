@@ -1,12 +1,19 @@
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import voluptuous as vol  # type: ignore[import-untyped]
 from homeassistant import config_entries
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
-from homeassistant.data_entry_flow import FlowResult
 
 from .const import DOMAIN
+
+if TYPE_CHECKING:
+    # HA >= 2026.9 replaces voluptuous with probatio at runtime
+    import probatio as vol
+
+    # HA >= 2024.4
+    from homeassistant.config_entries import ConfigFlowResult
+else:
+    import voluptuous as vol
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -20,7 +27,7 @@ class HonFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> "ConfigFlowResult":
         if user_input is None:
             return self.async_show_form(
                 step_id="user",
@@ -52,5 +59,5 @@ class HonFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             },
         )
 
-    async def async_step_import(self, user_input: dict[str, str]) -> FlowResult:
+    async def async_step_import(self, user_input: dict[str, str]) -> "ConfigFlowResult":
         return await self.async_step_user(user_input)
