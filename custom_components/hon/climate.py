@@ -23,6 +23,8 @@ from homeassistant.core import callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
 from pyhon.appliance import HonAppliance
+from pyhon.commands import HonCommand
+from pyhon.parameter.enum import HonParameterEnum
 from pyhon.parameter.range import HonParameterRange
 
 from .const import HON_HVAC_MODE, HON_FAN, DOMAIN, HON_HVAC_PROGRAM
@@ -233,27 +235,55 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         self._attr_hvac_mode = hvac_mode
         if hvac_mode == HVACMode.OFF:
-            await self._device.commands["stopProgram"].send()
-            self._device.settings["settings.onOffStatus"].value = "0"
-        else:
-            self._device.settings["settings.onOffStatus"].value = "1"
-            setting = self._device.settings["settings.machMode"]
-            modes = {HON_HVAC_MODE[int(number)]: number for number in setting.values}
-            if hvac_mode in modes:
-                setting.value = modes[hvac_mode]
-            else:
-                await self.async_set_preset_mode(HON_HVAC_PROGRAM[hvac_mode])
-                return
-            await self._device.commands["settings"].send()
-        self.schedule_update_ha_state()
+            await self._stop()
+            return
+        self._limit_settings(HON_HVAC_PROGRAM[hvac_mode])
+        await self._start()
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        await self._device.commands["startProgram"].send()
-        self._device.sync_command("startProgram", "settings")
+        await self._start()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        await self._device.commands["stopProgram"].send()
-        self._device.sync_command("stopProgram", "settings")
+        await self._stop()
+
+    async def _start(self) -> None:
+        """Turn on with the current settings."""
+        self._device.settings["settings.onOffStatus"].value = "1"
+        await self._device.commands["settings"].send()
+        self.coordinator.async_set_updated_data({})
+
+    async def _stop(self) -> None:
+        """Turn off with the current settings instead of the stopProgram defaults."""
+        command = self._device.commands["stopProgram"]
+        values = self._device.commands["settings"].parameter_value
+        self._set_allowed(command, values, command)
+        await command.send()
+        self._device.settings["settings.onOffStatus"].value = "0"
+        self.coordinator.async_set_updated_data({})
+
+    def _limit_settings(self, program: str) -> None:
+        """Apply the limits of a program and keep the settings it allows."""
+        settings = self._device.commands["settings"]
+        values = settings.parameter_value
+        self._device.settings["startProgram.program"].value = program
+        self._device.sync_command("startProgram", "settings")
+        self._set_allowed(settings, values, self._device.commands["startProgram"])
+        self._set_temperature_bound()
+
+    @staticmethod
+    def _set_allowed(
+        target: HonCommand, values: dict[str, str | float], limits: HonCommand
+    ) -> None:
+        for name, value in values.items():
+            limit = limits.parameters.get(name)
+            if isinstance(limit, HonParameterEnum):
+                allowed = str(value) in limit.values
+            elif isinstance(limit, HonParameterRange):
+                allowed = limit.min <= float(value) <= limit.max
+            else:
+                allowed = False
+            if allowed and name in target.parameters:
+                target.parameters[name].value = value
 
     @property
     def preset_mode(self) -> str | None:
