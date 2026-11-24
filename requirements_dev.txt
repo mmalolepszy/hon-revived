@@ -1,5 +1,4 @@
-black>=22.12
-flake8>=6.0
+ruff==0.17.5
 mypy>=0.991
 pylint>=2.15
 pytest-homeassistant>=2026.11

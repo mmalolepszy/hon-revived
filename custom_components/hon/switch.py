@@ -451,7 +451,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         setting = self._device.settings[f"settings.{self.entity_description.key}"]
-        if type(setting) == HonParameter:
+        if type(setting) is HonParameter:
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
         self.schedule_update_ha_state()
@@ -460,7 +460,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         setting = self._device.settings[f"settings.{self.entity_description.key}"]
-        if type(setting) == HonParameter:
+        if type(setting) is HonParameter:
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
         self.schedule_update_ha_state()
@@ -562,7 +562,7 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         setting = self._device.settings[self.entity_description.key]
-        if type(setting) == HonParameter:
+        if type(setting) is HonParameter:
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else "1"
         self.coordinator.async_set_updated_data({})
@@ -570,7 +570,7 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         setting = self._device.settings[self.entity_description.key]
-        if type(setting) == HonParameter:
+        if type(setting) is HonParameter:
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else "0"
         self.coordinator.async_set_updated_data({})

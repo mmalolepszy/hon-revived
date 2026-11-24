@@ -53,7 +53,7 @@ class HonLockEntity(HonEntity, LockEntity):
     async def async_lock(self, **kwargs: Any) -> None:
         """Lock method."""
         setting = self._device.settings.get(f"settings.{self.entity_description.key}")
-        if type(setting) == HonParameter or setting is None:
+        if type(setting) is HonParameter or setting is None:
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
         self.schedule_update_ha_state()
@@ -63,7 +63,7 @@ class HonLockEntity(HonEntity, LockEntity):
     async def async_unlock(self, **kwargs: Any) -> None:
         """Unlock method."""
         setting = self._device.settings[f"settings.{self.entity_description.key}"]
-        if type(setting) == HonParameter:
+        if type(setting) is HonParameter:
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
         self.schedule_update_ha_state()

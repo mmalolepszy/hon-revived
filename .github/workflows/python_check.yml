@@ -10,43 +10,21 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - home-assistant: "2024.2.0"
-            python-version: "3.11"
-          - home-assistant: "2024.2.0"
-            python-version: "3.12"
-          - home-assistant: "2024.3.0"
-            python-version: "3.11"
-          - home-assistant: "2024.3.0"
-            python-version: "3.12"
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - uses: actions/checkout@v7
+    - name: Set up Python
+      uses: actions/setup-python@v7
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.14"
     - name: Install dependencies
       run: |
-        python -m pip install homeassistant~=${{ matrix.home-assistant }}
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
         python -m pip install -r requirements_dev.txt
-    - name: Lint with flake8
+    - name: Check formatting with ruff
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
-    - name: Type check with mypy
+        ruff format --check
+    - name: Lint with ruff
       run: |
-        touch "$(python -c 'import inspect, homeassistant, os; print(os.path.dirname(inspect.getfile(homeassistant)))')"/py.typed
-        mypy -p custom_components.hon
-    # - name: Analysing the code with pylint
-    #   run: |
-    #     pylint --max-line-length 88 $(git ls-files '*.py')
-    - name: Check black style
-      run: |
-        black . --check
+        ruff check

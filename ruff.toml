@@ -1,0 +1,15 @@
+target-version = "py312"
+extend-exclude = ["*.md"]
+
+[lint]
+# Same rule groups as flake8 (pycodestyle, pyflakes, mccabe); the HA set comes later.
+select = ["E", "F", "W", "C90"]
+ignore = [
+    "E501", # line too long (as in HA; the formatter keeps code at 88)
+]
+
+[lint.per-file-ignores]
+"scripts/generate_translation.py" = ["C901"] # too complex
+
+[lint.mccabe]
+max-complexity = 10

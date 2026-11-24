@@ -193,11 +193,15 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
         if "settings.machMode" in self._device.settings:
             current_mach = self._device.get("machMode")
             if current_mach is not None:
-                self._device.settings["settings.machMode"].value = str(int(current_mach))
+                self._device.settings["settings.machMode"].value = str(
+                    int(current_mach)
+                )
         if "settings.onOffStatus" in self._device.settings:
             current_onoff = self._device.get("onOffStatus")
             if current_onoff is not None:
-                self._device.settings["settings.onOffStatus"].value = str(int(current_onoff))
+                self._device.settings["settings.onOffStatus"].value = str(
+                    int(current_onoff)
+                )
 
         self._device.settings["settings.tempSel"].value = str(int(temperature))
         await self._device.commands["settings"].send()
@@ -285,11 +289,15 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
         if "settings.machMode" in self._device.settings:
             current_mach = self._device.get("machMode")
             if current_mach is not None:
-                self._device.settings["settings.machMode"].value = str(int(current_mach))
+                self._device.settings["settings.machMode"].value = str(
+                    int(current_mach)
+                )
         if "settings.onOffStatus" in self._device.settings:
             current_onoff = self._device.get("onOffStatus")
             if current_onoff is not None:
-                self._device.settings["settings.onOffStatus"].value = str(int(current_onoff))
+                self._device.settings["settings.onOffStatus"].value = str(
+                    int(current_onoff)
+                )
 
         fan_modes: dict[str, str] = {}
         for mode in reversed(self._device.settings["settings.windSpeed"].values):
@@ -316,11 +324,15 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
         if "settings.machMode" in self._device.settings:
             current_mach = self._device.get("machMode")
             if current_mach is not None:
-                self._device.settings["settings.machMode"].value = str(int(current_mach))
+                self._device.settings["settings.machMode"].value = str(
+                    int(current_mach)
+                )
         if "settings.onOffStatus" in self._device.settings:
             current_onoff = self._device.get("onOffStatus")
             if current_onoff is not None:
-                self._device.settings["settings.onOffStatus"].value = str(int(current_onoff))
+                self._device.settings["settings.onOffStatus"].value = str(
+                    int(current_onoff)
+                )
 
         horizontal = self._device.settings["settings.windDirectionHorizontal"]
         vertical = self._device.settings["settings.windDirectionVertical"]

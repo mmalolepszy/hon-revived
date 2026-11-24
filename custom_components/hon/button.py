@@ -103,7 +103,7 @@ class HonDeviceInfo(HonEntity, ButtonEntity):
         persistent_notification.create(
             self._hass, f"````\n```\n{self._device.diagnose}\n```\n````", title
         )
-        _LOGGER.info(self._device.diagnose.replace(" ", "\u200B "))
+        _LOGGER.info(self._device.diagnose.replace(" ", "\u200b "))
 
 
 class HonDataArchive(HonEntity, ButtonEntity):
