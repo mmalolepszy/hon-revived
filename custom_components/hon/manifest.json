@@ -11,7 +11,7 @@
   "issue_tracker": "https://github.com/mmalolepszy/hon-revived/issues",
   "loggers": ["pyhon_ha"],
   "requirements": [
-    "pyhon-revived==0.19.6"
+    "pyhon-revived==0.20.0"
   ],
-  "version": "0.19.7"
+  "version": "0.19.8"
 }
