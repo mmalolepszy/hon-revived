@@ -57,7 +57,9 @@ class HonLockEntity(HonEntity, LockEntity):
             return
         setting.value = setting.max if isinstance(setting, HonParameterRange) else 1
         self.schedule_update_ha_state()
-        await self._device.commands["settings"].send()
+        await self._device.commands["settings"].send_specific(
+            [self.entity_description.key]
+        )
         self.coordinator.async_set_updated_data({})
 
     async def async_unlock(self, **kwargs: Any) -> None:
@@ -67,7 +69,9 @@ class HonLockEntity(HonEntity, LockEntity):
             return
         setting.value = setting.min if isinstance(setting, HonParameterRange) else 0
         self.schedule_update_ha_state()
-        await self._device.commands["settings"].send()
+        await self._device.commands["settings"].send_specific(
+            [self.entity_description.key]
+        )
         self.coordinator.async_set_updated_data({})
 
     @property

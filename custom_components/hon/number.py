@@ -260,9 +260,11 @@ class HonNumberEntity(HonEntity, NumberEntity):
         setting = self._device.settings[self.entity_description.key]
         if isinstance(setting, HonParameterRange):
             setting.value = value
-        command = self.entity_description.key.split(".")[0]
-        await self._device.commands[command].send()
-        if command != "settings":
+        command, parameter = self.entity_description.key.split(".")
+        if command == "settings":
+            await self._device.commands[command].send_specific([parameter])
+        else:
+            await self._device.commands[command].send()
             self._device.sync_command(command, "settings")
         self.coordinator.async_set_updated_data({})
 

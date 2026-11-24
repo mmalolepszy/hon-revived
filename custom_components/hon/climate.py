@@ -419,7 +419,8 @@ class HonClimateEntity(HonEntity, ClimateEntity):
         if (temperature := kwargs.get(ATTR_TEMPERATURE)) is None:
             return
         self._device.settings[self.entity_description.key].value = str(int(temperature))
-        await self._device.commands["settings"].send()
+        command, parameter = self.entity_description.key.split(".")
+        await self._device.commands[command].send_specific([parameter])
         self.schedule_update_ha_state()
 
     @property

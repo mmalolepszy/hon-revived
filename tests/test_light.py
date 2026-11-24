@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 from typing import Any
+from unittest.mock import AsyncMock, call
 
 import pytest
 from homeassistant.components.light import ColorMode
@@ -22,6 +23,7 @@ def create_light(hass: HomeAssistant, maximum: int, value: int) -> Any:
         unique_id="test",
         get={"lightStatus": value}.get,
         settings={"settings.lightStatus": parameter},
+        commands={"settings": AsyncMock()},
     )
     hass.data[DOMAIN] = {"test": {"coordinator": None, "hon": None}}
     entry = SimpleNamespace(unique_id="test")
@@ -46,3 +48,15 @@ async def test_color_mode(
 
     light = create_light(hass, maximum, value=0)
     assert light.state_attributes["color_mode"] is None
+
+
+async def test_sends_only_light(
+    hass: HomeAssistant, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    light = create_light(hass, maximum=1, value=0)
+    monkeypatch.setattr(light, "schedule_update_ha_state", lambda: None)
+    command = light._device.commands["settings"]  # pylint: disable=protected-access
+    await light.async_turn_on()
+    await light.async_turn_off()
+    assert command.send_specific.await_args_list == [call(["lightStatus"])] * 2
+    command.send.assert_not_awaited()

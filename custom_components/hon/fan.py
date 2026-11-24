@@ -84,7 +84,7 @@ class HonFanEntity(HonEntity, FanEntity):
         """Set the speed percentage of the fan."""
         mode = math.ceil(percentage_to_ranged_value(self._speed_range, percentage))
         self._device.settings[self.entity_description.key].value = mode
-        await self._device.commands[self._command].send()
+        await self._device.commands[self._command].send_specific([self._parameter])
         self.schedule_update_ha_state()
 
     @property
@@ -111,7 +111,7 @@ class HonFanEntity(HonEntity, FanEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the entity off."""
         self._device.settings[self.entity_description.key].value = 0
-        await self._device.commands[self._command].send()
+        await self._device.commands[self._command].send_specific([self._parameter])
         self.schedule_update_ha_state()
 
     @callback

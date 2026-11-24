@@ -313,9 +313,11 @@ class HonSelectEntity(HonEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         setting = self._device.settings[self.entity_description.key]
         setting.value = self._option_to_number(option, setting.values)
-        command = self.entity_description.key.split(".")[0]
-        await self._device.commands[command].send()
-        if command != "settings":
+        command, parameter = self.entity_description.key.split(".")
+        if command == "settings":
+            await self._device.commands[command].send_specific([parameter])
+        else:
+            await self._device.commands[command].send()
             self._device.sync_command(command, "settings")
         self.coordinator.async_set_updated_data({})
 

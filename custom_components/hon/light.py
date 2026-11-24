@@ -109,7 +109,7 @@ class HonLightEntity(HonEntity, LightEntity):
             self._attr_brightness = self.brightness
         else:
             light.value = light.max
-        await self._device.commands[self._command].send()
+        await self._device.commands[self._command].send_specific([self._parameter])
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -118,7 +118,7 @@ class HonLightEntity(HonEntity, LightEntity):
         if not isinstance(light, HonParameterRange):
             raise ValueError()
         light.value = light.min
-        await self._device.commands[self._command].send()
+        await self._device.commands[self._command].send_specific([self._parameter])
         self.schedule_update_ha_state()
 
     @property
