@@ -31,3 +31,6 @@ jobs:
     - name: Type check with mypy
       run: |
         mypy -p custom_components.hon
+    - name: Analysing the code with pylint
+      run: |
+        pylint $(git ls-files 'custom_components/*.py' 'tests/*.py')

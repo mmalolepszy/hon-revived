@@ -426,8 +426,7 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     def hvac_mode(self) -> HVACMode:
         if self._device.get("onOffStatus") == 0:
             return HVACMode.OFF
-        else:
-            return self.entity_description.mode
+        return self.entity_description.mode
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         if len(self.hvac_modes) <= 1:
@@ -452,10 +451,7 @@ class HonClimateEntity(HonEntity, ClimateEntity):
         """Return the current Preset for this channel."""
         if self._device.get("onOffStatus") is not None:
             return self._device.get("programName", "")
-        else:
-            return self._device.get(
-                f"mode{self.entity_description.key[-2:]}", "no_mode"
-            )
+        return self._device.get(f"mode{self.entity_description.key[-2:]}", "no_mode")
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
         """Set the new preset mode."""

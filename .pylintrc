@@ -1,0 +1,20 @@
+[MAIN]
+
+source-roots=.
+
+[MESSAGES CONTROL]
+
+disable=missing-docstring,
+        line-too-long,
+        abstract-method,
+        duplicate-code,
+        too-many-instance-attributes,
+        unexpected-keyword-arg,
+        unidiomatic-typecheck,
+        unused-argument
+
+[FORMAT]
+
+max-args=7
+max-positional-arguments=6
+max-line-length=88
