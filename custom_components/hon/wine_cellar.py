@@ -8,8 +8,10 @@ startProgram commands:
   ``{prCodeZ2, tempSelZ2}`` plus the program name and its ancillary parameters
   (``programFamily: [dashboard]``); recipes carry only the temperature.
 
-A full ``settings`` send resets *both* zones to 5 °C (issues #56, #85).
-State is confirmed by the appliance over MQTT; no REST re-read after a command.
+v0.19.8 sends ``settings`` with only the changed parameter (#85); this module
+adds the app's program handling: a target outside the current program's range
+switches to a program whose range fits. State is confirmed by the appliance
+over MQTT; there is no REST re-read after a command.
 
 Findings credited to @crivabene (#56, ha-hon-wine-cellar), @mkatwijk (#85) and
 @alexw23 (PR #78).

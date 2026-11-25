@@ -440,7 +440,7 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     def native_target_temperature(self) -> float | None:
         """Return the temperature we try to reach."""
         if self._wine_cellar:
-            # settings.tempSel* holds the 5 °C default, the reported value is real
+            # The reported target, in whole °C (the cellar reports whole °F)
             return wine_cellar.target_temperature(
                 self._device, self.entity_description.key
             )
