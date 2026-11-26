@@ -152,6 +152,7 @@ class FakeApi:
         self.state = dict(state or STATE)
         self.appliance = dict(APPLIANCE if appliance is None else appliance)
         self.sent: list[dict[str, Any]] = []
+        self.history: list[dict[str, Any]] = []
         self.accept = True
         # Every read of appliance state from the cloud (must not grow after setup)
         self.reads = 0
@@ -163,7 +164,7 @@ class FakeApi:
         return []
 
     async def load_command_history(self, appliance: Any) -> list[Any]:
-        return []
+        return copy.deepcopy(self.history)
 
     async def load_attributes(self, appliance: Any) -> dict[str, Any]:
         self.reads += 1

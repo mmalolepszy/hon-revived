@@ -168,7 +168,8 @@ def zone_command(  # noqa: C901 - mirrors the app's program/zone rules
             elif isinstance(parameter, HonParameterFixed):
                 target = whole(parameter.value)
             elif isinstance(parameter, HonParameterRange):
-                target = whole(getattr(parameter, "_default", parameter.min))
+                # defaultValue, or what pyhon restored from the command history
+                target = whole(parameter.value)
     else:
         if target is None:
             raise ServiceValidationError("Missing target temperature")

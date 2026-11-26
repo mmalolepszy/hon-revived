@@ -145,6 +145,32 @@ async def test_out_of_range_raises_service_validation(api: FakeApi) -> None:
         wine_cellar.zone_command(device, ZONE_1, temperature=25)
 
 
+async def test_preset_uses_program_default(api: FakeApi) -> None:
+    """A target outside the new program falls back to its default, not its min."""
+    device = await make_appliance(api)
+    assert wine_cellar.zone_command(device, ZONE_1, program="sparkling")[1] == {
+        "prCode": "3",
+        "tempSel": "8",
+    }
+
+
+async def test_preset_uses_last_sent_temperature(api: FakeApi) -> None:
+    """pyhon restores the last startProgram from history; that value is used."""
+    api.history = [
+        {
+            "command": {
+                "commandName": "startProgram",
+                "parameters": {"program": "PROGRAMS.WC.SPARKLING", "tempSel": "6"},
+            }
+        }
+    ]
+    device = await make_appliance(api)
+    assert wine_cellar.zone_command(device, ZONE_1, program="sparkling")[1] == {
+        "prCode": "3",
+        "tempSel": "6",
+    }
+
+
 async def test_zone_climate_has_no_on_off(
     hass: HomeAssistant, setup, api: FakeApi
 ) -> None:
