@@ -39,11 +39,7 @@ async def test_zone_1_does_not_touch_zone_2(
         {
             "command": "startProgram",
             "parameters": {"prCode": "1", "tempSel": "14"},
-            "ancillary": {
-                "programFamily": "[dashboard]",
-                "remoteActionable": "1",
-                "remoteVisible": "1",
-            },
+            "ancillary": {"programFamily": "[dashboard]"},
             "program": "PROGRAMS.WC.RED",
         }
     ]
@@ -128,11 +124,7 @@ async def test_refused_command_raises(hass: HomeAssistant, setup, api: FakeApi) 
         {
             "command": "startProgram",
             "parameters": {"prCode": "1", "tempSel": "15"},
-            "ancillary": {
-                "programFamily": "[dashboard]",
-                "remoteActionable": "1",
-                "remoteVisible": "1",
-            },
+            "ancillary": {"programFamily": "[dashboard]"},
             "program": "PROGRAMS.WC.RED",
         }
     ]
