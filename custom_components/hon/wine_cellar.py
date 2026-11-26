@@ -1,20 +1,11 @@
-"""Wine cellar (WC) helpers: zone commands like the hOn app.
+"""Wine cellar (WC) helpers: per-zone commands for two-zone wine cellars.
 
-A two-zone Haier wine cellar (e.g. HWS42GDAU1 / WC127, HWS77GDAU1 / WC128,
-WC666) has two independent temperature zones. The hOn app sends per-zone
-startProgram commands:
-
-* one zone: ``startProgram`` with only that zone's ``{prCode, tempSel}`` or
-  ``{prCodeZ2, tempSelZ2}`` plus the program name and its ancillary parameters
-  (``programFamily: [dashboard]``); recipes carry only the temperature.
-
-v0.19.8 sends ``settings`` with only the changed parameter (#85); this module
-adds the app's program handling: a target outside the current program's range
-switches to a program whose range fits. State is confirmed by the appliance
-over MQTT; there is no REST re-read after a command.
-
-Findings credited to @crivabene (#56, ha-hon-wine-cellar), @mkatwijk (#85) and
-@alexw23 (PR #78).
+A two-zone Haier wine cellar has two independent temperature zones. A zone
+change sends ``startProgram`` with only that zone's ``{prCode, tempSel}`` or
+``{prCodeZ2, tempSelZ2}`` (recipes: only the temperature), the program name
+and its ancillary parameters.
+A target outside the current program's range switches to a program whose
+range fits; targets no program accepts are rejected before sending.
 """
 
 from __future__ import annotations
