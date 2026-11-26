@@ -142,8 +142,62 @@ def zone_program(device: HonAppliance, key: str) -> str | None:
     )
 
 
-# pylint: disable-next=too-many-locals
-def zone_command(  # noqa: C901 - mirrors the app's program/zone rules
+def _program_target(
+    device: HonAppliance, command: HonCommand, temp_key: str
+) -> int | None:
+    """Target for a chosen program: the current one if it fits, else its default."""
+    current_target = whole(reported(device, temp_key))
+    if current_target is not None and _fits(command, temp_key, current_target):
+        return current_target
+    parameter = command.parameters.get(temp_key)
+    if isinstance(parameter, (HonParameterFixed, HonParameterRange)):
+        # defaultValue, or what pyhon restored from the command history
+        return whole(parameter.value)
+    return None
+
+
+def _program_path(
+    device: HonAppliance, temp_key: str, program: str, target: int | None
+) -> tuple[HonCommand, int | None]:
+    """The chosen program, with the requested or a fitting target."""
+    if (command := _programs(device).get(program)) is None:
+        raise ServiceValidationError(f"Unknown wine cellar program {program}")
+    if target is None:
+        target = _program_target(device, command, temp_key)
+    return command, target
+
+
+def _temperature_path(
+    device: HonAppliance, code_key: str, temp_key: str, target: int
+) -> HonCommand:
+    """The current base program if the target fits, else the first that does."""
+    base = [
+        command
+        for command in _programs(device).values()
+        if _fixed(command, code_key, "prCode") is not None
+        and isinstance(command.parameters.get(temp_key), HonParameterRange)
+    ]
+    current_code = whole(reported(device, code_key))
+    current = [c for c in base if whole(_fixed(c, code_key, "prCode")) == current_code]
+    if not (fitting := [c for c in current + base if _fits(c, temp_key, target)]):
+        raise ServiceValidationError(
+            f"{target} °C is outside every wine cellar program range"
+        )
+    return fitting[0]
+
+
+def _zone_parameters(
+    command: HonCommand, code_key: str, temp_key: str, target: int
+) -> dict[str, str]:
+    """Only this zone's program code (base programs) and target."""
+    parameters: dict[str, str] = {}
+    if (code := _fixed(command, code_key, "prCode")) is not None:
+        parameters[code_key] = code
+    parameters[temp_key] = str(target)
+    return parameters
+
+
+def zone_command(
     device: HonAppliance,
     key: str,
     temperature: float | None = None,
@@ -153,54 +207,18 @@ def zone_command(  # noqa: C901 - mirrors the app's program/zone rules
     if key not in ZONES:
         raise ServiceValidationError(f"Unknown wine cellar zone {key}")
     code_key, temp_key = ZONES[key]
-    programs = _programs(device)
-    current_code = whole(reported(device, code_key))
-    current_target = whole(reported(device, temp_key))
     target = whole(temperature) if temperature is not None else None
-
     if program is not None:
-        if (command := programs.get(program)) is None:
-            raise ServiceValidationError(f"Unknown wine cellar program {program}")
-        if target is None:
-            parameter = command.parameters.get(temp_key)
-            if current_target is not None and _fits(command, temp_key, current_target):
-                target = current_target
-            elif isinstance(parameter, HonParameterFixed):
-                target = whole(parameter.value)
-            elif isinstance(parameter, HonParameterRange):
-                # defaultValue, or what pyhon restored from the command history
-                target = whole(parameter.value)
+        command, target = _program_path(device, temp_key, program, target)
+    elif target is None:
+        raise ServiceValidationError("Missing target temperature")
     else:
-        if target is None:
-            raise ServiceValidationError("Missing target temperature")
-        base = {
-            name: command
-            for name, command in programs.items()
-            if _fixed(command, code_key, "prCode") is not None
-            and isinstance(command.parameters.get(temp_key), HonParameterRange)
-        }
-        current = [
-            c
-            for c in base.values()
-            if whole(_fixed(c, code_key, "prCode")) == current_code
-        ]
-        fitting = [
-            c for c in current + list(base.values()) if _fits(c, temp_key, target)
-        ]
-        if not fitting:
-            raise ServiceValidationError(
-                f"{target} °C is outside every wine cellar program range"
-            )
-        command = fitting[0]
-
+        command = _temperature_path(device, code_key, temp_key, target)
     if target is None or not _fits(command, temp_key, target):
         raise ServiceValidationError(
             f"{target} °C does not fit program {command.category}"
         )
-    parameters: dict[str, str] = {}
-    if (code := _fixed(command, code_key, "prCode")) is not None:
-        parameters[code_key] = code
-    parameters[temp_key] = str(target)
+    parameters = _zone_parameters(command, code_key, temp_key, target)
     return command.category, parameters, _ancillary(command)
 
 
