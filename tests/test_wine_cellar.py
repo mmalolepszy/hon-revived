@@ -183,6 +183,35 @@ async def test_zone_climate_has_no_on_off(
     assert api.sent == []
 
 
+async def test_zone_shows_off_but_cannot_be_switched_off(
+    hass: HomeAssistant, api: FakeApi, hon, setup, caplog: pytest.LogCaptureFixture
+) -> None:
+    """onOffStatus 0 shows off; setting off is rejected and sends nothing."""
+    climate = entity_id(hass, "climate", ZONE_1)
+    assert hass.states.get(climate).state == "cool"
+    api.state["onOffStatus"] = "0"
+    for appliance in hon.appliances:
+        appliance.attributes["parameters"]["onOffStatus"].update("0")
+    hon.notify()
+    await hass.async_block_till_done()
+    state = hass.states.get(climate)
+    assert state.state == "off"
+    assert "off" not in state.attributes["hvac_modes"]
+    with pytest.raises(ServiceValidationError):
+        await hass.services.async_call(
+            "climate",
+            "set_hvac_mode",
+            {"entity_id": climate, "hvac_mode": "off"},
+            blocking=True,
+        )
+    with pytest.raises(Exception):
+        await hass.services.async_call(
+            "climate", "turn_off", {"entity_id": climate}, blocking=True
+        )
+    assert api.sent == []
+    assert "WARNING" not in caplog.text
+
+
 async def test_no_cloud_reads_after_command(
     hass: HomeAssistant, setup, api: FakeApi
 ) -> None:
