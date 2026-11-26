@@ -8,7 +8,7 @@ from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from custom_components.hon.const import DOMAIN
+from custom_components.hon.const import CONF_INTEGRATION, DOMAIN, INTEGRATION
 
 USER_INPUT = {CONF_EMAIL: "test@example.com", CONF_PASSWORD: "password"}
 
@@ -36,4 +36,4 @@ async def test_user_step(hass: HomeAssistant) -> None:
         await hass.async_block_till_done()
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == USER_INPUT[CONF_EMAIL]
-    assert result["data"] == USER_INPUT
+    assert result["data"] == {**USER_INPUT, CONF_INTEGRATION: INTEGRATION}

@@ -9,6 +9,8 @@ from homeassistant.components.climate import (
 DOMAIN: str = "hon"
 MOBILE_ID: str = "homassistant"
 CONF_REFRESH_TOKEN = "refresh_token"
+CONF_INTEGRATION = "integration"
+INTEGRATION = "hon_revived"
 
 PLATFORMS: list[str] = [
     "sensor",

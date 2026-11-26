@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 from homeassistant import config_entries
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 
-from .const import DOMAIN
+from .const import CONF_INTEGRATION, DOMAIN, INTEGRATION
 
 if TYPE_CHECKING:
     # HA >= 2026.9 replaces voluptuous with probatio at runtime
@@ -56,6 +56,7 @@ class HonFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data={
                 CONF_EMAIL: self._email,
                 CONF_PASSWORD: self._password,
+                CONF_INTEGRATION: INTEGRATION,
             },
         )
 

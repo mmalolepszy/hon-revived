@@ -10,7 +10,14 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from pyhon import Hon
 
-from .const import DOMAIN, PLATFORMS, MOBILE_ID, CONF_REFRESH_TOKEN
+from .const import (
+    CONF_INTEGRATION,
+    CONF_REFRESH_TOKEN,
+    DOMAIN,
+    INTEGRATION,
+    MOBILE_ID,
+    PLATFORMS,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,9 +47,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         refresh_token=entry.data.get(CONF_REFRESH_TOKEN, ""),
     ).create()
 
-    # Save the new refresh token
+    # Save the new refresh token; entries created before the marker get it here
     hass.config_entries.async_update_entry(
-        entry, data={**entry.data, CONF_REFRESH_TOKEN: hon.api.auth.refresh_token}
+        entry,
+        data={
+            **entry.data,
+            CONF_REFRESH_TOKEN: hon.api.auth.refresh_token,
+            CONF_INTEGRATION: INTEGRATION,
+        },
     )
 
     coordinator: DataUpdateCoordinator[dict[str, Any]] = DataUpdateCoordinator(
