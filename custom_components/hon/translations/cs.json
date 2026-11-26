@@ -63,7 +63,7 @@
                 "state": {
                     "no_dry": "Bez sušení",
                     "iron_dry": "Žehlení",
-                    "no_dry_iron": "Do skříně",
+                    "no_dry_iron": "Na ramínko",
                     "cupboard_dry": "Do skříně",
                     "extra_dry": "Extra suché",
                     "ready_to_wear": "Připraveno k oblečení"
@@ -938,7 +938,7 @@
                 "state": {
                     "no_dry": "Bez sušení",
                     "iron_dry": "Žehlení",
-                    "no_dry_iron": "Do skříně",
+                    "no_dry_iron": "Na ramínko",
                     "cupboard_dry": "Do skříně",
                     "extra_dry": "Extra suché",
                     "ready_to_wear": "Připraveno k oblečení"
