@@ -1,5 +1,7 @@
 import logging
+import math
 from dataclasses import dataclass
+from typing import Any
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -59,6 +61,12 @@ class HonSensorEntityDescription(SensorEntityDescription):
 
 SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
     "WM": (
+        HonSensorEntityDescription(
+            key="remainingRinseIterations",
+            name="Remaining Rinses",
+            icon="mdi:water-sync",
+            translation_key="remaining_rinses",
+        ),
         HonSensorEntityDescription(
             key="prPhase",
             name="Program Phase",
@@ -935,7 +943,19 @@ class HonSensorEntity(HonEntity, SensorEntity):
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        value = self._device.get(self.entity_description.key, "")
+        value: Any = self._device.get(self.entity_description.key, "")
+        if self.entity_description.key == "remainingRinseIterations":
+            try:
+                if isinstance(value, bool):
+                    raise ValueError("boolean rinse count")
+                number = float(value)
+                value = (
+                    int(number)
+                    if math.isfinite(number) and number >= 0 and number.is_integer()
+                    else None
+                )
+            except (OverflowError, TypeError, ValueError):
+                value = None
         if self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
