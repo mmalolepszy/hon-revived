@@ -859,6 +859,18 @@
             "delay_time": {
                 "name": "Utilizzo nelle ore notturne"
             },
+            "program_load_parameter": {
+                "name": "Parametro carico programma"
+            },
+            "wash_load_limit": {
+                "name": "Carico massimo consigliato lavaggio"
+            },
+            "dry_load_limit": {
+                "name": "Carico massimo consigliato asciugatura"
+            },
+            "wash_dry_load_limit": {
+                "name": "Carico massimo consigliato lavaggio e asciugatura"
+            },
             "suggested_load": {
                 "name": "Capacità di carico"
             },

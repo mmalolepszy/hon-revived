@@ -1,4 +1,5 @@
 import logging
+import math
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import (
@@ -110,11 +111,9 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.weight",
-            name="Suggested weight",
-            state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-            icon="mdi:weight-kilogram",
-            translation_key="suggested_load",
+            name="Program Load Parameter",
+            icon="mdi:tune",
+            translation_key="program_load_parameter",
         ),
         HonSensorEntityDescription(
             key="machMode",
@@ -180,11 +179,11 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.suggestedLoadW",
-            name="Suggested Load",
+            name="Suggested Wash Load Limit",
             icon="mdi:weight-kilogram",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-            translation_key="suggested_load",
+            translation_key="wash_load_limit",
         ),
         HonSensorEntityDescription(
             key="temp",
@@ -300,11 +299,11 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.suggestedLoadD",
-            name="Suggested Load",
+            name="Suggested Dry Load Limit",
             icon="mdi:weight-kilogram",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-            translation_key="suggested_load",
+            translation_key="dry_load_limit",
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.energyLabel",
@@ -905,7 +904,15 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
     ),
 }
-SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
+SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"]) + (
+    HonConfigSensorEntityDescription(
+        key="startProgram.suggestedLoadWD",
+        name="Suggested Wash And Dry Load Limit",
+        icon="mdi:weight-kilogram",
+        native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+        translation_key="wash_dry_load_limit",
+    ),
+)
 
 
 async def async_setup_entry(
@@ -956,8 +963,21 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         sensor = self._device.settings.get(self.entity_description.key, None)
-        value: float | str
-        if self.entity_description.state_class is not None:
+        value: float | str | None
+        if self.entity_description.key in (
+            f"startProgram.suggestedLoad{suffix}" for suffix in ("W", "D", "WD")
+        ):
+            raw = sensor.value if sensor is not None else None
+            try:
+                if raw is None or isinstance(raw, bool):
+                    raise ValueError("missing or boolean load limit")
+                number = float(raw)
+                value = number if math.isfinite(number) and number > 0 else None
+            except (OverflowError, TypeError, ValueError):
+                value = None
+        elif self.entity_description.key == "startProgram.weight":
+            value = sensor.value if sensor is not None and sensor.value != "" else None
+        elif self.entity_description.state_class is not None:
             if sensor and sensor.value:
                 value = (
                     float(sensor.value)
@@ -970,8 +990,9 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
             value = sensor.value
         else:
             value = 0
-        if self.entity_description.option_list is not None and not value == 0:
-            self._attr_options = list(self.entity_description.option_list.values())
+        option_list = self.entity_description.option_list
+        if option_list is not None and value is not None and value != 0:
+            self._attr_options = list(option_list.values())
             value = get_readable(self.entity_description, value)
         self._attr_native_value = value
         if update:
