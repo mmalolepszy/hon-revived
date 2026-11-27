@@ -164,11 +164,11 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.remainingTime",
-            name="Remaining Time",
+            name="Prepared Program Duration",
             icon="mdi:timer",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTime.MINUTES,
-            translation_key="remaining_time",
+            translation_key="prepared_program_duration",
         ),
         HonSensorEntityDescription(
             key="dirtyLevel",
