@@ -899,10 +899,10 @@
                 "name": "Energy efficiency"
             },
             "det_dust": {
-                "name": "Powder detergent"
+                "name": "Powder detergent dose"
             },
             "det_liquid": {
-                "name": "Liquid detergent"
+                "name": "Liquid detergent dose"
             },
             "errors": {
                 "state": {
