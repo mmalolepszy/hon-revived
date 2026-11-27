@@ -1,4 +1,5 @@
 import logging
+from contextlib import suppress
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import (
@@ -940,6 +941,20 @@ class HonSensorEntity(HonEntity, SensorEntity):
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
             self._attr_options = options.values + ["No Program"]
+            if (
+                self.entity_description.translation_key == "programs_wm"
+                and value == "No Program"
+            ):
+                with suppress(OverflowError, TypeError, ValueError):
+                    machine_mode = const.MACH_MODE.get(
+                        int(self._device.get("machMode"))
+                    )
+                    if machine_mode in {"running", "pause", "scheduled"}:
+                        program = getattr(options, "ids", {}).get(
+                            int(self._device.get("prCode"))
+                        )
+                        if program in options.values:
+                            value = program
         elif self.entity_description.option_list is not None:
             self._attr_options = list(self.entity_description.option_list.values())
             value = str(get_readable(self.entity_description, value))
