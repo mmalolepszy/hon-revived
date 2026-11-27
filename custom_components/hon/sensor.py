@@ -68,6 +68,13 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             option_list=const.WASHING_PR_PHASE,
         ),
         HonSensorEntityDescription(
+            key="prCode",
+            name="Program Code",
+            icon="mdi:washing-machine",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="program_code",
+        ),
+        HonSensorEntityDescription(
             key="totalElectricityUsed",
             name="Total Power",
             device_class=SensorDeviceClass.ENERGY,
