@@ -892,6 +892,18 @@
             "delay_time": {
                 "name": "Delay Start"
             },
+            "drawer_cleaning_remaining": {
+                "name": "Drawer cleaning remaining"
+            },
+            "drum_cleaning_remaining": {
+                "name": "Drum cleaning remaining"
+            },
+            "filter_cleaning_remaining": {
+                "name": "Filter cleaning remaining"
+            },
+            "most_used_program": {
+                "name": "Most used program"
+            },
             "suggested_load": {
                 "name": "Load capacity"
             },
