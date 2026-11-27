@@ -21,8 +21,11 @@ def cycle_switch(appliance_type: str, **data: Any) -> HonControlSwitchEntity:
         if isinstance(description, HonControlSwitchEntityDescription)
         and description.key == "active"
     )
-    device = SimpleNamespace(unique_id="test", get=data.get)
-    hass = SimpleNamespace(data={DOMAIN: {"test": {"coordinator": None, "hon": None}}})
+    device = SimpleNamespace(unique_id="test", get=data.get, connection=True)
+    coordinator = SimpleNamespace(last_update_success=True)
+    hass = SimpleNamespace(
+        data={DOMAIN: {"test": {"coordinator": coordinator, "hon": None}}}
+    )
     entry = SimpleNamespace(unique_id="test")
     return HonControlSwitchEntity(hass, entry, device, description)
 
