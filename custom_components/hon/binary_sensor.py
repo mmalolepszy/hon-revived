@@ -457,9 +457,17 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
     entity_description: HonBinarySensorEntityDescription
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None:
         attr = self._device.get(self.entity_description.key, None)
         value = attr.value if hasattr(attr, "value") else attr
+        if self.entity_description.key == "remoteCtrValid":
+            try:
+                if isinstance(value, bool):
+                    return None
+                number = float(value)
+            except (OverflowError, TypeError, ValueError):
+                return None
+            return bool(number) if number in (0, 1) else None
         return bool(value == self.entity_description.on_value)
 
     @callback
