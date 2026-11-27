@@ -936,7 +936,9 @@ class HonSensorEntity(HonEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         value = self._device.get(self.entity_description.key, "")
-        if self.entity_description.key == "programName":
+        if self.entity_description.key == "errors":
+            value = self._error_value(value)
+        elif self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
             self._attr_options = options.values + ["No Program"]
@@ -948,6 +950,30 @@ class HonSensorEntity(HonEntity, SensorEntity):
         self._attr_native_value = value
         if update:
             self.schedule_update_ha_state()
+
+    def _error_value(self, raw: float | str) -> float | str:
+        """Show the display codes (e.g. ``E4``) instead of the raw bit field.
+
+        The cloud reports errors as a hex bit field (``8000000000000`` is E4
+        on a Haier washing machine). pyhon resolves it through the hOn
+        troubleshooting list; the raw value stays available as attribute and
+        is shown when the library or the cloud gives no mapping.
+        """
+        errors = getattr(self._device, "errors", None)
+        if errors is None:
+            self._attr_extra_state_attributes = {"raw": raw}
+            return raw
+        self._attr_extra_state_attributes = {
+            "raw": raw,
+            "codes": [error.code for error in errors],
+            "title_keys": [
+                error.title_key for error in errors if error.title_key
+            ],
+            "steps": [step for error in errors for step in error.steps],
+        }
+        if not errors:
+            return raw
+        return ", ".join(error.code for error in errors)
 
 
 class HonConfigSensorEntity(HonEntity, SensorEntity):
