@@ -1,6 +1,12 @@
 {
     "entity": {
         "sensor": {
+            "program_temperature": {
+                "name": "Program temperature"
+            },
+            "program_spin_speed": {
+                "name": "Program spin speed"
+            },
             "tumbledryertemplevel": {
                 "state": {
                     "1": "Cool",

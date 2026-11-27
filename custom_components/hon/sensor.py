@@ -137,11 +137,11 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonSensorEntityDescription(
             key="spinSpeed",
-            name="Spin Speed",
+            name="Program Spin Speed",
             icon="mdi:speedometer",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
-            translation_key="spin_speed",
+            translation_key="program_spin_speed",
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.energyLabel",
@@ -188,11 +188,11 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonSensorEntityDescription(
             key="temp",
-            name="Current Temperature",
+            name="Program Temperature",
             icon="mdi:thermometer",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-            translation_key="temperature",
+            translation_key="program_temperature",
         ),
         HonSensorEntityDescription(
             key="programName",
