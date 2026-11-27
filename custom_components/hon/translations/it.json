@@ -859,6 +859,15 @@
             "delay_time": {
                 "name": "Utilizzo nelle ore notturne"
             },
+            "drawer_cleaning_remaining": {
+                "name": "Cicli alla pulizia cassetto"
+            },
+            "drum_cleaning_remaining": {
+                "name": "Cicli alla pulizia cestello"
+            },
+            "filter_cleaning_remaining": {
+                "name": "Cicli alla pulizia filtro"
+            },
             "suggested_load": {
                 "name": "Capacità di carico"
             },
