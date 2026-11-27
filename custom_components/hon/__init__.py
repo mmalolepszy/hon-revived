@@ -21,6 +21,12 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+# pyhon logs every record twice; the HA log gets only the anonymized pyhon_ha copy.
+# The NullHandler stops Python's last-resort handler printing raw records to stderr.
+logging.getLogger("pyhon").addHandler(logging.NullHandler())
+logging.getLogger("pyhon").propagate = False
+logging.getLogger("pyhon_ha").propagate = True
+
 HON_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_EMAIL): cv.string,
