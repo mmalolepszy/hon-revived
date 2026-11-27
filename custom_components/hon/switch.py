@@ -1,4 +1,5 @@
 import logging
+import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
@@ -10,6 +11,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
 from pyhon.parameter.base import HonParameter
+from pyhon.parameter.enum import HonParameterEnum
 from pyhon.parameter.range import HonParameterRange
 
 from .const import DOMAIN
@@ -36,6 +38,29 @@ class HonSwitchEntityDescription(SwitchEntityDescription):
 @dataclass(frozen=True)
 class HonConfigSwitchEntityDescription(SwitchEntityDescription):
     entity_category: EntityCategory = EntityCategory.CONFIG
+    binary_only: bool = False
+
+
+def _binary_value(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        number = float(value)
+    except (ValueError, TypeError, OverflowError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def _writable_binary(setting: HonParameter | None) -> bool:
+    if isinstance(setting, HonParameterRange):
+        return (
+            _binary_value(setting.min) == 0
+            and _binary_value(setting.max) == 1
+            and _binary_value(setting.step) == 1
+        )
+    if isinstance(setting, HonParameterEnum):
+        return set(setting.values) == {"0", "1"}
+    return False
 
 
 SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
@@ -129,6 +154,20 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             name="Extra Rinse 3",
             icon="mdi:numeric-3-box-multiple-outline",
             translation_key="extra_rinse_3",
+        ),
+        HonConfigSwitchEntityDescription(
+            key="startProgram.nightWashStatus",
+            name="Night Wash",
+            icon="mdi:weather-night",
+            translation_key="night_wash",
+            binary_only=True,
+        ),
+        HonConfigSwitchEntityDescription(
+            key="startProgram.silentMode",
+            name="Silent Mode",
+            icon="mdi:volume-off",
+            translation_key="silent_mode",
+            binary_only=True,
         ),
         HonConfigSwitchEntityDescription(
             key="startProgram.goodNight",
@@ -421,6 +460,10 @@ async def async_setup_entry(
             if isinstance(description, HonConfigSwitchEntityDescription):
                 if description.key not in device.available_settings:
                     continue
+                if description.binary_only and not _writable_binary(
+                    device.settings.get(description.key)
+                ):
+                    continue
                 entity = HonConfigSwitchEntity(hass, entry, device, description)
             elif isinstance(description, HonControlSwitchEntityDescription):
                 if not (
@@ -555,8 +598,22 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
     entity_description: HonConfigSwitchEntityDescription
 
     @property
+    def available(self) -> bool:
+        if self.entity_description.binary_only:
+            return super().available and _writable_binary(
+                self._device.settings.get(self.entity_description.key)
+            )
+        return super().available
+
+    @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
+        if self.entity_description.binary_only:
+            setting = self._device.settings.get(self.entity_description.key)
+            if setting is None or not _writable_binary(setting):
+                return None
+            value = _binary_value(setting.value)
+            return value == 1 if value in (0, 1) else None
         setting = self._device.settings[self.entity_description.key]
         return (
             setting.value != setting.min
@@ -565,6 +622,14 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
         )
 
     async def async_turn_on(self, **kwargs: Any) -> None:
+        if self.entity_description.binary_only:
+            setting = self._device.settings.get(self.entity_description.key)
+            if setting is None or not _writable_binary(setting):
+                return
+            setting.value = 1 if isinstance(setting, HonParameterRange) else "1"
+            self.coordinator.async_set_updated_data({})
+            self.schedule_update_ha_state()
+            return
         setting = self._device.settings[self.entity_description.key]
         if type(setting) is HonParameter:
             return
@@ -573,6 +638,14 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
         self.schedule_update_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
+        if self.entity_description.binary_only:
+            setting = self._device.settings.get(self.entity_description.key)
+            if setting is None or not _writable_binary(setting):
+                return
+            setting.value = 0 if isinstance(setting, HonParameterRange) else "0"
+            self.coordinator.async_set_updated_data({})
+            self.schedule_update_ha_state()
+            return
         setting = self._device.settings[self.entity_description.key]
         if type(setting) is HonParameter:
             return
