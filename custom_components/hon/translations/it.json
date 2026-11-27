@@ -1898,6 +1898,9 @@
             "self_clean_56": {
                 "name": "Steri-Clean 56°C"
             },
+            "night_wash": {
+                "name": "Lavaggio notturno"
+            },
             "silent_mode": {
                 "name": "Modalità silenziosa"
             },
