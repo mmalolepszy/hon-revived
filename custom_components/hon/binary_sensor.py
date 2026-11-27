@@ -26,6 +26,20 @@ class HonBinarySensorEntityDescription(BinarySensorEntityDescription):
 BINARY_SENSORS: dict[str, tuple[HonBinarySensorEntityDescription, ...]] = {
     "WM": (
         HonBinarySensorEntityDescription(
+            key="nightWashStatus",
+            name="Current Night Wash",
+            on_value=1,
+            icon="mdi:weather-night",
+            translation_key="night_wash_current",
+        ),
+        HonBinarySensorEntityDescription(
+            key="silentMode",
+            name="Current Silent Mode",
+            on_value=1,
+            icon="mdi:volume-off",
+            translation_key="silent_mode_current",
+        ),
+        HonBinarySensorEntityDescription(
             key="attributes.lastConnEvent.category",
             name="Connection",
             device_class=BinarySensorDeviceClass.CONNECTIVITY,
@@ -457,9 +471,17 @@ class HonBinarySensorEntity(HonEntity, BinarySensorEntity):
     entity_description: HonBinarySensorEntityDescription
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None:
         attr = self._device.get(self.entity_description.key, None)
         value = attr.value if hasattr(attr, "value") else attr
+        if self.entity_description.key in {"nightWashStatus", "silentMode"}:
+            try:
+                if isinstance(value, bool):
+                    raise ValueError("boolean mode flag")
+                number = float(value)
+            except (OverflowError, TypeError, ValueError):
+                return None
+            return bool(number) if number in (0, 1) else None
         return bool(value == self.entity_description.on_value)
 
     @callback

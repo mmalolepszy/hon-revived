@@ -2042,6 +2042,12 @@
             "pan_status": {
                 "name": "Pan"
             },
+            "night_wash_current": {
+                "name": "Current night wash"
+            },
+            "silent_mode_current": {
+                "name": "Current silent mode"
+            },
             "remote_control": {
                 "name": "Remote control"
             },

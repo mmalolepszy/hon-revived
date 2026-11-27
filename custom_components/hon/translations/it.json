@@ -1981,6 +1981,12 @@
             "pan_status": {
                 "name": "Pentola"
             },
+            "night_wash_current": {
+                "name": "Lavaggio notturno corrente"
+            },
+            "silent_mode_current": {
+                "name": "Modalità silenziosa corrente"
+            },
             "remote_control": {
                 "name": "远程控制"
             },
