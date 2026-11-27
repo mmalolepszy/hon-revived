@@ -1,4 +1,5 @@
 import logging
+import math
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import (
@@ -936,6 +937,21 @@ class HonSensorEntity(HonEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         value = self._device.get(self.entity_description.key, "")
+        if self.entity_description.key in {"prPhase", "programName"}:
+            is_phase = self.entity_description.key == "prPhase"
+            attribute = "raw_program_phase" if is_phase else "raw_program_code"
+            raw = value if is_phase else self._device.get("prCode")
+            attributes = dict(getattr(self, "_attr_extra_state_attributes", None) or {})
+            attributes.pop(attribute, None)
+            try:
+                if isinstance(raw, bool):
+                    raise ValueError("boolean program code")
+                number = float(raw)
+                if math.isfinite(number) and number >= 0 and number.is_integer():
+                    attributes[attribute] = int(number)
+            except (OverflowError, TypeError, ValueError):
+                pass
+            self._attr_extra_state_attributes = attributes
         if self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
