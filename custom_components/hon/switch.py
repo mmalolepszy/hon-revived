@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from homeassistant.components.switch import SwitchEntityDescription, SwitchEntity
@@ -538,17 +538,60 @@ class HonControlSwitchEntity(HonEntity, SwitchEntity):
             and self._device.connection
         )
 
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        """Anchor estimates only when relevant device observations change."""
+        values = tuple(
+            self._device.get(key)
+            for key in (
+                "remainingTimeMM",
+                "delayTime",
+                "prCode",
+                "prPosition",
+                "programName",
+                "machMode",
+                "prPhase",
+                "active",
+                "pause",
+                "remoteCtrValid",
+            )
+        ) + (
+            self._device.connection,
+            self.available,
+        )
+        observed = tuple((type(value), value) for value in values)
+        if observed != getattr(self, "_program_time_observation", None):
+            self._program_time_observation = observed
+            self._program_times = {}
+            remaining, delay = values[:2]
+            try:
+                if isinstance(remaining, bool) or isinstance(delay, bool):
+                    raise ValueError("boolean duration")
+                remaining, delay = float(remaining), float(delay)
+                if remaining <= 0 or delay < 0:
+                    raise ValueError("invalid duration")
+                if (
+                    self.available
+                    and not self._device.get("pause", False)
+                    and str(self._device.get("machMode")) != "3"
+                ):
+                    now = datetime.now(timezone.utc)
+                    end = now + timedelta(minutes=delay + remaining)
+                    if delay > 0:
+                        self._program_times["start_time"] = now + timedelta(
+                            minutes=delay
+                        )
+                    self._program_times["end_time"] = end
+            except (ValueError, TypeError, OverflowError):
+                # Missing/nonfinite durations cannot establish an estimate.
+                self._program_times = {}
+        if update:
+            self.schedule_update_ha_state()
+
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        """Return the optional state attributes."""
-        result = {}
-        if remaining_time := self._device.get("remainingTimeMM", 0):
-            delay_time = self._device.get("delayTime", 0)
-            result["start_time"] = datetime.now() + timedelta(minutes=delay_time)
-            result["end_time"] = datetime.now() + timedelta(
-                minutes=delay_time + remaining_time
-            )
-        return result
+        """Return observed estimates, never a fabricated actual program start."""
+        return self._program_times.copy()
 
 
 class HonConfigSwitchEntity(HonEntity, SwitchEntity):
