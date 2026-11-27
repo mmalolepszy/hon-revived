@@ -866,10 +866,10 @@
                 "name": "Efficienza energetica"
             },
             "det_dust": {
-                "name": "Detersivo in polvere"
+                "name": "Dosaggio detersivo in polvere"
             },
             "det_liquid": {
-                "name": "Detersivo liquido"
+                "name": "Dosaggio detersivo liquido"
             },
             "errors": {
                 "name": "Errore",

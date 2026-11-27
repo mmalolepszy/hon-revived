@@ -154,12 +154,14 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
             key="startProgram.liquidDetergentDose",
             name="Liquid Detergent Dose",
             icon="mdi:cup-water",
+            native_unit_of_measurement=PERCENTAGE,
             translation_key="det_liquid",
         ),
         HonConfigSensorEntityDescription(
             key="startProgram.powderDetergentDose",
             name="Powder Detergent Dose",
             icon="mdi:cup",
+            native_unit_of_measurement=PERCENTAGE,
             translation_key="det_dust",
         ),
         HonConfigSensorEntityDescription(
@@ -956,7 +958,7 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         sensor = self._device.settings.get(self.entity_description.key, None)
-        value: float | str
+        value: float | str | None
         if self.entity_description.state_class is not None:
             if sensor and sensor.value:
                 value = (
@@ -970,8 +972,20 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
             value = sensor.value
         else:
             value = 0
-        if self.entity_description.option_list is not None and not value == 0:
-            self._attr_options = list(self.entity_description.option_list.values())
+        if self.entity_description.key in {
+            "startProgram.liquidDetergentDose",
+            "startProgram.powderDetergentDose",
+        }:
+            try:
+                if isinstance(value, bool):
+                    raise ValueError("boolean detergent dose")
+                fraction = float(value)
+                value = int(fraction) * 25 if fraction in (1, 2, 3, 4) else None
+            except (OverflowError, TypeError, ValueError):
+                value = None
+        option_list = self.entity_description.option_list
+        if option_list is not None and value is not None and value != 0:
+            self._attr_options = list(option_list.values())
             value = get_readable(self.entity_description, value)
         self._attr_native_value = value
         if update:
