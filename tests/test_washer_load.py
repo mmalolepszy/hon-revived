@@ -1,5 +1,7 @@
 """Verify washer load parameters and their sensor metadata."""
 
+# pylint: disable=protected-access
+
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 

@@ -964,11 +964,9 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         sensor = self._device.settings.get(self.entity_description.key, None)
         value: float | str | None
-        if self.entity_description.key in {
-            "startProgram.suggestedLoadW",
-            "startProgram.suggestedLoadD",
-            "startProgram.suggestedLoadWD",
-        }:
+        if self.entity_description.key in (
+            f"startProgram.suggestedLoad{suffix}" for suffix in ("W", "D", "WD")
+        ):
             raw = sensor.value if sensor is not None else None
             try:
                 if raw is None or isinstance(raw, bool):
@@ -992,12 +990,9 @@ class HonConfigSensorEntity(HonEntity, SensorEntity):
             value = sensor.value
         else:
             value = 0
-        if (
-            self.entity_description.option_list is not None
-            and value is not None
-            and value != 0
-        ):
-            self._attr_options = list(self.entity_description.option_list.values())
+        option_list = self.entity_description.option_list
+        if option_list is not None and value is not None and value != 0:
+            self._attr_options = list(option_list.values())
             value = get_readable(self.entity_description, value)
         self._attr_native_value = value
         if update:
