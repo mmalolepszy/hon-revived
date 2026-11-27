@@ -892,6 +892,18 @@
             "delay_time": {
                 "name": "Delay Start"
             },
+            "program_load_parameter": {
+                "name": "Program load parameter"
+            },
+            "wash_load_limit": {
+                "name": "Suggested wash load limit"
+            },
+            "dry_load_limit": {
+                "name": "Suggested dry load limit"
+            },
+            "wash_dry_load_limit": {
+                "name": "Suggested wash and dry load limit"
+            },
             "suggested_load": {
                 "name": "Load capacity"
             },
