@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from typing import Any
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -935,7 +936,19 @@ class HonSensorEntity(HonEntity, SensorEntity):
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        value = self._device.get(self.entity_description.key, "")
+        value: Any = self._device.get(self.entity_description.key, "")
+        if self.entity_description.key == "machMode":
+            attributes = dict(getattr(self, "_attr_extra_state_attributes", None) or {})
+            attributes.pop("raw_machine_mode", None)
+            try:
+                if isinstance(value, bool):
+                    raise ValueError("boolean machine mode")
+                number = float(value)
+                if number.is_integer():
+                    attributes["raw_machine_mode"] = int(number)
+            except (OverflowError, TypeError, ValueError):
+                pass
+            self._attr_extra_state_attributes = attributes
         if self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
