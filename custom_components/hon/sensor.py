@@ -884,12 +884,21 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonSensorEntityDescription(
             key="tempSelZ3",
-            name="Temperature",
+            name="Selected Temperature",
             icon="mdi:snowflake-thermometer",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.TEMPERATURE,
             native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-            translation_key="temperature",
+            translation_key="target_temperature",
+        ),
+        HonSensorEntityDescription(
+            key="tempZ2",
+            name="Temperature Freezer",
+            icon="mdi:snowflake-thermometer",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            translation_key="freezer_temp",
         ),
         HonSensorEntityDescription(
             key="errors", name="Error", icon="mdi:math-log", translation_key="errors"
