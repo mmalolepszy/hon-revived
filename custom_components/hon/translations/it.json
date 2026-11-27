@@ -823,6 +823,9 @@
             "power": {
                 "name": "Livello di potenza"
             },
+            "prepared_program_duration": {
+                "name": "Durata prevista programma selezionato"
+            },
             "remaining_time": {
                 "name": "Tempo rimanente"
             },

@@ -856,6 +856,9 @@
             "power": {
                 "name": "Power level"
             },
+            "prepared_program_duration": {
+                "name": "Prepared program duration"
+            },
             "remaining_time": {
                 "name": "Time remaining"
             },
