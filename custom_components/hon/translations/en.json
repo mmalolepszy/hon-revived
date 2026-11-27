@@ -892,6 +892,9 @@
             "delay_time": {
                 "name": "Delay Start"
             },
+            "remaining_rinses": {
+                "name": "Remaining rinses"
+            },
             "suggested_load": {
                 "name": "Load capacity"
             },
