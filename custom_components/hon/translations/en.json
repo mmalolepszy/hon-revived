@@ -892,6 +892,15 @@
             "delay_time": {
                 "name": "Delay Start"
             },
+            "temperature_usage_0_30": {
+                "name": "Wash cycles at 0–30 °C"
+            },
+            "temperature_usage_40": {
+                "name": "Wash cycles at 40 °C"
+            },
+            "temperature_usage_60_90": {
+                "name": "Wash cycles at 60–90 °C"
+            },
             "suggested_load": {
                 "name": "Load capacity"
             },

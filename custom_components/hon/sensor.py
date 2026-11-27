@@ -27,6 +27,7 @@ from homeassistant.core import HomeAssistant
 from . import const
 from .const import DOMAIN
 from .entity import HonEntity
+from .temperature_usage import temperature_usage_entities
 from .util import unique_entities, get_readable
 
 try:  # HA >= 2026.7
@@ -911,9 +912,11 @@ SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    entities = []
+    entities: list[SensorEntity] = []
     entity: HonSensorEntity | HonConfigSensorEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
+        if device.appliance_type in {"WM", "WD"}:
+            entities.extend(temperature_usage_entities(hass, entry, device))
         for description in SENSORS.get(device.appliance_type, []):
             if isinstance(description, HonSensorEntityDescription):
                 if device.get(description.key) is None:
