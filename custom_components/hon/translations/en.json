@@ -1893,6 +1893,9 @@
             }
         },
         "switch": {
+            "dry_after_wash": {
+                "name": "Dry after wash"
+            },
             "anti_crease": {
                 "name": "Anticrease"
             },

@@ -1819,6 +1819,9 @@
             }
         },
         "switch": {
+            "dry_after_wash": {
+                "name": "Sušit po praní"
+            },
             "anti_crease": {
                 "name": "Proti pomačkání"
             },

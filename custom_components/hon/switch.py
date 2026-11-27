@@ -9,7 +9,6 @@ from homeassistant.core import callback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
-from pyhon.commands import HonCommand
 from pyhon.parameter.base import HonParameter
 from pyhon.parameter.range import HonParameterRange
 
@@ -18,22 +17,6 @@ from .entity import HonEntity
 from .util import unique_entities
 
 _LOGGER = logging.getLogger(__name__)
-
-
-def sync_dry_program_flag(command: HonCommand) -> None:
-    """Set dryProgFlag to match the selected dryLevel before a program starts.
-
-    Washer dryers only dry after a washing program when startProgram carries
-    dryProgFlag=1. The flag is an adjustable 0/1 parameter on washing programs
-    and defaults to 0, so selecting a dry level alone only washes. Drying
-    programs have a fixed flag, which is left untouched.
-    """
-    dry_level = command.parameters.get("dryLevel")
-    dry_flag = command.parameters.get("dryProgFlag")
-    if dry_level is None or not isinstance(dry_flag, HonParameterRange):
-        return
-    drying = str(dry_level.value).split(".", maxsplit=1)[0] not in ("", "0")
-    dry_flag.value = 1 if drying else 0
 
 
 @dataclass(frozen=True)
@@ -243,6 +226,15 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             turn_on_key="pauseProgram",
             turn_off_key="resumeProgram",
             translation_key="pause",
+        ),
+        HonConfigSwitchEntityDescription(
+            # Washer dryers dry after a washing program only when startProgram
+            # carries dryProgFlag=1; on washing programs it is an adjustable
+            # 0/1 setting that defaults to 0. Drying programs have it fixed.
+            key="startProgram.dryProgFlag",
+            name="Dry After Wash",
+            icon="mdi:tumble-dryer",
+            translation_key="dry_after_wash",
         ),
     ),
     "DW": (
@@ -533,10 +525,7 @@ class HonControlSwitchEntity(HonEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         self._device.sync_command(self.entity_description.turn_on_key, "settings")
         self.coordinator.async_set_updated_data({})
-        command = self._device.commands[self.entity_description.turn_on_key]
-        if self.entity_description.turn_on_key == "startProgram":
-            sync_dry_program_flag(command)
-        await command.send()
+        await self._device.commands[self.entity_description.turn_on_key].send()
         if self._mach_mode() is None:
             self._device.attributes[self.entity_description.key] = True
         self.schedule_update_ha_state()
