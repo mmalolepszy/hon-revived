@@ -925,16 +925,16 @@
                 "name": "Cycles Total"
             },
             "energy_total": {
-                "name": "Energy Consumption Total"
+                "name": "Total electricity consumption"
             },
             "water_total": {
-                "name": "Water Consumption Total"
+                "name": "Total water consumption"
             },
             "energy_current": {
-                "name": "Energy Consumption Current"
+                "name": "Current cycle electricity consumption"
             },
             "water_current": {
-                "name": "Water Consumption Current"
+                "name": "Current cycle water consumption"
             },
             "freezer_temp": {
                 "name": "Freezer temperature"
@@ -982,12 +982,6 @@
             },
             "descaling_cycle_counter": {
                 "name": "Descaling Cycle Counter"
-            },
-            "current_electricity_used": {
-                "name": "Current Cycle Electricity"
-            },
-            "current_water_used": {
-                "name": "Current Cycle Water"
             },
             "current_cycle_time": {
                 "name": "Cycle Duration"

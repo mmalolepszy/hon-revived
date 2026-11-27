@@ -493,7 +493,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonSensorEntityDescription(
             key="currentElectricityUsed",
-            translation_key="current_electricity_used",
+            translation_key="energy_current",
             icon="mdi:lightning-bolt",
             native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
             device_class=SensorDeviceClass.ENERGY,
@@ -501,7 +501,7 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
         ),
         HonSensorEntityDescription(
             key="currentWaterUsed",
-            translation_key="current_water_used",
+            translation_key="water_current",
             icon="mdi:water",
             native_unit_of_measurement=UnitOfVolume.LITERS,
             device_class=SensorDeviceClass.VOLUME,

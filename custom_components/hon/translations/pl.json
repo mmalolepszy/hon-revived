@@ -883,16 +883,16 @@
                 "name": "Cykle Suma"
             },
             "energy_total": {
-                "name": "Zużycie energii Suma"
+                "name": "Zużycie energii łącznie"
             },
             "water_total": {
-                "name": "Wydajność zużycia wody Suma"
+                "name": "Zużycie wody łącznie"
             },
             "energy_current": {
-                "name": "Zużycie energii Aktualne"
+                "name": "Zużycie energii bieżący cykl"
             },
             "water_current": {
-                "name": "Wydajność zużycia wody Aktualne"
+                "name": "Zużycie wody bieżący cykl"
             },
             "freezer_temp": {
                 "name": "Temperatura zamrażarki"

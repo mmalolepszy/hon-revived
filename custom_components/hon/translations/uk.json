@@ -878,16 +878,16 @@
                 "name": "Цикл Всього"
             },
             "energy_total": {
-                "name": "Energy Consumption Всього"
+                "name": "Загальне споживання енергії"
             },
             "water_total": {
-                "name": "Ефективність використання води Всього"
+                "name": "Загальне споживання води"
             },
             "energy_current": {
-                "name": "Energy Consumption Поточна"
+                "name": "Споживання енергії за поточний цикл"
             },
             "water_current": {
-                "name": "Ефективність використання води Поточна"
+                "name": "Споживання води за поточний цикл"
             },
             "freezer_temp": {
                 "name": "Температура морозильної камери"
@@ -918,12 +918,6 @@
             },
             "descaling_cycle_counter": {
                 "name": "Лічильник циклів видалення накипу"
-            },
-            "current_electricity_used": {
-                "name": "Поточний цикл електроенергія"
-            },
-            "current_water_used": {
-                "name": "Поточний цикл вода"
             },
             "current_cycle_time": {
                 "name": "Тривалість циклу"

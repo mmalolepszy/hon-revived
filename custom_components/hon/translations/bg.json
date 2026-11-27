@@ -976,18 +976,6 @@
             "cycles_total": {
                 "name": "Cycles Total"
             },
-            "energy_total": {
-                "name": "Energy Consumption Total"
-            },
-            "water_total": {
-                "name": "Water efficiency Total"
-            },
-            "energy_current": {
-                "name": "Energy Consumption Current"
-            },
-            "water_current": {
-                "name": "Water efficiency Current"
-            },
             "freezer_temp": {
                 "name": "Freezer temperature"
             },
