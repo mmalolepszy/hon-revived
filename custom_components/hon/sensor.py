@@ -1,5 +1,7 @@
 import logging
+import math
 from dataclasses import dataclass
+from typing import Any
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -935,7 +937,18 @@ class HonSensorEntity(HonEntity, SensorEntity):
 
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
-        value = self._device.get(self.entity_description.key, "")
+        value: Any = self._device.get(self.entity_description.key, "")
+        if self.entity_description.key in {
+            "currentElectricityUsed",
+            "currentWaterUsed",
+        }:
+            try:
+                if isinstance(value, bool):
+                    raise ValueError("boolean consumption")
+                number = float(value)
+                value = number if math.isfinite(number) and number >= 0 else None
+            except (OverflowError, TypeError, ValueError):
+                value = None
         if self.entity_description.key == "programName":
             if not (options := self._device.settings.get("startProgram.program")):
                 raise ValueError
