@@ -1,4 +1,4 @@
-"""Washer maintenance counters and bounded statistics refresh."""
+"""Washer statistics and bounded per-appliance refresh."""
 
 import asyncio
 import logging
@@ -108,6 +108,67 @@ class HonMaintenanceSensorEntity(HonEntity, SensorEntity):
             self.schedule_update_ha_state()
 
 
+MOST_USED_PROGRAM_SENSOR = SensorEntityDescription(
+    key="statistics.mostUsedPrograms",
+    translation_key="most_used_program",
+    icon="mdi:format-list-numbered",
+)
+
+
+class HonMostUsedProgramSensorEntity(HonEntity, SensorEntity):
+    entity_description: SensorEntityDescription
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        device: HonAppliance,
+        state: _RefreshState,
+    ) -> None:
+        self._statistics_state = state
+        super().__init__(hass, entry, device, MOST_USED_PROGRAM_SENSOR)
+
+    @property
+    def available(self) -> bool:
+        return super().available and self._statistics_state.healthy
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        statistics = self._statistics_state.snapshot
+        supplied = _nested(statistics, "mostUsedPrograms")
+        ranking: list[dict[str, Any]] = []
+        for item in supplied if isinstance(supplied, list) else []:
+            name = _nested(item, "programName")
+            count = _number(_nested(item, "count"), integer=True)
+            if (
+                not isinstance(name, str)
+                or not name.strip()
+                or count is None
+                or count < 0
+            ):
+                continue
+            program = name.rsplit(".", 1)[-1].strip().lower()
+            if not program:
+                continue
+            record: dict[str, Any] = {"program": program, "count": int(count)}
+            for source, target in (
+                ("prCode", "pr_code"),
+                ("prPosition", "pr_position"),
+            ):
+                code = _nested(item, source)
+                if isinstance(code, str) or _number(code) is not None:
+                    record[target] = code
+            ranking.append(record)
+        ranking.sort(key=lambda item: item["count"], reverse=True)
+        self._attr_native_value = ranking[0]["program"] if ranking else None
+        self._attr_extra_state_attributes = {"ranking": ranking}
+        counter = _number(_nested(statistics, "programsCounter"), integer=True)
+        if counter is not None and counter >= 0:
+            self._attr_extra_state_attributes["programs_counter"] = int(counter)
+        if update:
+            self.schedule_update_ha_state()
+
+
 async def _refresh_statistics(
     device: HonAppliance,
     state: _RefreshState,
@@ -139,7 +200,7 @@ def _setup_statistics_refresh(
     hass: HomeAssistant, entry: ConfigEntry, device: HonAppliance, initial: Any
 ) -> _RefreshState:
     data = hass.data[DOMAIN][entry.unique_id]
-    registrations: dict[str, _RefreshState] = data.setdefault("maintenance_refresh", {})
+    registrations: dict[str, _RefreshState] = data.setdefault("statistics_refresh", {})
     existing = registrations.get(device.unique_id)
     if existing is not None:
         return existing
@@ -191,3 +252,14 @@ async def async_setup_maintenance(
         HonMaintenanceSensorEntity(hass, entry, device, description, state)
         for description in descriptions
     ]
+
+
+def program_usage_entities(
+    hass: HomeAssistant, entry: ConfigEntry, device: HonAppliance
+) -> list[HonMostUsedProgramSensorEntity]:
+    """Create the ranking sensor when program statistics are reported."""
+    initial = device.get("statistics")
+    if not isinstance(_nested(initial, "mostUsedPrograms"), list):
+        return []
+    state = _setup_statistics_refresh(hass, entry, device, initial)
+    return [HonMostUsedProgramSensorEntity(hass, entry, device, state)]

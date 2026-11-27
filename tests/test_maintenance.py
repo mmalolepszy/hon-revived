@@ -16,7 +16,8 @@ from homeassistant.config_entries import ConfigEntries
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_component import EntityComponent
 
-from custom_components.hon import maintenance, sensor
+from custom_components.hon import sensor
+from custom_components.hon import washer_statistics as maintenance
 from custom_components.hon.const import DOMAIN
 
 
@@ -182,7 +183,7 @@ class MaintenanceTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(len(entities), 3)
             self.assertEqual(len(self.unloads), 1)
             self.unloads[0]()
-            self.assertEqual(hass.data[DOMAIN]["entry"]["maintenance_refresh"], {})
+            self.assertEqual(hass.data[DOMAIN]["entry"]["statistics_refresh"], {})
             await hass.async_stop()
 
     async def test_native_entity_component_publishes_maintenance_states(self):

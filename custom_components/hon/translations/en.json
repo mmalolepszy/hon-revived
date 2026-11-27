@@ -901,6 +901,9 @@
             "filter_cleaning_remaining": {
                 "name": "Filter cleaning remaining"
             },
+            "most_used_program": {
+                "name": "Most used program"
+            },
             "suggested_load": {
                 "name": "Load capacity"
             },
