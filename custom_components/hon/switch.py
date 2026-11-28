@@ -227,6 +227,15 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             turn_off_key="resumeProgram",
             translation_key="pause",
         ),
+        HonConfigSwitchEntityDescription(
+            # Washer dryers dry after a washing program only when startProgram
+            # carries dryProgFlag=1; on washing programs it is an adjustable
+            # 0/1 setting that defaults to 0. Drying programs have it fixed.
+            key="startProgram.dryProgFlag",
+            name="Dry After Wash",
+            icon="mdi:tumble-dryer",
+            translation_key="dry_after_wash",
+        ),
     ),
     "DW": (
         HonControlSwitchEntityDescription(
