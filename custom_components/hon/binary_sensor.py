@@ -11,6 +11,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
 
+from . import maintenance
 from .const import DOMAIN
 from .entity import HonEntity
 from .util import unique_entities
@@ -443,14 +444,35 @@ BINARY_SENSORS["WD"] = unique_entities(BINARY_SENSORS["WM"], BINARY_SENSORS["TD"
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    entities = []
+    entities: list[BinarySensorEntity] = []
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in BINARY_SENSORS.get(device.appliance_type, []):
             if device.get(description.key) is None:
                 continue
             entity = HonBinarySensorEntity(hass, entry, device, description)
             entities.append(entity)
+        if not device.zone and maintenance.filter_due(device) is not None:
+            entities.append(HonFilterDueEntity(hass, entry, device, FILTER_DUE))
     async_add_entities(entities)
+
+
+FILTER_DUE = HonBinarySensorEntityDescription(
+    key="carbonFilter.due",
+    name="Carbon filter replacement due",
+    icon="mdi:air-filter",
+    device_class=BinarySensorDeviceClass.PROBLEM,
+)
+
+
+class HonFilterDueEntity(HonEntity, BinarySensorEntity):
+    """On when the carbon filter is 12+ months old or hOn reports it overdue."""
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        self._attr_is_on = maintenance.filter_due(self._device)
+        self._attr_extra_state_attributes = maintenance.filter_attributes(self._device)
+        if update:
+            self.schedule_update_ha_state()
 
 
 class HonBinarySensorEntity(HonEntity, BinarySensorEntity):

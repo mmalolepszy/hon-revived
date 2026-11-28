@@ -10,6 +10,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from pyhon import Hon
 
+from . import maintenance
 from .const import (
     CONF_INTEGRATION,
     CONF_REFRESH_TOKEN,
@@ -63,13 +64,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         },
     )
 
+    # Maintenance data is read once at setup (via pyhon load_statistics), never polled.
+    # Polling the hOn cloud was what led to Haier's takedown request in 2024.
+    refresher = maintenance.MaintenanceRefresher(hon)
+
     coordinator: DataUpdateCoordinator[dict[str, Any]] = DataUpdateCoordinator(
         hass, _LOGGER, name=DOMAIN
     )
     hon.subscribe_updates(coordinator.async_set_updated_data)
 
     hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.unique_id] = {"hon": hon, "coordinator": coordinator}
+    hass.data[DOMAIN][entry.unique_id] = {
+        "hon": hon,
+        "coordinator": coordinator,
+        "maintenance": refresher,
+    }
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
