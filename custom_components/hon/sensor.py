@@ -1,5 +1,10 @@
+# pylint: disable=too-many-lines
 import logging
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Callable
+
+from pyhon.appliance import HonAppliance
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -24,7 +29,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.core import HomeAssistant
 
-from . import const
+from . import const, maintenance
 from .const import DOMAIN
 from .entity import HonEntity
 from .util import unique_entities, get_readable
@@ -908,10 +913,59 @@ SENSORS: dict[str, tuple[SensorEntityDescription, ...]] = {
 SENSORS["WD"] = unique_entities(SENSORS["WM"], SENSORS["TD"])
 
 
+@dataclass(frozen=True, kw_only=True)
+class HonMaintenanceSensorEntityDescription(SensorEntityDescription):
+    """Sensor fed from maintenance data (statistics / appliance info)."""
+
+    exists_fn: Callable[[HonAppliance], bool]
+    value_fn: Callable[[HonAppliance], datetime | float | None]
+    attributes_fn: Callable[[HonAppliance], dict[str, Any]] | None = None
+
+
+def _filter_has(*keys: str) -> Callable[[HonAppliance], bool]:
+    def exists(device: HonAppliance) -> bool:
+        block = maintenance.carbon_filter(device)
+        return block is not None and any(key in block for key in keys)
+
+    return exists
+
+
+MAINTENANCE_SENSORS: tuple[HonMaintenanceSensorEntityDescription, ...] = (
+    HonMaintenanceSensorEntityDescription(
+        key="carbonFilter.lastReplacement",
+        name="Carbon filter last replaced",
+        icon="mdi:air-filter",
+        device_class=SensorDeviceClass.TIMESTAMP,
+        exists_fn=_filter_has(maintenance.LAST_REPLACEMENT),
+        value_fn=maintenance.filter_last_replaced,
+    ),
+    HonMaintenanceSensorEntityDescription(
+        key="carbonFilter.age",
+        name="Carbon filter age",
+        icon="mdi:air-filter",
+        native_unit_of_measurement="months",
+        suggested_display_precision=0,
+        state_class=SensorStateClass.MEASUREMENT,
+        exists_fn=_filter_has(maintenance.LAST_REPLACEMENT, maintenance.PERCENTAGE),
+        value_fn=maintenance.filter_age_months,
+        attributes_fn=maintenance.filter_attributes,
+    ),
+    HonMaintenanceSensorEntityDescription(
+        key="lastCheckUp",
+        name="Smart check-up last run",
+        icon="mdi:clipboard-check-outline",
+        device_class=SensorDeviceClass.TIMESTAMP,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        exists_fn=maintenance.has_check_up,
+        value_fn=maintenance.last_check_up,
+    ),
+)
+
+
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    entities = []
+    entities: list[SensorEntity] = []
     entity: HonSensorEntity | HonConfigSensorEntity
     for device in hass.data[DOMAIN][entry.unique_id]["hon"].appliances:
         for description in SENSORS.get(device.appliance_type, []):
@@ -926,8 +980,30 @@ async def async_setup_entry(
             else:
                 continue
             entities.append(entity)
+        if device.zone:
+            continue
+        for maintenance_description in MAINTENANCE_SENSORS:
+            if maintenance_description.exists_fn(device):
+                entities.append(
+                    HonMaintenanceSensorEntity(
+                        hass, entry, device, maintenance_description
+                    )
+                )
 
     async_add_entities(entities)
+
+
+class HonMaintenanceSensorEntity(HonEntity, SensorEntity):
+    entity_description: HonMaintenanceSensorEntityDescription
+
+    @callback
+    def _handle_coordinator_update(self, update: bool = True) -> None:
+        description = self.entity_description
+        self._attr_native_value = description.value_fn(self._device)
+        if description.attributes_fn is not None:
+            self._attr_extra_state_attributes = description.attributes_fn(self._device)
+        if update:
+            self.schedule_update_ha_state()
 
 
 class HonSensorEntity(HonEntity, SensorEntity):
