@@ -1,6 +1,12 @@
 {
     "entity": {
         "sensor": {
+            "program_temperature": {
+                "name": "Temperatura programma"
+            },
+            "program_spin_speed": {
+                "name": "Centrifuga programma"
+            },
             "washing_modes": {
                 "state": {
                     "ready": "Pronta",
